@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/eventsListFragment">
+
+    <fragment
+        android:id="@+id/eventsListFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.events.EventsListFragment"
+        android:label="fragment_events_list"
+        tools:layout="@layout/fragment_events_list" >
+        <action
+            android:id="@+id/action_eventsListFragment_to_eventDetailFragment2"
+            app:destination="@id/eventDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/eventDetailFragment2"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_event_detail" />
+</navigation>
