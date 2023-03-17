@@ -8,34 +8,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/iv_thumb_event_item"
-            android:layout_width="0dp"
-            android:layout_height="160dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_event_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Event Name"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_marginTop="@dimen/margin_half"
-            app:layout_constraintTop_toBottomOf="@id/iv_thumb_event_item"
+            android:textStyle="bold"
+            android:lines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Event Name" />
 
         <ImageView
             android:id="@+id/icon_event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/icon_event_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_event_title"
             app:srcCompat="@drawable/ic_event"
@@ -45,11 +36,9 @@
             android:id="@+id/tv_event_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_half"
             app:layout_constraintBottom_toBottomOf="@+id/icon_event_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon_event_date"
             app:layout_constraintTop_toTopOf="@+id/icon_event_date"
+            app:layout_constraintStart_toEndOf="@id/icon_event_date"
             tools:text="10/10/2022" />
 
         <ImageView
@@ -58,22 +47,19 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon_event_date"
             app:srcCompat="@drawable/ic_event_location"
             app:tint="@color/dark" />
 
         <TextView
             android:id="@+id/tv_event_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_half"
-            android:layout_marginBottom="@dimen/margin_half"
-            android:layout_marginHorizontal="@dimen/margin_half"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_event_location"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="390dp"
+            android:layout_height="17dp"
+            tools:text="Event Location, CityName-State"
+            android:lines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toEndOf="@+id/icon_event_location"
             app:layout_constraintTop_toTopOf="@+id/icon_event_location"
-            tools:text="Event Location, CityName-State" />
+            app:layout_constraintBottom_toBottomOf="@id/icon_event_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

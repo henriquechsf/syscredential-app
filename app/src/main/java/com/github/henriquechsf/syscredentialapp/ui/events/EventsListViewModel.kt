@@ -26,7 +26,7 @@ class EventsListViewModel @Inject constructor(
 
     private fun fetch() = viewModelScope.launch {
         eventRepository.getAll().collectLatest { events ->
-            if (events.isNullOrEmpty()) {
+            if (events.isEmpty()) {
                 _eventList.value = ResultState.Empty()
             } else {
                 _eventList.value = ResultState.Success(events)

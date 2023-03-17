@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentProfileBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
     override val viewModel: ProfileViewModel by viewModels()
 
     override fun getViewBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, false)
 }

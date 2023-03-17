@@ -11,8 +11,8 @@
         android:label="fragment_events_list"
         tools:layout="@layout/fragment_events_list" >
         <action
-            android:id="@+id/action_eventsListFragment_to_eventDetailFragment2"
-            app:destination="@id/eventDetailFragment2" />
+            android:id="@+id/action_eventsListFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
 
     <fragment
@@ -22,8 +22,12 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/eventDetailFragment2"
+        android:id="@+id/eventDetailFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.EventDetailFragment"
         android:label="fragment_event_detail"
-        tools:layout="@layout/fragment_event_detail" />
+        tools:layout="@layout/fragment_event_detail" >
+        <argument
+            android:name="event"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
+    </fragment>
 </navigation>

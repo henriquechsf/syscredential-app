@@ -1,11 +1,14 @@
-package com.github.henriquechsf.syscredentialapp
+package com.github.henriquechsf.syscredentialapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
@@ -19,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews(binding: ActivityMainBinding) {
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.apply {
