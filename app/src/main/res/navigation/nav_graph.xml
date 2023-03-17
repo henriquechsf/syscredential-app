@@ -30,4 +30,9 @@
             android:name="event"
             app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
     </fragment>
+    <fragment
+        android:id="@+id/personsListFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonsListFragment"
+        android:label="fragment_persons_list"
+        tools:layout="@layout/fragment_persons_list" />
 </navigation>

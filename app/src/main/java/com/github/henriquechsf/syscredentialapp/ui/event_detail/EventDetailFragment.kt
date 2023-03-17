@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.ui.persons.PersonsListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,10 +26,10 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
         super.onViewCreated(view, savedInstanceState)
 
         event = args.event
-        bindingEventValues()
+        bindingEventData()
     }
 
-    private fun bindingEventValues() = with(binding) {
+    private fun bindingEventData() = with(binding) {
         tvEventTitle.text = event.title
         tvEventDescription.text = event.description
         tvDatetime.text = event.datetime.toString()

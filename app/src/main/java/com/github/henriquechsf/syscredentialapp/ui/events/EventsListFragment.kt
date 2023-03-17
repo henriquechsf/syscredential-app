@@ -1,7 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.ui.events
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,5 +67,6 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-    ): FragmentEventsListBinding = FragmentEventsListBinding.inflate(inflater, container, false)
+    ): FragmentEventsListBinding = FragmentEventsListBinding
+        .inflate(inflater, container, false)
 }

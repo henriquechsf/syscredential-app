@@ -1,66 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:elevation="@dimen/card_elevation"
+    app:cardUseCompatPadding="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_small"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_large">
 
         <TextView
             android:id="@+id/tv_event_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:lines="1"
-            android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Event Name" />
-
-        <ImageView
-            android:id="@+id/icon_event_date"
+            style="@style/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/icon_event_location"
+            android:ellipsize="end"
+            android:maxLines="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_event_title"
-            app:srcCompat="@drawable/ic_event"
-            app:tint="@color/dark" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Event Title" />
+
+        <TextView
+            android:id="@+id/tv_event_location"
+            style="@style/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_title"
+            tools:text="Location of event" />
 
         <TextView
             android:id="@+id/tv_event_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_event_date"
-            app:layout_constraintTop_toTopOf="@+id/icon_event_date"
-            app:layout_constraintStart_toEndOf="@id/icon_event_date"
-            tools:text="10/10/2022" />
-
-        <ImageView
-            android:id="@+id/icon_event_location"
+            style="@style/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_event_location"
-            app:tint="@color/dark" />
-
-        <TextView
-            android:id="@+id/tv_event_location"
-            android:layout_width="390dp"
-            android:layout_height="17dp"
-            tools:text="Event Location, CityName-State"
-            android:lines="1"
-            android:ellipsize="end"
-            app:layout_constraintStart_toEndOf="@+id/icon_event_location"
-            app:layout_constraintTop_toTopOf="@+id/icon_event_location"
-            app:layout_constraintBottom_toBottomOf="@id/icon_event_location" />
+            app:layout_constraintTop_toBottomOf="@id/tv_event_location"
+            tools:text="10/10/2023 09:00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
