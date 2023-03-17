@@ -1,6 +1,7 @@
 package com.github.henriquechsf.syscredentialapp.ui.events
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,10 +30,10 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
 
         setupRecyclerView()
         clickItemAdapter()
-        observeEventList()
+        observerEventList()
     }
 
-    private fun observeEventList() = lifecycleScope.launch {
+    private fun observerEventList() = lifecycleScope.launch {
         viewModel.eventList.collect { result ->
             when (result) {
                 is ResultState.Success -> {
@@ -43,7 +44,6 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
                 }
                 is ResultState.Empty -> {
                     binding.tvEmptyEvents.show()
-                    binding.rvListEvents.hide()
                 }
                 else -> {}
             }
@@ -61,7 +61,7 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
     private fun setupRecyclerView() = with(binding) {
         rvListEvents.apply {
             adapter = eventsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
