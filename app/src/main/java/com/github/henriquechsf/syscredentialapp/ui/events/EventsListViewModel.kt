@@ -1,7 +1,40 @@
 package com.github.henriquechsf.syscredentialapp.ui.events
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.repository.EventRepository
+import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EventsListViewModel : ViewModel() {
+@HiltViewModel
+class EventsListViewModel @Inject constructor(
+    private val eventRepository: EventRepository,
+) : ViewModel() {
 
+    private val _eventList = MutableStateFlow<ResultState<List<Event>>>(ResultState.Empty())
+    val eventList: StateFlow<ResultState<List<Event>>> = _eventList
+
+    init {
+        fetch()
+    }
+
+    private fun fetch() = viewModelScope.launch {
+        eventRepository.getAll().collectLatest { events ->
+            if (events.isNullOrEmpty()) {
+                _eventList.value = ResultState.Empty()
+            } else {
+                _eventList.value = ResultState.Success(events)
+            }
+        }
+    }
+
+    fun insertEvent(event: Event) = viewModelScope.launch {
+        eventRepository.insert(event)
+    }
 }
