@@ -5,18 +5,18 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.github.henriquechsf.syscredentialapp.data.model.EventEntity
+import com.github.henriquechsf.syscredentialapp.data.model.Event
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EventDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(eventEntity: EventEntity): Long
+    suspend fun insert(event: Event): Long
 
     @Query("SELECT * FROM events ORDER BY id")
-    fun getAll(): Flow<List<EventEntity>>
+    fun getAll(): Flow<List<Event>>
 
     @Delete
-    suspend fun delete(eventEntity: EventEntity)
+    suspend fun delete(event: Event)
 }

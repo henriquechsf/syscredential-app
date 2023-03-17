@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.github.henriquechsf.syscredentialapp.util.Constants
 
 @Entity(tableName = Constants.EVENTS_TABLE_NAME)
-data class EventEntity(
+data class Event(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,
