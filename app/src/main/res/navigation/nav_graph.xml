@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/eventFormFragment">
+    app:startDestination="@id/eventsListFragment">
 
     <fragment
         android:id="@+id/eventsListFragment"
@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_eventsListFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_eventsListFragment_to_eventFormFragment"
+            app:destination="@id/eventFormFragment" />
     </fragment>
 
     <fragment

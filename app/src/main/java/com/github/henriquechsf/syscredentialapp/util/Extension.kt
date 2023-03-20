@@ -31,3 +31,7 @@ fun loadImage(
         .load("$path.$extension")
         .into(imageView)
 }
+
+fun getDatePicker() {
+
+}
