@@ -10,4 +10,13 @@
     <string name="event_location">Location</string>
     <string name="event_timeline">Timeline</string>
     <string name="registration">Registration</string>
+
+    <!--    Event Form Fragment -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="label_title">Title</string>
+    <string name="label_description">Description</string>
+    <string name="label_local">Local</string>
+    <string name="label_date">Date</string>
+    <string name="label_hour">Hour</string>
 </resources>

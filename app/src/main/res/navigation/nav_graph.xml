@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/eventsListFragment">
+    app:startDestination="@id/eventFormFragment">
 
     <fragment
         android:id="@+id/eventsListFragment"
@@ -35,4 +35,9 @@
         android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonsListFragment"
         android:label="fragment_persons_list"
         tools:layout="@layout/fragment_persons_list" />
+    <fragment
+        android:id="@+id/eventFormFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.events.EventFormFragment"
+        android:label="fragment_event_form"
+        tools:layout="@layout/fragment_event_form" />
 </navigation>
