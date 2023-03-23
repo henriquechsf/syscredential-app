@@ -36,6 +36,7 @@
     <string name="label_date">Date</string>
     <string name="label_hour">Hour</string>
     <string name="menu_add_event">Add event</string>
+    <string name="select_date_event">Select date</string>
 
     <!--    Person Form Fragment -->
     <string name="label_name">Name</string>

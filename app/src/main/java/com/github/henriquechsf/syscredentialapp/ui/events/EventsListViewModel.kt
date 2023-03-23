@@ -24,6 +24,10 @@ class EventsListViewModel @Inject constructor(
         fetch()
     }
 
+    fun insertEvent(event: Event) = viewModelScope.launch {
+        eventRepository.insert(event)
+    }
+
     private fun fetch() = viewModelScope.launch {
         eventRepository.getAll().collectLatest { events ->
             if (events.isEmpty()) {
@@ -32,9 +36,5 @@ class EventsListViewModel @Inject constructor(
                 _eventList.value = ResultState.Success(events)
             }
         }
-    }
-
-    fun insertEvent(event: Event) = viewModelScope.launch {
-        eventRepository.insert(event)
     }
 }
