@@ -40,10 +40,44 @@
         android:id="@+id/personsListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonsListFragment"
         android:label="fragment_persons_list"
-        tools:layout="@layout/fragment_persons_list" />
+        tools:layout="@layout/fragment_persons_list" >
+        <action
+            android:id="@+id/action_personsListFragment_to_personFormFragment"
+            app:destination="@id/personFormFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventFormFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.events.EventFormFragment"
         android:label="fragment_event_form"
         tools:layout="@layout/fragment_event_form" />
+    <fragment
+        android:id="@+id/personFormFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonFormFragment"
+        android:label="fragment_person_form"
+        tools:layout="@layout/fragment_person_form" />
+    <navigation android:id="@+id/authentication"
+        app:startDestination="@id/loginFragment">
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.ui.auth.LoginFragment"
+            android:label="fragment_login"
+            tools:layout="@layout/fragment_login">
+            <action
+                android:id="@+id/action_loginFragment_to_registerFragment"
+                app:destination="@id/registerFragment" />
+            <action
+                android:id="@+id/action_loginFragment_to_forgotFragment"
+                app:destination="@id/forgotFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.ui.auth.RegisterFragment"
+            android:label="fragment_register"
+            tools:layout="@layout/fragment_register" />
+        <fragment
+            android:id="@+id/forgotFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.ui.auth.ForgotFragment"
+            android:label="fragment_forgot"
+            tools:layout="@layout/fragment_forgot" />
+    </navigation>
 </navigation>
