@@ -11,6 +11,8 @@
     <string name="event_location">Location</string>
     <string name="event_timeline">Timeline</string>
     <string name="registration">Registration</string>
+    <string name="menu_edit_event">Edit</string>
+    <string name="menu_remove_event">Remove</string>
 
     <!--    Event Form Fragment -->
     <string name="btn_save">Save</string>

@@ -32,6 +32,9 @@
         <argument
             android:name="event"
             app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
+        <action
+            android:id="@+id/action_eventDetailFragment_to_eventFormFragment"
+            app:destination="@id/eventFormFragment" />
     </fragment>
     <fragment
         android:id="@+id/personsListFragment"
