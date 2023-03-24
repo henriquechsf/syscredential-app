@@ -14,5 +14,5 @@ data class Event(
     val title: String,
     val description: String,
     val local: String,
-    val datetime: Long,
+    val datetime: String,
 ) : Parcelable
