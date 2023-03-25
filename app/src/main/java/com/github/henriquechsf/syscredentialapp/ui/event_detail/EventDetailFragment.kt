@@ -35,6 +35,13 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
 
         event = args.event
         bindingEventData()
+        initListeners()
+    }
+
+    private fun initListeners() = with(binding) {
+        btnRegistration.setOnClickListener {
+            findNavController().navigate(R.id.action_eventDetailFragment_to_registrationListFragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
