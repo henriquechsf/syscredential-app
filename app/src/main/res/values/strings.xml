@@ -6,6 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="no_events_registered">No events registered</string>
+    <string name="no_persons_registered">No persons registered</string>
     <string name="add_event_icon">Add event icon</string>
 
     <!--   Common -->

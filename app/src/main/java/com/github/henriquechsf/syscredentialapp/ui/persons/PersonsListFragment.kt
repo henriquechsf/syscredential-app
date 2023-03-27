@@ -8,13 +8,20 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonsListBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
+import com.github.henriquechsf.syscredentialapp.util.hide
+import com.github.henriquechsf.syscredentialapp.util.show
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsListViewModel>() {
 
     override val viewModel: PersonsListViewModel by viewModels()
@@ -30,11 +37,7 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        personListAdapter.persons = listOf(
-            Person(10, "Henrique", "Tecnologia", "Desenvolvedor"),
-            Person(11, "Guilherme", "Tecnologia", "Bebe"),
-            Person(12, "Daniele", "Contabilidade", "Contadora"),
-        )
+        observerPersonList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,6 +58,23 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         rvListPersons.apply {
             adapter = personListAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private fun observerPersonList() = lifecycleScope.launch {
+        viewModel.personList.collect { result ->
+            when (result) {
+                is ResultState.Success -> {
+                    result.data?.let {
+                        binding.tvEmptyPersons.hide()
+                        personListAdapter.persons = it.toList()
+                    }
+                }
+                is ResultState.Empty -> {
+                    binding.tvEmptyPersons.show()
+                }
+                else -> {}
+            }
         }
     }
 
