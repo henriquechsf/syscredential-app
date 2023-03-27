@@ -38,9 +38,11 @@
     <string name="label_hour">Hour</string>
     <string name="menu_add_event">Add event</string>
     <string name="select_date_event">Select date</string>
+    <string name="event_saved_successfully">Event saved successfully</string>
 
     <!--    Person Form Fragment -->
     <string name="label_name">Name</string>
     <string name="label_cellphone">Cellphone</string>
+    <string name="person_saved_successfully">Person saved successfully</string>
 
 </resources>

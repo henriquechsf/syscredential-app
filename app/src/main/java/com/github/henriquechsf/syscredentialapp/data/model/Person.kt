@@ -7,8 +7,8 @@ import com.github.henriquechsf.syscredentialapp.util.Constants
 @Entity(tableName = Constants.PERSON_TABLE_NAME)
 data class Person(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val name: String,
-    val department: String,
-    val office: String,
+    val email: String? = "",
+    val cellphone: String? = "",
 )

@@ -12,6 +12,7 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -53,7 +54,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
             )
 
             viewModel.insertEvent(event)
-            Toast.makeText(requireContext(), "Cadastrado com sucesso", Toast.LENGTH_SHORT).show()
+            toast(getString(R.string.event_saved_successfully))
             findNavController().popBackStack()
         }
 

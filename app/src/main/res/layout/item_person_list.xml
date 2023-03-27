@@ -25,24 +25,6 @@
             android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/tv_person_office"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/text"
-            tools:text="Android Developer"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:layout_constraintTop_toBottomOf="@id/tv_person_name" />
-
-        <TextView
-            android:id="@+id/tv_person_department"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/detail"
-            tools:text="Information Technology"
-            app:layout_constraintTop_toBottomOf="@id/tv_person_office"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
