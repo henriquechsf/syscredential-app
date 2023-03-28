@@ -45,4 +45,7 @@
     <string name="label_cellphone">Cellphone</string>
     <string name="person_saved_successfully">Person saved successfully</string>
 
+    <!--   Registration List Fragment -->
+    <string name="volume_up_flash_scan">Volume up to flash on</string>
+
 </resources>
