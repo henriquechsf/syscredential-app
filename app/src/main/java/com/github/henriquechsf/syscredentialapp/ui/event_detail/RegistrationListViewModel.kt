@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.henriquechsf.syscredentialapp.data.model.Registration
+import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
 import com.github.henriquechsf.syscredentialapp.data.repository.PersonRepository
 import com.github.henriquechsf.syscredentialapp.data.repository.RegistrationRepository
 import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
@@ -22,7 +23,7 @@ class RegistrationListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _registrationsList =
-        MutableStateFlow<ResultState<List<Registration>>>(ResultState.Empty())
+        MutableStateFlow<ResultState<List<RegistrationUI>>>(ResultState.Empty())
     val registrationsList = _registrationsList.asStateFlow()
 
     private val _scanResult = MutableStateFlow<ResultState<String>>(ResultState.Empty())
@@ -55,7 +56,17 @@ class RegistrationListViewModel @Inject constructor(
             if (registrations.isEmpty()) {
                 _registrationsList.value = ResultState.Empty()
             } else {
-                _registrationsList.value = ResultState.Success(registrations)
+                val registrationsMapped = registrations.map {
+                    val person = personRepository.getById(it.personId)
+                    RegistrationUI(
+                        id = it.id,
+                        createdAt = it.createdAt,
+                        eventId = it.eventId,
+                        personId = it.personId,
+                        personName = person?.name ?: ""
+                    )
+                }
+                _registrationsList.value = ResultState.Success(registrationsMapped)
             }
         }
     }
