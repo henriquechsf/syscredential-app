@@ -40,7 +40,9 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
 
     private fun initListeners() = with(binding) {
         btnRegistration.setOnClickListener {
-            findNavController().navigate(R.id.action_eventDetailFragment_to_registrationListFragment)
+            val action = EventDetailFragmentDirections
+                .actionEventDetailFragmentToRegistrationListFragment(eventId = event.id)
+            findNavController().navigate(action)
         }
     }
 

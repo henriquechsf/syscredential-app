@@ -84,17 +84,12 @@
             tools:layout="@layout/fragment_forgot" />
     </navigation>
     <fragment
-        android:id="@+id/codeScannerFragment"
-        android:name="com.github.henriquechsf.syscredentialapp.ui.code_scanner.CodeScannerFragment"
-        android:label="fragment_code_scanner"
-        tools:layout="@layout/fragment_code_scanner" />
-    <fragment
         android:id="@+id/registrationListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.RegistrationListFragment"
         android:label="fragment_registration_list"
         tools:layout="@layout/fragment_registration_list" >
-        <action
-            android:id="@+id/action_registrationListFragment_to_codeScannerFragment"
-            app:destination="@id/codeScannerFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="integer" />
     </fragment>
 </navigation>
