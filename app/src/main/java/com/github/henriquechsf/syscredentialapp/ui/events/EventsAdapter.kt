@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.ItemEventListBinding
+import com.github.henriquechsf.syscredentialapp.util.formatDateString
 
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
@@ -49,8 +50,8 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
         val event = events[position]
         holder.binding.apply {
             tvEventTitle.text = event.title
-            tvEventDate.text = event.datetime.toString()
             tvEventLocation.text = event.local
+            tvEventDate.text = formatDateString(date = event.datetime)
         }
 
         holder.itemView.setOnClickListener {

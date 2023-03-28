@@ -14,7 +14,7 @@ interface RegistrationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(registration: Registration): Long
 
-    @Query("SELECT * FROM registrations WHERE event_id = :eventId ORDER BY id")
+    @Query("SELECT * FROM registrations WHERE event_id = :eventId ORDER BY created_at DESC")
     fun getRegistrationsByEvent(eventId: Int): Flow<List<Registration>>
 
     @Delete

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.github.henriquechsf.syscredentialapp.databinding.ItemEventRegistrationBinding
+import com.github.henriquechsf.syscredentialapp.util.formatTime
 
 class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>() {
 
@@ -48,7 +49,7 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
         val registration = registrations[position]
         holder.binding.apply {
             tvPersonName.text = registration.personId.toString()
-            chipTime.text = registration.createdAt
+            chipTime.text = formatTime(registration.createdAt)
         }
     }
 

@@ -14,6 +14,7 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -68,7 +69,7 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
     private fun bindingEventData() = with(binding) {
         tvEventTitle.text = event.title
         tvEventDescription.text = event.description
-        tvDatetime.text = event.datetime.toString()
+        tvDatetime.text = formatDateString(event.datetime)
         tvLocation.text = event.local
     }
 
