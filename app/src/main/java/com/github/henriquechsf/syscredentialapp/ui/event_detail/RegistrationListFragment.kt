@@ -44,6 +44,7 @@ class RegistrationListFragment :
         initListeners()
         setupRecyclerView()
         observerRegistrationList()
+        observerScanResult()
     }
 
     private fun getRegistrations(eventId: Int) = lifecycleScope.launch {
@@ -61,6 +62,20 @@ class RegistrationListFragment :
                 }
                 is ResultState.Empty -> {
                     binding.tvEmptyRegistrations.show()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun observerScanResult() = lifecycleScope.launch {
+        viewModel.scanResult.collect { result ->
+            when (result) {
+                is ResultState.Success -> {
+                    toast("Scanned: ${result.data}")
+                }
+                is ResultState.Error -> {
+                    toast("Error: ${result.message}")
                 }
                 else -> {}
             }
@@ -100,11 +115,10 @@ class RegistrationListFragment :
         ScanContract()
     ) { result: ScanIntentResult ->
         if (result.contents != null) {
-            toast("Scanned: ${result.contents}", Toast.LENGTH_LONG)
+            val credential = result.contents
+            viewModel.insertRegistration(credential, args.eventId)
         } else {
-            toast("Cancelled", Toast.LENGTH_LONG)
+            toast(getString(R.string.cancelled_scan))
         }
     }
-
-
 }

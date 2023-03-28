@@ -44,5 +44,8 @@
     <string name="no_persons_registered">No persons registered</string>
     <string name="empty_registrations">Empty registrations</string>
     <string name="add_event_icon">Add event icon</string>
+    <string name="cancelled_scan">Cancelled Scan</string>
+    <string name="credential_not_found">Credential not found</string>
+    <string name="credential_format_not_valid">Credential format not valid</string>
 
 </resources>
