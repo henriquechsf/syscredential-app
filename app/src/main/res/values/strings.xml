@@ -2,13 +2,6 @@
     <string name="app_name">SysCredential</string>
     <string name="logo">Logo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="no_events_registered">No events registered</string>
-    <string name="no_persons_registered">No persons registered</string>
-    <string name="add_event_icon">Add event icon</string>
-
     <!--   Common -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
@@ -47,5 +40,8 @@
 
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume up to flash on</string>
+    <string name="no_events_registered">No events registered</string>
+    <string name="no_persons_registered">No persons registered</string>
+    <string name="add_event_icon">Add event icon</string>
 
 </resources>

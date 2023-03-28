@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SysCredential</string>
+    <string name="logo">Logo</string>
+
+    <!--   Common -->
+    <string name="btn_save">Salvar</string>
+    <string name="btn_cancel">Cancelar</string>
+
+    <!--   Login Fragment -->
+    <string name="label_email">E-mail</string>
+    <string name="label_password">Senha</string>
+    <string name="btn_enter">Entrar</string>
+
+    <!--   Register Fragment -->
+    <string name="label_confirm_password">Confirmar Senha</string>
+    <string name="btn_register">Criar conta</string>
+    <string name="btn_send">Enviar</string>
+
+    <!--    Details Event Fragment -->
+    <string name="event_location">Local</string>
+    <string name="event_timeline">Cronograma</string>
+    <string name="registration">Credenciamento</string>
+    <string name="menu_edit_event">Editar</string>
+    <string name="menu_remove_event">Remover</string>
+
+    <!--    Event Form Fragment -->
+    <string name="label_title">Título</string>
+    <string name="label_description">Descrição</string>
+    <string name="label_local">Local</string>
+    <string name="label_date">Data</string>
+    <string name="label_hour">Horário</string>
+    <string name="menu_add_event">Adicionar evento</string>
+    <string name="select_date_event">Selecione a data</string>
+    <string name="event_saved_successfully">Evento salvo com sucesso</string>
+
+    <!--    Person Form Fragment -->
+    <string name="label_name">Nome</string>
+    <string name="label_cellphone">Celular</string>
+    <string name="person_saved_successfully">Pessoa salva com sucesso</string>
+
+    <!--   Registration List Fragment -->
+    <string name="volume_up_flash_scan">Volume +- liga/desl flash</string>
+    <string name="no_events_registered">Nenhum evento cadastrado</string>
+    <string name="no_persons_registered">Nenhuma pessoa cadastrada</string>
+    <string name="add_event_icon">Adicionar evento</string>
+</resources>
