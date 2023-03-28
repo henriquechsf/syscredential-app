@@ -30,4 +30,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun providePersonDao(database: AppDatabase) = database.personDao()
+
+    @Singleton
+    @Provides
+    fun provideRegistrationDao(database: AppDatabase) = database.registrationDao()
 }

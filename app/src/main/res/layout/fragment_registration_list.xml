@@ -18,6 +18,19 @@
         tools:listitem="@layout/item_event_registration"
         tools:itemCount="6"/>
 
+    <TextView
+        android:id="@+id/tv_empty_registrations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_registrations"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_qrcode_scan"
         android:layout_width="wrap_content"

@@ -35,7 +35,6 @@ class RegistrationListFragment :
 
     private fun initListeners() = with(binding) {
         binding.fabQrcodeScan.setOnClickListener {
-            //findNavController().navigate(R.id.action_registrationListFragment_to_codeScannerFragment)
             scanCode()
         }
     }

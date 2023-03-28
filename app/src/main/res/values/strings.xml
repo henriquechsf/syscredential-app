@@ -42,6 +42,7 @@
     <string name="volume_up_flash_scan">Volume up to flash on</string>
     <string name="no_events_registered">No events registered</string>
     <string name="no_persons_registered">No persons registered</string>
+    <string name="empty_registrations">Empty registrations</string>
     <string name="add_event_icon">Add event icon</string>
 
 </resources>
