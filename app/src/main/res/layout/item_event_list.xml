@@ -20,35 +20,77 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Event Title" />
 
         <TextView
+            android:id="@+id/tv_event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintStart_toStartOf="@id/tv_event_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_title"
+            tools:text="Event description" />
+
+        <ImageView
+            android:id="@+id/icon_event_location"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:src="@drawable/ic_event_location"
+            app:layout_constraintStart_toStartOf="@id/tv_event_description"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_description"
+            app:tint="@color/dark"
+            tools:ignore="ContentDescription" />
+
+        <TextView
             android:id="@+id/tv_event_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_small"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/tv_event_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_event_title"
+            app:layout_constraintBottom_toBottomOf="@id/icon_event_location"
+            app:layout_constraintStart_toEndOf="@id/icon_event_location"
+            app:layout_constraintTop_toTopOf="@id/icon_event_location"
             tools:text="Location of event" />
+
+        <ImageView
+            android:id="@+id/icon_event_time"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:src="@drawable/ic_event_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_event_location"
+            app:tint="@color/dark"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tv_event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="@id/tv_event_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_event_location"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/icon_event_time"
+            app:layout_constraintStart_toEndOf="@id/icon_event_time"
+            app:layout_constraintTop_toTopOf="@id/icon_event_time"
             tools:text="10/10/2023 09:00" />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/registration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_event_date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

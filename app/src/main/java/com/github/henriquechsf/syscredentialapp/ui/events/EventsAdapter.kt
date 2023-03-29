@@ -50,6 +50,7 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
         val event = events[position]
         holder.binding.apply {
             tvEventTitle.text = event.title
+            tvEventDescription.text = event.description
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)
         }
