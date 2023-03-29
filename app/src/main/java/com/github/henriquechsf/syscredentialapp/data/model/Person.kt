@@ -12,6 +12,6 @@ data class Person(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val name: String,
-    val email: String? = "",
-    val cellphone: String? = "",
+    val info1: String? = "",
+    val info2: String? = "",
 ) : Parcelable

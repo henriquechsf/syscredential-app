@@ -67,7 +67,8 @@ class RegistrationListViewModel @Inject constructor(
                         createdAt = it.createdAt,
                         eventId = it.eventId,
                         personId = it.personId,
-                        personName = person?.name ?: ""
+                        personName = person?.name ?: "",
+                        personInfo1 = person?.info1
                     )
                 }
                 _registrationsList.value = ResultState.Success(registrationsMapped)

@@ -51,6 +51,7 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
         val registration = registrations[position]
         holder.binding.apply {
             tvPersonName.text = registration.personName
+            tvPersonInfo1.text = registration.personInfo1
             tvRegistrationTime.text = formatTime(registration.createdAt)
             tvRegistrationDate.text = formatDateString(registration.createdAt, false)
         }

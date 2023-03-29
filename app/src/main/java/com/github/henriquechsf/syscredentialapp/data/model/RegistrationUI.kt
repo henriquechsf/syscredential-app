@@ -5,5 +5,6 @@ data class RegistrationUI(
     val createdAt: String,
     val eventId: Int,
     val personId: Long,
-    val personName: String
+    val personName: String,
+    val personInfo1: String? = "",
 )

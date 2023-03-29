@@ -36,7 +36,8 @@
 
     <!--    Person Form Fragment -->
     <string name="label_name">Nome</string>
-    <string name="label_cellphone">Celular</string>
+    <string name="label_info1">Info1</string>
+    <string name="label_info2">Info2</string>
     <string name="person_saved_successfully">Pessoa salva com sucesso</string>
 
     <!--   Registration List Fragment -->
