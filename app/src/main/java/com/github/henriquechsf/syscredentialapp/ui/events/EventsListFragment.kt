@@ -81,7 +81,7 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
 
         eventsAdapter.setRegisterClickListener { event ->
             val action = EventsListFragmentDirections
-                .actionEventsListFragmentToRegistrationListFragment(event)
+                .actionEventsListFragmentToRegistrationListFragment(event, event.title)
             findNavController().navigate(action)
         }
     }
