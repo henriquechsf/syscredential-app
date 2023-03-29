@@ -2,6 +2,7 @@ package com.github.henriquechsf.syscredentialapp.ui.events
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,12 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             tvEventDescription.text = event.description
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)
+
+            btnRegister.setOnClickListener {
+                onRegisterClickListener?.let { registerClicked ->
+                    registerClicked(event)
+                }
+            }
         }
 
         holder.itemView.setOnClickListener {
@@ -65,5 +72,10 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
     private var onItemClickListener: ((Event) -> Unit)? = null
     fun setOnClickListener(listener: (Event) -> Unit) {
         onItemClickListener = listener
+    }
+
+    private var onRegisterClickListener: ((Event) -> Unit)? = null
+    fun setRegisterClickListener(listener: (Event) -> Unit) {
+        onRegisterClickListener = listener
     }
 }

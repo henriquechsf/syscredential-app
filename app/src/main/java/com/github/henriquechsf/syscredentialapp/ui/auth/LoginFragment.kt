@@ -22,10 +22,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     private fun initListeners() = with(binding) {
         btnForgotAccount.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
         }
         btnRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 

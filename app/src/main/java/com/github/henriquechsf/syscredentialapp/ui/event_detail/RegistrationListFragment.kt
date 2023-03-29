@@ -1,6 +1,5 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.henriquechsf.syscredentialapp.R
+import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistrationListBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
@@ -30,6 +30,7 @@ class RegistrationListFragment :
     BaseFragment<FragmentRegistrationListBinding, RegistrationListViewModel>() {
 
     private val args: RegistrationListFragmentArgs by navArgs()
+    private lateinit var event: Event
 
     override val viewModel: RegistrationListViewModel by viewModels()
 
@@ -38,7 +39,9 @@ class RegistrationListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getRegistrations(args.eventId)
+        event = args.event
+
+        getRegistrations(event.id)
         initClicks()
         setupRecyclerView()
         observerRegistrationList()
@@ -125,7 +128,7 @@ class RegistrationListFragment :
     ) { result: ScanIntentResult ->
         if (result.contents != null) {
             val credential = result.contents
-            viewModel.insertRegistration(credential, args.eventId)
+            viewModel.insertRegistration(credential, event.id)
         } else {
             toast(getString(R.string.cancelled_scan))
         }

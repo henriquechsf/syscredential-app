@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textStyle="bold"
-            android:text="Android Developer" />
+            tools:text="Android Developer" />
 
         <TextView
             android:id="@+id/tv_person_department"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Information Technology" />
+            tools:text="Information Technology" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
