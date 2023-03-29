@@ -47,5 +47,7 @@
     <string name="cancelled_scan">Cancelled Scan</string>
     <string name="credential_not_found">Credential not found</string>
     <string name="credential_format_not_valid">Credential format not valid</string>
+    <string name="registrations">Registrations</string>
+    <string name="scan_credential">Scan credential</string>
 
 </resources>

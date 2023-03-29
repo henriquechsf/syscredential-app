@@ -29,6 +29,9 @@ class RegistrationListViewModel @Inject constructor(
     private val _scanResult = MutableStateFlow<ResultState<String>>(ResultState.Empty())
     val scanResult = _scanResult.asStateFlow()
 
+    private val _countRegistrations = MutableStateFlow<Int>(0)
+    val countRegistrations = _countRegistrations.asStateFlow()
+
     fun insertRegistration(credential: String, eventId: Int) =
         viewModelScope.launch {
             try {
@@ -53,6 +56,7 @@ class RegistrationListViewModel @Inject constructor(
 
     fun fetchRegistrations(eventId: Int) = viewModelScope.launch {
         registrationRepository.getByEvent(eventId).collectLatest { registrations ->
+            _countRegistrations.value = registrations.size
             if (registrations.isEmpty()) {
                 _registrationsList.value = ResultState.Empty()
             } else {

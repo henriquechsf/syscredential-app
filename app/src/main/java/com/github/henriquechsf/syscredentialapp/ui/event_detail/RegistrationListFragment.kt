@@ -1,17 +1,15 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistrationListBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
@@ -41,10 +39,17 @@ class RegistrationListFragment :
         super.onViewCreated(view, savedInstanceState)
 
         getRegistrations(args.eventId)
-        initListeners()
+        initClicks()
         setupRecyclerView()
         observerRegistrationList()
         observerScanResult()
+        observerCountRegistrations()
+    }
+
+    private fun observerCountRegistrations() = lifecycleScope.launch {
+        viewModel.countRegistrations.collect {
+            binding.tvCountRegistrations.text = it.toString()
+        }
     }
 
     private fun getRegistrations(eventId: Int) = lifecycleScope.launch {
@@ -52,7 +57,7 @@ class RegistrationListFragment :
     }
 
     private fun observerRegistrationList() = lifecycleScope.launch {
-        viewModel.registrationsList.collect {result ->
+        viewModel.registrationsList.collect { result ->
             when (result) {
                 is ResultState.Success -> {
                     result.data?.let {
@@ -73,9 +78,13 @@ class RegistrationListFragment :
             when (result) {
                 is ResultState.Success -> {
                     toast("Scanned: ${result.data}")
+                    binding.cardCountRegistrations
+                        .setBackgroundColor(resources.getColor(R.color.secondary))
                 }
                 is ResultState.Error -> {
                     toast("Error: ${result.message}")
+                    binding.cardCountRegistrations
+                        .setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
                 }
                 else -> {}
             }
@@ -95,7 +104,7 @@ class RegistrationListFragment :
     ): FragmentRegistrationListBinding =
         FragmentRegistrationListBinding.inflate(inflater, container, false)
 
-    private fun initListeners() = with(binding) {
+    private fun initClicks() = with(binding) {
         binding.fabQrcodeScan.setOnClickListener {
             scanCode()
         }
