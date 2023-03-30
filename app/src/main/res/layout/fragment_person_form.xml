@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.events.EventFormFragment">
+    tools:context=".ui.persons.PersonFormFragment">
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -26,10 +26,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/label_title">
+                android:hint="@string/label_name"
+                app:placeholderText="Nome completo">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_title"
+                    android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -40,10 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_description">
+                android:hint="@string/label_info1"
+                app:placeholderText="Profissão, função, cargo...">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_description"
+                    android:id="@+id/edt_info1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -54,61 +56,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_local">
+                android:hint="@string/label_info2"
+                app:placeholderText="Departamento, regional, turma">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_local"
+                    android:id="@+id/edt_info2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:hint="@string/label_date">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:inputType="date" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_weight="2"
-                    android:hint="@string/label_hour">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_hour"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:inputType="time" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_save"

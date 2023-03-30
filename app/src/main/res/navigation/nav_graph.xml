@@ -8,42 +8,45 @@
     <fragment
         android:id="@+id/eventsListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.events.EventsListFragment"
-        android:label="fragment_events_list"
-        tools:layout="@layout/fragment_events_list" >
-        <action
-            android:id="@+id/action_eventsListFragment_to_eventDetailFragment"
-            app:destination="@id/eventDetailFragment" />
+        android:label="Eventos"
+        tools:layout="@layout/fragment_events_list">
         <action
             android:id="@+id/action_eventsListFragment_to_eventFormFragment"
             app:destination="@id/eventFormFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.github.henriquechsf.syscredentialapp.ui.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-
-    <fragment
-        android:id="@+id/eventDetailFragment"
-        android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.EventDetailFragment"
-        android:label="fragment_event_detail"
-        tools:layout="@layout/fragment_event_detail" >
-        <argument
-            android:name="event"
-            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
         <action
-            android:id="@+id/action_eventDetailFragment_to_eventFormFragment"
-            app:destination="@id/eventFormFragment" />
+            android:id="@+id/action_eventsListFragment_to_registrationListFragment"
+            app:destination="@id/registrationListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/personsListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonsListFragment"
-        android:label="fragment_persons_list"
-        tools:layout="@layout/fragment_persons_list" />
+        android:label="Pessoas Cadastradas"
+        tools:layout="@layout/fragment_persons_list">
+        <action
+            android:id="@+id/action_personsListFragment_to_personFormFragment"
+            app:destination="@id/personFormFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventFormFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.events.EventFormFragment"
-        android:label="fragment_event_form"
+        android:label="Adicionar Evento"
         tools:layout="@layout/fragment_event_form" />
+    <fragment
+        android:id="@+id/personFormFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonFormFragment"
+        android:label="Adicionar Pessoa"
+        tools:layout="@layout/fragment_person_form" />
+    <fragment
+        android:id="@+id/registrationListFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.RegistrationListFragment"
+        android:label="{screenTitle}"
+        tools:layout="@layout/fragment_registration_list">
+        <argument
+            android:name="event"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
+        <argument
+            android:name="screenTitle"
+            app:argType="string" />
+    </fragment>
 </navigation>

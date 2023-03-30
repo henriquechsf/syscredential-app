@@ -1,11 +1,20 @@
 <resources>
-    <string name="app_name">Syscredential</string>
+    <string name="app_name">SysCredential</string>
+    <string name="logo">Logo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--   Common -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
 
-    <string name="no_events_registered">No events registered</string>
-    <string name="add_event_icon">Add event icon</string>
+    <!--   Login Fragment -->
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="btn_enter">Enter</string>
+
+    <!--   Register Fragment -->
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="btn_register">Create account</string>
+    <string name="btn_send">Send</string>
 
     <!--    Details Event Fragment -->
     <string name="event_location">Location</string>
@@ -15,13 +24,31 @@
     <string name="menu_remove_event">Remove</string>
 
     <!--    Event Form Fragment -->
-    <string name="btn_save">Save</string>
-    <string name="btn_cancel">Cancel</string>
     <string name="label_title">Title</string>
     <string name="label_description">Description</string>
     <string name="label_local">Local</string>
     <string name="label_date">Date</string>
     <string name="label_hour">Hour</string>
     <string name="menu_add_event">Add event</string>
+    <string name="select_date_event">Select date</string>
+    <string name="event_saved_successfully">Event saved successfully</string>
+
+    <!--    Person Form Fragment -->
+    <string name="label_name">Name</string>
+    <string name="label_info1">Info 1</string>
+    <string name="label_info2">Info 2</string>
+    <string name="person_saved_successfully">Person saved successfully</string>
+
+    <!--   Registration List Fragment -->
+    <string name="volume_up_flash_scan">Volume up to flash on</string>
+    <string name="no_events_registered">No events registered</string>
+    <string name="no_persons_registered">No persons registered</string>
+    <string name="empty_registrations">Empty registrations</string>
+    <string name="add_event_icon">Add event icon</string>
+    <string name="cancelled_scan">Cancelled Scan</string>
+    <string name="credential_not_found">Credential not found</string>
+    <string name="credential_format_not_valid">Credential format not valid</string>
+    <string name="registrations">Registrations</string>
+    <string name="scan_credential">Scan credential</string>
 
 </resources>
