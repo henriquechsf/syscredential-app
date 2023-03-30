@@ -75,7 +75,13 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
     private fun clickItemAdapter() {
         eventsAdapter.setOnClickListener { event ->
             val action = EventsListFragmentDirections
-                .actionEventsListFragmentToEventDetailFragment(event)
+                .actionEventsListFragmentToEventFormFragment()
+            findNavController().navigate(action)
+        }
+
+        eventsAdapter.setRegisterClickListener { event ->
+            val action = EventsListFragmentDirections
+                .actionEventsListFragmentToRegistrationListFragment(event, event.title)
             findNavController().navigate(action)
         }
     }

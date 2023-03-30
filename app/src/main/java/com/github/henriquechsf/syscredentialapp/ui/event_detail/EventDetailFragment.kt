@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.toast
@@ -19,9 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetailViewModel>() {
-
-    private val args: EventDetailFragmentArgs by navArgs()
-    private lateinit var event: Event
 
     override val viewModel: EventDetailViewModel by viewModels()
 
@@ -32,16 +27,6 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        event = args.event
-        bindingEventData()
-        initListeners()
-    }
-
-    private fun initListeners() = with(binding) {
-        btnRegistration.setOnClickListener {
-            findNavController().navigate(R.id.action_eventDetailFragment_to_registrationListFragment)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -51,7 +36,6 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_edit_event -> {
-                findNavController().navigate(R.id.action_eventDetailFragment_to_eventFormFragment)
                 true
             }
             R.id.menu_remove_event -> {
@@ -61,13 +45,6 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun bindingEventData() = with(binding) {
-        tvEventTitle.text = event.title
-        tvEventDescription.text = event.description
-        tvDatetime.text = event.datetime.toString()
-        tvLocation.text = event.local
     }
 
     override fun getViewBinding(

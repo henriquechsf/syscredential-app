@@ -11,6 +11,8 @@ class PersonRepository @Inject constructor(
 
     fun getAll(): Flow<List<Person>> = personDao.getAll()
 
+    suspend fun getById(personId: Long) = personDao.getById(personId)
+
     suspend fun insert(person: Person): Long = personDao.insert(person)
 
     suspend fun delete(person: Person) = personDao.delete(person)

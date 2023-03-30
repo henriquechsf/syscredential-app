@@ -27,13 +27,13 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     private fun initClicks() = with(binding) {
         btnSave.setOnClickListener {
             val name = edtName.text?.trim().toString()
-            val email = edtEmail.text?.trim().toString()
-            val cellphone = edtCellphone.text?.trim().toString()
+            val info1 = edtInfo1.text?.trim().toString()
+            val info2 = edtInfo2.text?.trim().toString()
 
             val person = Person(
                 name = name,
-                email = email,
-                cellphone = cellphone
+                info1 = info1,
+                info2 = info2
             )
 
             viewModel.insertPerson(person)

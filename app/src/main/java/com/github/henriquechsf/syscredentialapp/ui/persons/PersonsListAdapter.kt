@@ -17,8 +17,8 @@ class PersonsListAdapter : RecyclerView.Adapter<PersonsListAdapter.ViewHolder>()
         override fun areItemsTheSame(oldItem: Person, newItem: Person): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.name == newItem.name &&
-                    oldItem.email == newItem.email &&
-                    oldItem.cellphone == newItem.cellphone
+                    oldItem.info1 == newItem.info1 &&
+                    oldItem.info2 == newItem.info2
         }
 
         override fun areContentsTheSame(oldItem: Person, newItem: Person): Boolean {
@@ -48,6 +48,8 @@ class PersonsListAdapter : RecyclerView.Adapter<PersonsListAdapter.ViewHolder>()
         val person = persons[position]
         holder.binding.apply {
             tvPersonName.text = person.name
+            tvPersonInfo1.text = person.info1
+            tvPersonInfo2.text = person.info2
         }
 
         holder.itemView.setOnClickListener {

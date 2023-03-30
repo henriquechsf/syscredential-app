@@ -36,12 +36,19 @@
 
     <!--    Person Form Fragment -->
     <string name="label_name">Nome</string>
-    <string name="label_cellphone">Celular</string>
+    <string name="label_info1">Info1</string>
+    <string name="label_info2">Info2</string>
     <string name="person_saved_successfully">Pessoa salva com sucesso</string>
 
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume +- liga/desl flash</string>
     <string name="no_events_registered">Nenhum evento cadastrado</string>
     <string name="no_persons_registered">Nenhuma pessoa cadastrada</string>
+    <string name="empty_registrations">Nenhum registro</string>
     <string name="add_event_icon">Adicionar evento</string>
+    <string name="cancelled_scan">Scan cancelado</string>
+    <string name="credential_not_found">Credencia não encontrada</string>
+    <string name="credential_format_not_valid">Credencial inválida</string>
+    <string name="registrations">Credenciados</string>
+    <string name="scan_credential">Ler credencial</string>
 </resources>
