@@ -5,13 +5,15 @@ import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.ui.validation.FormFieldText
+import com.github.henriquechsf.syscredentialapp.ui.validation.validate
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -19,6 +21,10 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -31,36 +37,110 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
     override val viewModel: EventsListViewModel by viewModels()
     private lateinit var eventDateTime: LocalDateTime
 
+    // Fields
+    private val fieldTitle by lazy {
+        FormFieldText(
+            scope = lifecycleScope,
+            textInputLayout = binding.tilTitle,
+            textInputEditText = binding.edtTitle,
+            validation = { value ->
+                when {
+                    value.isNullOrBlank() -> getString(R.string.required_field)
+                    else -> null
+                }
+            }
+        )
+    }
+    private val fieldLocal by lazy {
+        FormFieldText(
+            scope = lifecycleScope,
+            textInputLayout = binding.tilLocal,
+            textInputEditText = binding.edtLocal,
+            validation = { value ->
+                when {
+                    value.isNullOrBlank() -> getString(R.string.required_field)
+                    value.length < 4 -> "Minimum 4 characters"
+                    else -> null
+                }
+            }
+        )
+    }
+    private val fieldDate by lazy {
+        FormFieldText(
+            scope = lifecycleScope,
+            textInputLayout = binding.tilDate,
+            textInputEditText = binding.edtDate,
+            validation = { value ->
+                when {
+                    value.isNullOrBlank() -> getString(R.string.required_field)
+                    else -> null
+                }
+            }
+        )
+    }
+    private val fieldHour by lazy {
+        FormFieldText(
+            scope = lifecycleScope,
+            textInputLayout = binding.tilHour,
+            textInputEditText = binding.edtHour,
+            validation = { value ->
+                when {
+                    value.isNullOrBlank() -> getString(R.string.required_field)
+                    else -> null
+                }
+            }
+        )
+    }
+
+    private val formFields by lazy {
+        listOf(
+            fieldTitle,
+            fieldLocal,
+            fieldDate,
+            fieldHour
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initDatePickerDialog()
         initTimePickerDialog()
-        initListeners()
+        initClicks()
     }
 
-    private fun initListeners() = with(binding) {
+    private fun initClicks() = with(binding) {
 
-        btnSave.setOnClickListener {
-            val title = edtTitle.text.toString()
-            val description = edtDescription.text.toString()
-            val local = edtLocal.text.toString()
-
-            val event = Event(
-                title = title,
-                description = description,
-                local = local,
-                datetime = eventDateTime.toString()
-            )
-
-            viewModel.insertEvent(event)
-            toast(getString(R.string.event_saved_successfully))
-            findNavController().popBackStack()
-        }
+        btnSave.clicks().onEach {
+            submit()
+        }.launchIn(lifecycleScope)
 
         btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun submit() = lifecycleScope.launch {
+        binding.btnSave.isEnabled = false
+
+        fieldTitle.disable()
+        if (formFields.validate(validateAll = true)) {
+            fieldTitle.value
+            fieldLocal.value
+
+            val event = Event(
+                title = fieldTitle.value!!,
+                local = fieldLocal.value!!,
+                datetime = eventDateTime.toString()
+            )
+            viewModel.insertEvent(event)
+
+            findNavController().popBackStack()
+            toast(getString(R.string.event_saved_successfully))
+        }
+        fieldTitle.enable()
+
+        binding.btnSave.isEnabled = true
     }
 
     private fun initDatePickerDialog() {
