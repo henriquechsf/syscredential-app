@@ -31,12 +31,12 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     private fun initFieldListeners() = with(binding) {
         edtName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                validateFields(edtName, tilName)
+                validateField(edtName, tilName)
             }
         }
         edtName.addTextChangedListener {
             if (binding.tilName.error != null) {
-                validateFields(edtName, tilName)
+                validateField(edtName, tilName)
             }
         }
     }
@@ -54,7 +54,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     private fun submit() = with(binding) {
 
         val isValid = listOf(
-            validateFields(edtName, tilName),
+            validateField(edtName, tilName),
         ).all { it }
 
         if (isValid) {
@@ -71,7 +71,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
         }
     }
 
-    private fun validateFields(
+    private fun validateField(
         editText: TextInputEditText,
         layout: TextInputLayout
     ): Boolean {

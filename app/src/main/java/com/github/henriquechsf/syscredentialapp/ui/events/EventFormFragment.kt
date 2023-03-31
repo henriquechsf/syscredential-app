@@ -5,7 +5,7 @@ import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.henriquechsf.syscredentialapp.R
@@ -16,6 +16,8 @@ import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,29 +38,75 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
 
         initDatePickerDialog()
         initTimePickerDialog()
-        initListeners()
+        initClicks()
+        initFieldListeners()
     }
 
-    private fun initListeners() = with(binding) {
+    private fun initClicks() = with(binding) {
 
         btnSave.setOnClickListener {
-            val title = edtTitle.text.toString()
-            val description = edtDescription.text.toString()
-            val local = edtLocal.text.toString()
+            submit()
+        }
 
+        btnCancel.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun initFieldListeners() = with(binding) {
+        edtTitle.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                validateField(edtTitle, tilTitle)
+            }
+        }
+        edtTitle.addTextChangedListener {
+            if (binding.tilTitle.error != null) {
+                validateField(edtTitle, tilTitle)
+            }
+        }
+
+        edtLocal.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                validateField(edtLocal, tilLocal)
+            }
+        }
+        edtLocal.addTextChangedListener {
+            if (binding.tilLocal.error != null) {
+                validateField(edtLocal, tilLocal)
+            }
+        }
+
+        edtDate.addTextChangedListener {
+            if (binding.tilDate.error != null) {
+                validateField(edtDate, tilDate)
+            }
+        }
+
+        edtHour.addTextChangedListener {
+            if (binding.tilHour.error != null) {
+                validateField(edtHour, tilHour)
+            }
+        }
+    }
+
+    private fun submit() = with(binding) {
+
+        val isValid = listOf(
+            validateField(edtTitle, tilTitle),
+            validateField(edtLocal, tilLocal),
+            validateField(edtDate, tilDate),
+            validateField(edtHour, tilHour),
+        ).all { it }
+
+        if (isValid) {
             val event = Event(
-                title = title,
-                description = description,
-                local = local,
+                title = edtTitle.text.toString(),
+                local = edtLocal.text.toString(),
                 datetime = eventDateTime.toString()
             )
 
             viewModel.insertEvent(event)
             toast(getString(R.string.event_saved_successfully))
-            findNavController().popBackStack()
-        }
-
-        btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -114,6 +162,29 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
         binding.edtHour.setOnClickListener {
             timePicker.show(childFragmentManager, "TIME_PICKER")
         }
+    }
+
+    private fun validateField(
+        editText: TextInputEditText,
+        layout: TextInputLayout
+    ): Boolean {
+        val value = editText.text.toString()
+        val errorMessage = when {
+            value.isBlank() -> getString(R.string.required_field)
+            else -> null
+        }
+        setTextInputLayoutStatus(layout, errorMessage)
+        return errorMessage == null
+    }
+
+    private fun setTextInputLayoutStatus(
+        layout: TextInputLayout,
+        errorMessage: String?
+    ) {
+        if (errorMessage == null) {
+            layout.isErrorEnabled = false
+        }
+        layout.error = errorMessage
     }
 
     override fun getViewBinding(

@@ -19,7 +19,6 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.title == newItem.title &&
-                    oldItem.description == newItem.description &&
                     oldItem.local == newItem.local &&
                     oldItem.datetime == newItem.datetime
         }
@@ -51,7 +50,6 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
         val event = events[position]
         holder.binding.apply {
             tvEventTitle.text = event.title
-            tvEventDescription.text = event.description
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)
 
