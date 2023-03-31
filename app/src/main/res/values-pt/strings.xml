@@ -6,6 +6,7 @@
     <!--   Common -->
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
+    <string name="required_field">Campo obrigatório.</string>
 
     <!--   Login Fragment -->
     <string name="label_email">E-mail</string>
