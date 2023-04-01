@@ -20,6 +20,11 @@
     <string name="btn_register">Criar conta</string>
     <string name="btn_send">Enviar</string>
 
+    <!--   Events List Fragment -->
+    <string name="today">Hoje</string>
+    <string name="scheduled">Agendado</string>
+    <string name="finished">Finalizado</string>
+
     <!--    Details Event Fragment -->
     <string name="event_location">Local</string>
     <string name="event_timeline">Cronograma</string>

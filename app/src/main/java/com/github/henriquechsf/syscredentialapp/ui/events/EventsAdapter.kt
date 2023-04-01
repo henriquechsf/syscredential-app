@@ -2,13 +2,14 @@ package com.github.henriquechsf.syscredentialapp.ui.events
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.model.EventStatus
 import com.github.henriquechsf.syscredentialapp.databinding.ItemEventListBinding
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
@@ -54,10 +55,9 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)
 
-            val pastEventDate = LocalDateTime.parse(event.datetime).isBefore(LocalDateTime.now())
-            if (pastEventDate) {
-                btnRegister.isEnabled = false
-            }
+            val eventStatus = handleEventStatus(LocalDateTime.parse(event.datetime).toLocalDate())
+            tvEventStatus.text = holder.itemView.context.getString(eventStatus.translation)
+            cardEventStatus.setCardBackgroundColor(holder.itemView.context.getColor(eventStatus.color))
 
             btnRegister.setOnClickListener {
                 onRegisterClickListener?.let { registerClicked ->
@@ -70,6 +70,15 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             onItemClickListener?.let { clicked ->
                 clicked(event)
             }
+        }
+    }
+
+    private fun handleEventStatus(eventDate: LocalDate): EventStatus {
+        val today = LocalDateTime.now().toLocalDate()
+        return when {
+            eventDate.isBefore(today) -> EventStatus.FINISHED
+            eventDate.isAfter(today) -> EventStatus.SCHEDULED
+            else -> EventStatus.TODAY
         }
     }
 

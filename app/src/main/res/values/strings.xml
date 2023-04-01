@@ -19,6 +19,11 @@
     <string name="btn_register">Create account</string>
     <string name="btn_send">Send</string>
 
+    <!--   Events List Fragment -->
+    <string name="today">Today</string>
+    <string name="scheduled">Scheduled</string>
+    <string name="finished">Finished</string>
+
     <!--    Details Event Fragment -->
     <string name="event_location">Location</string>
     <string name="event_timeline">Timeline</string>
