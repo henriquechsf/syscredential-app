@@ -19,7 +19,7 @@ fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
 
 fun Fragment.alertRemove(onConfirm: () -> Unit) {
     AlertDialog.Builder(context)
-        .setTitle("Caution")
+        .setTitle("Warning")
         .setMessage("Should remove register?")
         .setIcon(R.drawable.ic_warning)
         .setNegativeButton("No") { _, _ -> }

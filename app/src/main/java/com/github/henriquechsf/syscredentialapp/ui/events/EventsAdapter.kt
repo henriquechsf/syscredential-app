@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.ItemEventListBinding
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
+import java.time.LocalDateTime
 
 class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
@@ -52,6 +53,11 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             tvEventTitle.text = event.title
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)
+
+            val pastEventDate = LocalDateTime.parse(event.datetime).isBefore(LocalDateTime.now())
+            if (pastEventDate) {
+                btnRegister.isEnabled = false
+            }
 
             btnRegister.setOnClickListener {
                 onRegisterClickListener?.let { registerClicked ->
