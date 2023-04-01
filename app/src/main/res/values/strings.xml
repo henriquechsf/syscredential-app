@@ -6,6 +6,8 @@
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="required_field">Required field.</string>
+    <string name="saved_successfully">Saved successfully</string>
+    <string name="updated_successfully">Updated successfully</string>
 
     <!--   Login Fragment -->
     <string name="label_email">Email</string>
@@ -38,7 +40,6 @@
     <string name="label_name">Name</string>
     <string name="label_info1">Info 1</string>
     <string name="label_info2">Info 2</string>
-    <string name="person_saved_successfully">Person saved successfully</string>
 
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume up to flash on</string>

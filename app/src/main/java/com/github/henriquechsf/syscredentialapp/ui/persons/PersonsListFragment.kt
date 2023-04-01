@@ -38,6 +38,15 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
 
         setupRecyclerView()
         observerPersonList()
+        clickItemAdapter()
+    }
+
+    private fun clickItemAdapter() {
+        personListAdapter.setOnClickListener { person ->
+            val action = PersonsListFragmentDirections
+                .actionPersonsListFragmentToPersonFormFragment(person)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
