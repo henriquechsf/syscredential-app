@@ -36,7 +36,13 @@
         android:id="@+id/personFormFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.persons.PersonFormFragment"
         android:label="Adicionar Pessoa"
-        tools:layout="@layout/fragment_person_form" />
+        tools:layout="@layout/fragment_person_form" >
+        <argument
+            android:name="person"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Person"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/registrationListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.RegistrationListFragment"
