@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
@@ -16,16 +17,31 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListViewModel>() {
+
+    private val args: PersonFormFragmentArgs by navArgs()
+    private var person: Person? = null
 
     override val viewModel: PersonsListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        args.person?.let {
+            person = it
+            bindUpdateFormData(it)
+        }
+
         initClicks()
         initFieldListeners()
+    }
+
+    private fun bindUpdateFormData(person: Person) = with(binding) {
+        edtName.setText(person.name)
+        edtInfo1.setText(person.info1)
+        edtInfo2.setText(person.info2)
     }
 
     private fun initFieldListeners() = with(binding) {
@@ -59,6 +75,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
 
         if (isValid) {
             val person = Person(
+                id = person?.id ?: 0L,
                 name = edtName.text.toString().trim(),
                 info1 = edtInfo1.text.toString().trim(),
                 info2 = edtInfo2.text.toString().trim()
@@ -66,8 +83,13 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
 
             viewModel.insertPerson(person)
 
-            toast(getString(R.string.person_saved_successfully))
+            val message = if (person.id > 0) {
+                R.string.updated_successfully
+            } else {
+                R.string.saved_successfully
+            }
             findNavController().popBackStack()
+            toast(getString(message))
         }
     }
 

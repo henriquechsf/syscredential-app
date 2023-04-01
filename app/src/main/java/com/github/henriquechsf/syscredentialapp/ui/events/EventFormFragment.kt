@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.formatDateString
+import com.github.henriquechsf.syscredentialapp.util.formatTime
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -30,17 +33,34 @@ import java.time.format.DateTimeFormatter
 @AndroidEntryPoint
 class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewModel>() {
 
+    private val args: EventFormFragmentArgs by navArgs()
+    private var event: Event? = null
+
     override val viewModel: EventsListViewModel by viewModels()
     private lateinit var eventDateTime: LocalDateTime
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        args.event?.let {
+            event = it
+            eventDateTime = LocalDateTime.parse(it.datetime)
+            bindUpdateFormData(it)
+        }
+
         initDatePickerDialog()
         initTimePickerDialog()
         initClicks()
         initFieldListeners()
     }
+
+    private fun bindUpdateFormData(event: Event) = with(binding) {
+        edtTitle.setText(event.title)
+        edtLocal.setText(event.local)
+        edtDate.setText(formatDateString(event.datetime, withTime = false))
+        edtHour.setText(formatTime(event.datetime))
+    }
+
 
     private fun initClicks() = with(binding) {
 
@@ -100,6 +120,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
 
         if (isValid) {
             val event = Event(
+                id = event?.id ?: 0,
                 title = edtTitle.text.toString(),
                 local = edtLocal.text.toString(),
                 datetime = eventDateTime.toString()
