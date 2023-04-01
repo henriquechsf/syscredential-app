@@ -3,6 +3,9 @@ package com.github.henriquechsf.syscredentialapp.ui.events
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
@@ -13,6 +16,7 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
 import com.github.henriquechsf.syscredentialapp.util.toast
@@ -43,6 +47,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
         super.onViewCreated(view, savedInstanceState)
 
         args.event?.let {
+            setHasOptionsMenu(true)
             event = it
             eventDateTime = LocalDateTime.parse(it.datetime)
             bindUpdateFormData(it)
@@ -52,6 +57,25 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
         initTimePickerDialog()
         initClicks()
         initFieldListeners()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_event_form, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_remove_event -> {
+                event?.let {
+                    alertRemove {
+                        viewModel.removeEvent(it)
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun bindUpdateFormData(event: Event) = with(binding) {
@@ -121,13 +145,19 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
         if (isValid) {
             val event = Event(
                 id = event?.id ?: 0,
-                title = edtTitle.text.toString(),
-                local = edtLocal.text.toString(),
-                datetime = eventDateTime.toString()
+                title = edtTitle.text.toString().trim(),
+                local = edtLocal.text.toString().trim(),
+                datetime = eventDateTime.toString().trim()
             )
 
             viewModel.insertEvent(event)
-            toast(getString(R.string.event_saved_successfully))
+
+            val message = if (event.id > 0) {
+                R.string.updated_successfully
+            } else {
+                R.string.saved_successfully
+            }
+            toast(getString(message))
             findNavController().popBackStack()
         }
     }
