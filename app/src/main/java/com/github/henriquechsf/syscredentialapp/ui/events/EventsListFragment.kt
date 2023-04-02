@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -59,12 +60,17 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
         viewModel.eventList.collect { result ->
             when (result) {
                 is ResultState.Success -> {
+                    if (binding.rvListEvents.isVisible.not()) {
+                        binding.rvListEvents.show()
+                    }
+
                     result.data?.let {
                         binding.tvEmptyEvents.hide()
                         eventsAdapter.events = it.toList()
                     }
                 }
                 is ResultState.Empty -> {
+                    binding.rvListEvents.hide()
                     binding.tvEmptyEvents.show()
                 }
                 else -> {}
