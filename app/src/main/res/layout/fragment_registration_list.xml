@@ -70,6 +70,20 @@
         tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_manual_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        android:layout_margin="@dimen/margin_large"
+        android:contentDescription="@string/scan_credential"
+        android:isScrollContainer="true"
+        app:backgroundTint="@color/primary"
+        android:src="@drawable/ic_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/fab_qrcode_scan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_qrcode_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
