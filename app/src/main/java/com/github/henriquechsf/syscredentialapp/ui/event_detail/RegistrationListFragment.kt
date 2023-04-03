@@ -20,7 +20,7 @@ import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrati
 import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.show
-import com.github.henriquechsf.syscredentialapp.util.toast
+import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -91,12 +91,12 @@ class RegistrationListFragment :
         viewModel.scanResult.collect { result ->
             when (result) {
                 is ResultState.Success -> {
-                    toast("Scanned: ${result.data}")
+                    binding.layout.snackBar(getString(R.string.success_scan, result.data))
                     binding.cardCountRegistrations
                         .setBackgroundColor(resources.getColor(R.color.secondary))
                 }
                 is ResultState.Error -> {
-                    toast("Error: ${result.message}")
+                    binding.layout.snackBar("Erro: ${result.message}")
                     binding.cardCountRegistrations
                         .setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
                 }
@@ -147,7 +147,7 @@ class RegistrationListFragment :
             val credential = result.contents
             viewModel.insertRegistration(credential, event.id)
         } else {
-            toast(getString(R.string.cancelled_scan))
+            binding.layout.snackBar(getString(R.string.cancelled_scan))
         }
     }
 

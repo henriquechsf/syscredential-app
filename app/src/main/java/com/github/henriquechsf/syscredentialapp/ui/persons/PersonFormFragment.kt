@@ -17,7 +17,7 @@ import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBi
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.show
-import com.github.henriquechsf.syscredentialapp.util.toast
+import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,7 +116,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
                 R.string.saved_successfully
             }
             findNavController().popBackStack()
-            toast(getString(message))
+            layout.snackBar(getString(message))
         }
     }
 

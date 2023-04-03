@@ -55,8 +55,9 @@
     <string name="no_persons_registered">Nenhuma pessoa cadastrada</string>
     <string name="empty_registrations">Nenhum registro</string>
     <string name="add_event_icon">Adicionar evento</string>
-    <string name="cancelled_scan">Scan cancelado</string>
-    <string name="credential_not_found">Credencia não encontrada</string>
+    <string name="cancelled_scan">Leitura cancelada</string>
+    <string name="success_scan">Sucesso: %s</string>
+    <string name="credential_not_found">Credencia %s não encontrada</string>
     <string name="credential_format_not_valid">Credencial inválida</string>
     <string name="registrations">Credenciados</string>
     <string name="scan_credential">Ler credencial</string>
