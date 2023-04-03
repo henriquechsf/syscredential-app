@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.henriquechsf.syscredentialapp.R
@@ -108,8 +109,14 @@ class RegistrationListFragment :
         FragmentRegistrationListBinding.inflate(inflater, container, false)
 
     private fun initClicks() = with(binding) {
-        binding.fabQrcodeScan.setOnClickListener {
+        fabQrcodeScan.setOnClickListener {
             scanCode()
+        }
+
+        fabManualScan.setOnClickListener {
+            val action = RegistrationListFragmentDirections
+                .actionRegistrationListFragmentToManualRegistrationFragment(eventId = event.id)
+            findNavController().navigate(action)
         }
     }
 

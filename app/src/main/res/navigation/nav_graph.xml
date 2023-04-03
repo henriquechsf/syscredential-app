@@ -60,5 +60,17 @@
         <argument
             android:name="screenTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_registrationListFragment_to_manualRegistrationFragment"
+            app:destination="@id/manualRegistrationFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/manualRegistrationFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment"
+        android:label="fragment_manual_registration"
+        tools:layout="@layout/fragment_manual_registration" >
+        <argument
+            android:name="eventId"
+            app:argType="integer" />
+    </dialog>
 </navigation>

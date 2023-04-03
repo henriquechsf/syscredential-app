@@ -39,6 +39,8 @@
     <string name="label_date">Date</string>
     <string name="label_hour">Hour</string>
     <string name="select_date_event">Select date</string>
+    <string name="placeholder_title">Ex.: Sales Convention</string>
+    <string name="placeholder_local">Ex.: Events Center</string>
 
     <!--    Person Form Fragment -->
     <string name="label_name">Name</string>
@@ -57,5 +59,7 @@
     <string name="credential_format_not_valid">Credential format not valid</string>
     <string name="registrations">Registrations</string>
     <string name="scan_credential">Scan credential</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
