@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,8 @@ import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistration
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
 import com.github.henriquechsf.syscredentialapp.ui.code_scanner.CaptureAct
+import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_KEY
+import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.toast
@@ -37,6 +40,12 @@ class RegistrationListFragment :
 
     private val registrationAdapter by lazy { RegistrationAdapter() }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +57,7 @@ class RegistrationListFragment :
         observerRegistrationList()
         observerScanResult()
         observerCountRegistrations()
+        manualRegistration()
     }
 
     private fun observerCountRegistrations() = lifecycleScope.launch {
@@ -138,6 +148,14 @@ class RegistrationListFragment :
             viewModel.insertRegistration(credential, event.id)
         } else {
             toast(getString(R.string.cancelled_scan))
+        }
+    }
+
+    private fun manualRegistration() {
+        setFragmentResultListener(CREDENTIAL_KEY) { _, bundle ->
+            bundle.getString(CREDENTIAL_RESULT)?.let { credential ->
+                viewModel.insertRegistration(credential, event.id)
+            }
         }
     }
 }

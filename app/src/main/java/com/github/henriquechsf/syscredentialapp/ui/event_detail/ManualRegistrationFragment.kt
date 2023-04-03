@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -42,9 +44,14 @@ class ManualRegistrationFragment : BottomSheetDialogFragment() {
             val credential = edtRegistration.text.toString().trim()
 
             if (credential.isNotEmpty()) {
-                viewModel.insertRegistration(credential, eventId)
+                setFragmentResult(CREDENTIAL_KEY, bundleOf(CREDENTIAL_RESULT to credential))
                 findNavController().popBackStack()
             }
         }
+    }
+
+    companion object {
+        const val CREDENTIAL_RESULT = "credential"
+        const val CREDENTIAL_KEY = "credential"
     }
 }
