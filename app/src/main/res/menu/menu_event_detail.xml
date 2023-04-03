@@ -9,9 +9,9 @@
         app:showAsAction="collapseActionView" />
 
     <item
-        android:id="@+id/menu_remove_event"
+        android:id="@+id/menu_remove"
         android:icon="@drawable/ic_remove"
-        android:title="@string/menu_remove_event"
+        android:title="@string/menu_remove"
         app:showAsAction="collapseActionView" />
 
 </menu>

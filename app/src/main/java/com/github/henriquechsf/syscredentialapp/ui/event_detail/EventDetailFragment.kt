@@ -38,7 +38,7 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetail
             R.id.menu_edit_event -> {
                 true
             }
-            R.id.menu_remove_event -> {
+            R.id.menu_remove -> {
                 toast("Remove Event")
                 findNavController().popBackStack()
                 true

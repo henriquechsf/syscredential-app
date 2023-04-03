@@ -28,6 +28,10 @@ class EventsListViewModel @Inject constructor(
         eventRepository.insert(event)
     }
 
+    fun removeEvent(event: Event) = viewModelScope.launch {
+        eventRepository.delete(event)
+    }
+
     private fun fetch() = viewModelScope.launch {
         eventRepository.getAll().collectLatest { events ->
             if (events.isEmpty()) {
