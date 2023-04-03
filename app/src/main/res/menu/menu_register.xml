@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_remove_event"
-        android:title="@string/menu_remove_event"
-        android:icon="@drawable/ic_remove"
-        app:showAsAction="always"/>
+        android:id="@+id/menu_add"
+        android:icon="@drawable/ic_add"
+        android:title="@string/menu_add"
+        app:showAsAction="ifRoom" />
+
 </menu>

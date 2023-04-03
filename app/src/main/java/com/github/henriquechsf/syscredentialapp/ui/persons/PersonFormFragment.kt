@@ -2,6 +2,9 @@ package com.github.henriquechsf.syscredentialapp.ui.persons
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
@@ -12,6 +15,7 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -30,12 +34,32 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
         super.onViewCreated(view, savedInstanceState)
 
         args.person?.let {
+            setHasOptionsMenu(true)
             person = it
             bindUpdateFormData(it)
         }
 
         initClicks()
         initFieldListeners()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_form, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_remove -> {
+                person?.let {
+                    alertRemove {
+                        viewModel.removePerson(it)
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun bindUpdateFormData(person: Person) = with(binding) {

@@ -28,6 +28,10 @@ class PersonsListViewModel @Inject constructor(
         personRepository.insert(person)
     }
 
+    fun removePerson(person: Person) = viewModelScope.launch {
+        personRepository.delete(person)
+    }
+
     private fun fetch() = viewModelScope.launch {
         personRepository.getAll().collectLatest { persons ->
             if (persons.isEmpty()) {

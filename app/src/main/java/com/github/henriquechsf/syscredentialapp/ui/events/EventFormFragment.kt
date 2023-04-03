@@ -60,13 +60,13 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_event_form, menu)
+        inflater.inflate(R.menu.menu_form, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_remove_event -> {
+            R.id.menu_remove -> {
                 event?.let {
                     alertRemove {
                         viewModel.removeEvent(it)
