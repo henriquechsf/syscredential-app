@@ -6,6 +6,8 @@
     <!--   Common -->
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
+    <string name="menu_add">Adicionar</string>
+    <string name="menu_remove">Remover</string>
     <string name="required_field">Campo obrigatório.</string>
     <string name="saved_successfully">Cadastrado com sucesso</string>
     <string name="updated_successfully">Atualizado com sucesso</string>
@@ -20,12 +22,16 @@
     <string name="btn_register">Criar conta</string>
     <string name="btn_send">Enviar</string>
 
+    <!--   Events List Fragment -->
+    <string name="today">Hoje</string>
+    <string name="scheduled">Agendado</string>
+    <string name="finished">Finalizado</string>
+
     <!--    Details Event Fragment -->
     <string name="event_location">Local</string>
     <string name="event_timeline">Cronograma</string>
     <string name="registration">Credenciamento</string>
     <string name="menu_edit_event">Editar</string>
-    <string name="menu_remove_event">Remover</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Título</string>
@@ -33,9 +39,7 @@
     <string name="label_local">Local</string>
     <string name="label_date">Data</string>
     <string name="label_hour">Horário</string>
-    <string name="menu_add_event">Adicionar evento</string>
     <string name="select_date_event">Selecione a data</string>
-    <string name="event_saved_successfully">Evento salvo com sucesso</string>
 
     <!--    Person Form Fragment -->
     <string name="label_name">Nome</string>

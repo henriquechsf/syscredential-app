@@ -14,4 +14,5 @@
     <color name="secondary_variant">#5A980C</color>
     <color name="dark">#363843</color>
     <color name="light">#F6F6F6</color>
+    <color name="red">#FF0000</color>
 </resources>

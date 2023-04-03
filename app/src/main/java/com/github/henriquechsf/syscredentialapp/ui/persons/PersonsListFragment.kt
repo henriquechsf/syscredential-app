@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -60,7 +61,7 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_events, menu)
+        inflater.inflate(R.menu.menu_register, menu)
     }
 
     private fun setupRecyclerView() = with(binding) {
@@ -74,12 +75,17 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         viewModel.personList.collect { result ->
             when (result) {
                 is ResultState.Success -> {
+                    if (binding.rvListPersons.isVisible.not()) {
+                        binding.rvListPersons.show()
+                    }
+
                     result.data?.let {
                         binding.tvEmptyPersons.hide()
                         personListAdapter.persons = it.toList()
                     }
                 }
                 is ResultState.Empty -> {
+                    binding.rvListPersons.hide()
                     binding.tvEmptyPersons.show()
                 }
                 else -> {}
