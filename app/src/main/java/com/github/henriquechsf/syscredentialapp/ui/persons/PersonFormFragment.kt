@@ -16,6 +16,7 @@ import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
+import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -63,6 +64,8 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     }
 
     private fun bindUpdateFormData(person: Person) = with(binding) {
+        tvId.show()
+        tvId.text = getString(R.string.label_id, person.id.toString())
         edtName.setText(person.name)
         edtInfo1.setText(person.info1)
         edtInfo2.setText(person.info2)
