@@ -1,6 +1,5 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.henriquechsf.syscredentialapp.data.model.Registration
@@ -47,10 +46,10 @@ class RegistrationListViewModel @Inject constructor(
                     registrationRepository.insert(registration)
                     _scanResult.value = ResultState.Success(foundPerson.name)
                 } else {
-                    _scanResult.value = ResultState.Error("Credential not found")
+                    _scanResult.value = ResultState.Error("Credencial não encontrada")
                 }
             } catch (exception: Exception) {
-                _scanResult.value = ResultState.Error("Credential format not valid")
+                _scanResult.value = ResultState.Error("Credencial inválida")
             }
         }
 

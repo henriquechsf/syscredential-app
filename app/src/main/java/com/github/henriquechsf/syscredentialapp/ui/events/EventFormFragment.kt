@@ -19,7 +19,7 @@ import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
-import com.github.henriquechsf.syscredentialapp.util.toast
+import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -157,7 +157,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewM
             } else {
                 R.string.saved_successfully
             }
-            toast(getString(message))
+            layout.snackBar(getString(message))
             findNavController().popBackStack()
         }
     }
