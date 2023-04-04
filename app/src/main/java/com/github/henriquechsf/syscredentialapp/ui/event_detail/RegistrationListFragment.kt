@@ -1,5 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -93,12 +94,12 @@ class RegistrationListFragment :
                 is ResultState.Success -> {
                     binding.layout.snackBar(getString(R.string.success_scan, result.data))
                     binding.cardCountRegistrations
-                        .setBackgroundColor(resources.getColor(R.color.secondary))
+                        .setBackgroundColor(resources.getColor(R.color.green_300))
                 }
                 is ResultState.Error -> {
                     binding.layout.snackBar("Erro: ${result.message}")
                     binding.cardCountRegistrations
-                        .setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
+                        .setBackgroundColor(resources.getColor(R.color.red_500))
                 }
                 else -> {}
             }

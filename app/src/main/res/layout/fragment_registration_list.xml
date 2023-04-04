@@ -11,7 +11,7 @@
         android:id="@+id/card_count_registrations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/secondary"
+        app:cardBackgroundColor="@color/green_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -78,7 +78,7 @@
         android:contentDescription="@string/scan_credential"
         android:isScrollContainer="true"
         android:src="@drawable/ic_keyboard"
-        app:backgroundTint="@color/primary"
+        app:backgroundTint="@color/blue_400"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/fab_qrcode_scan"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +92,7 @@
         android:contentDescription="@string/scan_credential"
         android:isScrollContainer="true"
         android:src="@drawable/ic_qrcode_scan"
+        app:backgroundTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
