@@ -27,11 +27,11 @@ fun View.snackBar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
 
 fun Fragment.alertRemove(onConfirm: () -> Unit) {
     AlertDialog.Builder(context)
-        .setTitle("Warning")
-        .setMessage("Should remove register?")
+        .setTitle("Atenção!")
+        .setMessage("Tem certeza que deseja remover este registro? \nEsta ação não poderá ser desfeita.")
         .setIcon(R.drawable.ic_warning)
-        .setNegativeButton("No") { _, _ -> }
-        .setPositiveButton("Yes") { _, _ -> onConfirm() }
+        .setNegativeButton("Não") { _, _ -> }
+        .setPositiveButton("Sim") { _, _ -> onConfirm() }
         .create().show()
 }
 
