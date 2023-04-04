@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             val isTopLevelDestination = appBarConfiguration.topLevelDestinations.contains(destination.id)
             if (!isTopLevelDestination) {
                 binding.toolbarApp.setNavigationIcon(R.drawable.ic_back)
+                binding.toolbarApp.setNavigationOnClickListener { onBackPressed() }
             }
         }
     }

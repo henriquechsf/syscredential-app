@@ -14,7 +14,7 @@ interface PersonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(event: Person): Long
 
-    @Query("SELECT * FROM persons ORDER BY id")
+    @Query("SELECT * FROM persons ORDER BY name")
     fun getAll(): Flow<List<Person>>
 
     @Query("SELECT * from persons where id = :personId")
