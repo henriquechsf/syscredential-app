@@ -1,8 +1,11 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
-import android.content.res.Resources
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
@@ -28,6 +31,8 @@ import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.FileOutputStream
+import java.util.Calendar
 
 
 @AndroidEntryPoint
@@ -43,8 +48,7 @@ class RegistrationListFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +63,26 @@ class RegistrationListFragment :
         observerScanResult()
         observerCountRegistrations()
         manualRegistration()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_registration, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_report -> {
+                // TODO: call share report here
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Registration Report")
+                    type = "text/csv"
+                }
+                startActivity(shareIntent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun observerCountRegistrations() = lifecycleScope.launch {
