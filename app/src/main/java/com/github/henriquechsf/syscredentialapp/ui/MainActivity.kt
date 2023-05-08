@@ -2,6 +2,7 @@ package com.github.henriquechsf.syscredentialapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -41,10 +42,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val isTopLevelDestination = appBarConfiguration.topLevelDestinations.contains(destination.id)
+            val isTopLevelDestination =
+                appBarConfiguration.topLevelDestinations.contains(destination.id)
             if (!isTopLevelDestination) {
                 binding.toolbarApp.setNavigationIcon(R.drawable.ic_back)
                 binding.toolbarApp.setNavigationOnClickListener { onBackPressed() }
+                binding.bottomNavigation.isVisible = false
+            } else {
+                binding.bottomNavigation.isVisible = true
             }
         }
     }
