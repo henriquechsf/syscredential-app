@@ -1,10 +1,14 @@
 package com.github.henriquechsf.syscredentialapp.ui.event_detail
 
-import android.content.res.Resources
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +17,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistrationListBinding
 import com.github.henriquechsf.syscredentialapp.ui.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
 import com.github.henriquechsf.syscredentialapp.ui.code_scanner.CaptureAct
 import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_KEY
 import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
+import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
@@ -28,6 +34,9 @@ import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 
 @AndroidEntryPoint
@@ -43,8 +52,7 @@ class RegistrationListFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +67,23 @@ class RegistrationListFragment :
         observerScanResult()
         observerCountRegistrations()
         manualRegistration()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_registration, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_report -> {
+                val csvHeader = "Nome,Info1,CheckIn,Evento"
+                val csvData = createCsvData(registrationAdapter.registrations, csvHeader)
+                val csvFile = saveCsvFile(csvData, "relatorio-credenciamento.csv")
+                shareCsvFile(csvFile)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun observerCountRegistrations() = lifecycleScope.launch {
@@ -158,5 +183,46 @@ class RegistrationListFragment :
                 viewModel.insertRegistration(credential, event.id)
             }
         }
+    }
+
+    private fun createCsvData(registrations: List<RegistrationUI>, csvHeader: String): String {
+        val csvData = StringBuilder().apply {
+            append("$csvHeader\n")
+            registrations.forEach {
+                append("${it.personName},${it.personInfo1},${formatDateString(it.createdAt)},${event.title}\n")
+            }
+        }
+        return csvData.toString()
+    }
+
+    private fun saveCsvFile(csvData: String, csvFileName: String): File {
+        val csvFile = File(requireActivity().getExternalFilesDir(null), csvFileName)
+
+        try {
+            FileWriter(csvFile).use { writer ->
+                writer.append(csvData)
+                writer.flush()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return csvFile
+    }
+
+    private fun shareCsvFile(csvFile: File) {
+        val csvUri = FileProvider.getUriForFile(
+            requireContext(),
+            "com.github.henriquechsf.syscredentialapp.fileprovider",
+            csvFile
+        )
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/csv"
+            putExtra(Intent.EXTRA_STREAM, csvUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(shareIntent, "Share CSV"))
     }
 }
