@@ -9,10 +9,9 @@ The focus of this project was to apply some concepts from studies and solve a pr
 ## 🛠 Features
 - [x] Register credential by QrCode
 - [x] Register credential by input
-- [x] Register partivipants
+- [x] Register participants
 - [x] Register events
-- [ ] Export/Share registration credentials with CSV (in progress)
-- [ ] Export/Share registration credentials with with PDF
+- [x] Export/Share registration credentials with CSV
 - [ ] Import participant data with CSV
 - [ ] Share participant data with CSV
 - [ ] Print badges label
