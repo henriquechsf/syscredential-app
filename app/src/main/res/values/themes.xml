@@ -14,6 +14,10 @@
 
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/light</item>
+
+        <item name="searchViewStyle">@style/SearchViewStyle</item>
+        <item name="android:textColorPrimary">@color/light</item>
+        <item name="android:textColorHint">#60FFFFFF</item>
     </style>
 
     <style name="title">
@@ -27,5 +31,12 @@
 
     <style name="detail">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/ic_search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="queryBackground">@null</item>
     </style>
 </resources>

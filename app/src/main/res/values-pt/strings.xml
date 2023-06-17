@@ -11,6 +11,7 @@
     <string name="required_field">Campo obrigatório.</string>
     <string name="saved_successfully">Cadastrado com sucesso</string>
     <string name="updated_successfully">Atualizado com sucesso</string>
+    <string name="search">Pesquisar...</string>
 
     <!--   Login Fragment -->
     <string name="label_email">E-mail</string>

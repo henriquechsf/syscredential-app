@@ -1,5 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.ui.persons
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -62,11 +63,13 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_register, menu)
 
         val search = menu.findItem(R.id.menu_search)
         val searchView = search.actionView as? SearchView
+        searchView?.queryHint = getString(R.string.search)
         searchView?.setOnQueryTextListener(this)
 
         super.onCreateOptionsMenu(menu, inflater)
