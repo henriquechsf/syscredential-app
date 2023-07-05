@@ -14,7 +14,6 @@
 
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/light</item>
-
         <item name="searchViewStyle">@style/SearchViewStyle</item>
     </style>
 
@@ -36,6 +35,12 @@
         <item name="closeIcon">@drawable/ic_close</item>
         <item name="searchHintIcon">@null</item>
         <item name="queryBackground">@null</item>
+        <item name="android:editTextColor">@color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.SearchView" parent="">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">#80FFFFFF</item>
     </style>
 
     <style name="CustomOutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">

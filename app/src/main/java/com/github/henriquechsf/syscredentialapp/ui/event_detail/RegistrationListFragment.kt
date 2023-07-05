@@ -175,7 +175,7 @@ class RegistrationListFragment :
             val credential = result.contents
             viewModel.insertRegistration(credential, event.id)
         } else {
-            binding.layout.snackBar(getString(R.string.cancelled_scan))
+            toast(getString(R.string.cancelled_scan))
         }
     }
 
