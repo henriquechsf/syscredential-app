@@ -24,10 +24,12 @@ import com.github.henriquechsf.syscredentialapp.ui.base.ResultState
 import com.github.henriquechsf.syscredentialapp.ui.code_scanner.CaptureAct
 import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_KEY
 import com.github.henriquechsf.syscredentialapp.ui.event_detail.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
+import com.github.henriquechsf.syscredentialapp.util.alert
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -117,12 +119,12 @@ class RegistrationListFragment :
         viewModel.scanResult.collect { result ->
             when (result) {
                 is ResultState.Success -> {
-                    binding.layout.snackBar(getString(R.string.success_scan, result.data))
+                    toast(getString(R.string.success_scan, result.data))
                     binding.cardCountRegistrations
                         .setBackgroundColor(resources.getColor(R.color.green_300))
                 }
                 is ResultState.Error -> {
-                    binding.layout.snackBar("Erro: ${result.message}")
+                    toast(result.message.toString())
                     binding.cardCountRegistrations
                         .setBackgroundColor(resources.getColor(R.color.red_500))
                 }
@@ -173,7 +175,7 @@ class RegistrationListFragment :
             val credential = result.contents
             viewModel.insertRegistration(credential, event.id)
         } else {
-            binding.layout.snackBar(getString(R.string.cancelled_scan))
+            toast(getString(R.string.cancelled_scan))
         }
     }
 

@@ -9,7 +9,7 @@ class EventRepository @Inject constructor(
     private val eventDao: EventDao
 ) {
 
-    fun getAll(): Flow<List<Event>> = eventDao.getAll()
+    fun getAll(query: String? = ""): Flow<List<Event>> = eventDao.getAll(query)
 
     suspend fun insert(event: Event): Long = eventDao.insert(event)
 

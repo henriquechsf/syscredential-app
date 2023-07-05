@@ -32,8 +32,8 @@ class EventsListViewModel @Inject constructor(
         eventRepository.delete(event)
     }
 
-    private fun fetch() = viewModelScope.launch {
-        eventRepository.getAll().collectLatest { events ->
+    fun fetch(query: String? = "") = viewModelScope.launch {
+        eventRepository.getAll(query).collectLatest { events ->
             if (events.isEmpty()) {
                 _eventList.value = ResultState.Empty()
             } else {

@@ -9,7 +9,7 @@ class PersonRepository @Inject constructor(
     private val personDao: PersonDao,
 ) {
 
-    fun getAll(): Flow<List<Person>> = personDao.getAll()
+    fun getAll(query: String? = ""): Flow<List<Person>> = personDao.getAll(query)
 
     suspend fun getById(personId: Long) = personDao.getById(personId)
 

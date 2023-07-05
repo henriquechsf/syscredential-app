@@ -35,6 +35,14 @@ fun Fragment.alertRemove(onConfirm: () -> Unit) {
         .create().show()
 }
 
+fun Fragment.alert(onConfirm: () -> Unit) {
+    AlertDialog.Builder(context)
+        .setTitle("Erro!")
+        .setMessage("Credencial nao encontrada.")
+        .setPositiveButton("Ok") { _, _ -> }
+        .create().show()
+}
+
 fun View.show() {
     visibility = View.VISIBLE
 }

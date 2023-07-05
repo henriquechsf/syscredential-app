@@ -11,7 +11,7 @@
         android:id="@+id/img_logo"
         android:layout_width="@dimen/logo_login_size"
         android:layout_height="@dimen/logo_login_size"
-        android:src="@drawable/ic_qrcode"
+        android:src="@drawable/qr_code_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

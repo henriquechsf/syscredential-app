@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListViewModel>() {
+class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListViewModel>(),
+    SearchView.OnQueryTextListener {
 
     override val viewModel: EventsListViewModel by viewModels()
 
@@ -44,6 +46,13 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_register, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.queryHint = getString(R.string.search)
+        searchView?.setOnQueryTextListener(this)
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -99,9 +108,23 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListVie
         }
     }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) searchQuery(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) searchQuery(newText)
+        return true
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
     ): FragmentEventsListBinding = FragmentEventsListBinding
         .inflate(inflater, container, false)
+
+    private fun searchQuery(query: String) {
+        viewModel.fetch(query)
+    }
 }
