@@ -91,7 +91,7 @@
         android:layout_margin="@dimen/margin_large"
         android:contentDescription="@string/scan_credential"
         android:isScrollContainer="true"
-        android:src="@drawable/ic_qrcode_scan"
+        android:src="@drawable/qr_scan_line"
         app:backgroundTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

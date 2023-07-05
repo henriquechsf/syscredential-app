@@ -1,5 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.ui.persons
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +25,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsListViewModel>() {
+class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsListViewModel>(),
+    SearchView.OnQueryTextListener {
 
     override val viewModel: PersonsListViewModel by viewModels()
 
@@ -60,8 +63,16 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_register, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.queryHint = getString(R.string.search)
+        searchView?.setOnQueryTextListener(this)
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setupRecyclerView() = with(binding) {
@@ -98,4 +109,18 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsList
         container: ViewGroup?,
     ): FragmentPersonsListBinding = FragmentPersonsListBinding
         .inflate(inflater, container, false)
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) searchQuery(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) searchQuery(newText)
+        return true
+    }
+
+    private fun searchQuery(query: String) {
+        viewModel.fetch(query)
+    }
 }

@@ -32,8 +32,8 @@ class PersonsListViewModel @Inject constructor(
         personRepository.delete(person)
     }
 
-    private fun fetch() = viewModelScope.launch {
-        personRepository.getAll().collectLatest { persons ->
+    fun fetch(query: String? = "") = viewModelScope.launch {
+        personRepository.getAll(query).collectLatest { persons ->
             if (persons.isEmpty()) {
                 _personList.value = ResultState.Empty()
             } else {

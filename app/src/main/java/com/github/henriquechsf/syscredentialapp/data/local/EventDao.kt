@@ -14,8 +14,8 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(event: Event): Long
 
-    @Query("SELECT * FROM events ORDER BY id")
-    fun getAll(): Flow<List<Event>>
+    @Query("SELECT * FROM events WHERE title LIKE :query || '%' ORDER BY id DESC")
+    fun getAll(query: String?): Flow<List<Event>>
 
     @Delete
     suspend fun delete(event: Event)
