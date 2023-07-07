@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.ForeignKey.NO_ACTION
 import androidx.room.PrimaryKey
 import com.github.henriquechsf.syscredentialapp.util.Constants
 import kotlinx.parcelize.Parcelize
@@ -16,13 +17,11 @@ import kotlinx.parcelize.Parcelize
             entity = Event::class,
             parentColumns = ["id"],
             childColumns = ["event_id"],
-            onDelete = CASCADE
         ),
         ForeignKey(
             entity = Person::class,
             parentColumns = ["id"],
             childColumns = ["person_id"],
-            onDelete = CASCADE
         )
     ]
 )

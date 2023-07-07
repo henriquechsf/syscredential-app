@@ -1,5 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.presenter.events
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.henriquechsf.syscredentialapp.data.model.Event
@@ -29,7 +30,11 @@ class EventsListViewModel @Inject constructor(
     }
 
     fun removeEvent(event: Event) = viewModelScope.launch {
-        eventRepository.delete(event)
+        try {
+            eventRepository.delete(event)
+        } catch (e: Exception) {
+            Log.i("TAG", "removeEvent: Error")
+        }
     }
 
     fun fetch(query: String? = "") = viewModelScope.launch {
