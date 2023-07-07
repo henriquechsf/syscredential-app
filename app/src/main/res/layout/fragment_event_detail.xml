@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_large"
-    tools:context=".ui.event_detail.EventDetailFragment">
+    tools:context=".presenter.event_detail.EventDetailFragment">
 
     <TextView
         android:id="@+id/tv_event_title"

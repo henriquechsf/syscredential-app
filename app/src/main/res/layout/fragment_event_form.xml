@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.events.EventFormFragment">
+    tools:context=".presenter.events.EventFormFragment">
 
     <ScrollView
         android:id="@+id/scroll_view"

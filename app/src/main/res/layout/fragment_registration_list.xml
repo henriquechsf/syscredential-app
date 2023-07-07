@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.event_detail.RegistrationListFragment">
+    tools:context=".presenter.registration.RegistrationListFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_count_registrations"

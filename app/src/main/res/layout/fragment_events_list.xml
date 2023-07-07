@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/padding_medium"
-    tools:context=".ui.events.EventsListFragment">
+    tools:context=".presenter.events.EventsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_events"
