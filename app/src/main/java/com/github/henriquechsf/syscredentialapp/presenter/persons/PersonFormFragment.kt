@@ -64,14 +64,25 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     }
 
     private fun bindUpdateFormData(person: Person) = with(binding) {
-        tvId.show()
-        tvId.text = getString(R.string.label_id, person.id.toString())
+        edtCod.setText(person.id.toString())
+        edtCod.isEnabled = false
         edtName.setText(person.name)
         edtInfo1.setText(person.info1)
         edtInfo2.setText(person.info2)
     }
 
     private fun initFieldListeners() = with(binding) {
+        edtCod.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                validateField(edtCod, tilCod)
+            }
+        }
+        edtCod.addTextChangedListener {
+            if (binding.tilCod.error != null) {
+                validateField(edtCod, tilCod)
+            }
+        }
+
         edtName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateField(edtName, tilName)
@@ -98,11 +109,12 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
 
         val isValid = listOf(
             validateField(edtName, tilName),
+            validateField(edtCod, tilCod)
         ).all { it }
 
         if (isValid) {
             val person = Person(
-                id = person?.id ?: 0L,
+                id = edtCod.text.toString().trim().toLong(),
                 name = edtName.text.toString().trim(),
                 info1 = edtInfo1.text.toString().trim(),
                 info2 = edtInfo2.text.toString().trim()

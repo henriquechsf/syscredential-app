@@ -44,6 +44,7 @@
     <string name="placeholder_local">Ex.: Events Center</string>
 
     <!--    Person Form Fragment -->
+    <string name="label_cod">Cod.</string>
     <string name="label_name">Name</string>
     <string name="label_info1">Info 1</string>
     <string name="label_info2">Info 2</string>

@@ -45,6 +45,7 @@
     <string name="placeholder_local">Ex.: Centro de Eventos - Maringá PR</string>
 
     <!--    Person Form Fragment -->
+    <string name="label_cod">Cod.</string>
     <string name="label_name">Name</string>
     <string name="label_info1">Info1</string>
     <string name="label_info2">Info2</string>
