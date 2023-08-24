@@ -34,7 +34,7 @@ class RegistrationListViewModel @Inject constructor(
     fun insertRegistration(credential: String, eventId: Int) =
         viewModelScope.launch {
             try {
-                val foundPerson = personRepository.getById(credential.toLong())
+                val foundPerson = personRepository.getByRegistrationCode(credential.toLong())
 
                 if (foundPerson != null) {
                     val registration = Registration(

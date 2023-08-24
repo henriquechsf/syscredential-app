@@ -24,10 +24,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EventsListFragment : BaseFragment<FragmentEventsListBinding, EventsListViewModel>(),
+class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
     SearchView.OnQueryTextListener {
 
-    override val viewModel: EventsListViewModel by viewModels()
+    private val viewModel: EventsListViewModel by viewModels()
 
     private val eventsAdapter by lazy { EventsAdapter() }
 

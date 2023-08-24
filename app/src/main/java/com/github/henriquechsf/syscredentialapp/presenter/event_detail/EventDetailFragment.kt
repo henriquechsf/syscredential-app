@@ -16,9 +16,9 @@ import com.github.henriquechsf.syscredentialapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EventDetailFragment : BaseFragment<FragmentEventDetailBinding, EventDetailViewModel>() {
+class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
-    override val viewModel: EventDetailViewModel by viewModels()
+    private val viewModel: EventDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)

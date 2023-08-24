@@ -16,7 +16,6 @@ import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
-import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -24,12 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListViewModel>() {
+class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
 
     private val args: PersonFormFragmentArgs by navArgs()
     private var person: Person? = null
 
-    override val viewModel: PersonsListViewModel by viewModels()
+    private val viewModel: PersonsListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +63,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
     }
 
     private fun bindUpdateFormData(person: Person) = with(binding) {
-        edtCod.setText(person.id.toString())
+        edtCod.setText(person.registrationCode.toString())
         edtCod.isEnabled = false
         edtName.setText(person.name)
         edtInfo1.setText(person.info1)
@@ -114,10 +113,11 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding, PersonsListVi
 
         if (isValid) {
             val person = Person(
-                id = edtCod.text.toString().trim().toLong(),
+                id = person?.id ?: 0L,
                 name = edtName.text.toString().trim(),
                 info1 = edtInfo1.text.toString().trim(),
-                info2 = edtInfo2.text.toString().trim()
+                info2 = edtInfo2.text.toString().trim(),
+                registrationCode = edtCod.text.toString().trim().toLong()
             )
 
             viewModel.insertPerson(person)

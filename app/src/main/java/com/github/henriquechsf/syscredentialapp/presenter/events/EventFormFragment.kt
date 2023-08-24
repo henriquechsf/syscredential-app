@@ -35,12 +35,12 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class EventFormFragment : BaseFragment<FragmentEventFormBinding, EventsListViewModel>() {
+class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
 
     private val args: EventFormFragmentArgs by navArgs()
     private var event: Event? = null
 
-    override val viewModel: EventsListViewModel by viewModels()
+    private val viewModel: EventsListViewModel by viewModels()
     private lateinit var eventDateTime: LocalDateTime
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

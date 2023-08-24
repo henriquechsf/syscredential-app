@@ -1,4 +1,4 @@
-package com.github.henriquechsf.syscredentialapp.presenter.auth
+package com.github.henriquechsf.syscredentialapp.presenter.auth.login
 
 import androidx.lifecycle.ViewModel
 

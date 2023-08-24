@@ -25,10 +25,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PersonsListFragment : BaseFragment<FragmentPersonsListBinding, PersonsListViewModel>(),
+class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
     SearchView.OnQueryTextListener {
 
-    override val viewModel: PersonsListViewModel by viewModels()
+    private val viewModel: PersonsListViewModel by viewModels()
 
     private val personListAdapter by lazy { PersonsListAdapter() }
 

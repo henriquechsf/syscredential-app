@@ -13,6 +13,9 @@ class PersonRepository @Inject constructor(
 
     suspend fun getById(personId: Long) = personDao.getById(personId)
 
+    suspend fun getByRegistrationCode(registrationCode: Long) =
+        personDao.getByRegistrationCode(registrationCode)
+
     suspend fun insert(person: Person): Long = personDao.insert(person)
 
     suspend fun delete(person: Person) = personDao.delete(person)

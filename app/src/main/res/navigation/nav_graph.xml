@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/eventsListFragment">
+    app:startDestination="@id/auth_graph">
 
     <fragment
         android:id="@+id/eventsListFragment"
@@ -73,4 +73,29 @@
             android:name="eventId"
             app:argType="integer" />
     </dialog>
+    <navigation android:id="@+id/auth_graph"
+        app:startDestination="@id/loginFragment">
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.presenter.auth.login.LoginFragment"
+            android:label="Login"
+            tools:layout="@layout/fragment_login">
+            <action
+                android:id="@+id/action_loginFragment_to_registerFragment"
+                app:destination="@id/registerFragment" />
+            <action
+                android:id="@+id/action_loginFragment_to_forgotFragment"
+                app:destination="@id/forgotFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.presenter.auth.register.RegisterFragment"
+            android:label="Register"
+            tools:layout="@layout/fragment_register" />
+        <fragment
+            android:id="@+id/forgotFragment"
+            android:name="com.github.henriquechsf.syscredentialapp.presenter.auth.forgot.ForgotFragment"
+            android:label="Forgot"
+            tools:layout="@layout/fragment_forgot" />
+    </navigation>
 </navigation>

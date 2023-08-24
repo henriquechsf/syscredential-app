@@ -1,4 +1,4 @@
-package com.github.henriquechsf.syscredentialapp.presenter.auth
+package com.github.henriquechsf.syscredentialapp.presenter.auth.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegisterBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel>() {
+@AndroidEntryPoint
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
-    override val viewModel: RegisterViewModel by viewModels()
+    private val viewModel: RegisterViewModel by viewModels()
+
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentRegisterBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,10 +29,4 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             findNavController().popBackStack()
         }
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentRegisterBinding = FragmentRegisterBinding
-        .inflate(inflater, container, false)
 }

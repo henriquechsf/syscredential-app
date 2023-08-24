@@ -35,12 +35,12 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegistrationListFragment :
-    BaseFragment<FragmentRegistrationListBinding, RegistrationListViewModel>() {
+    BaseFragment<FragmentRegistrationListBinding>() {
 
     private val args: RegistrationListFragmentArgs by navArgs()
     private lateinit var event: Event
 
-    override val viewModel: RegistrationListViewModel by viewModels()
+    private val viewModel: RegistrationListViewModel by viewModels()
 
     private val registrationAdapter by lazy { RegistrationAdapter() }
     private val csvGenerator by lazy { CsvGenerator(requireActivity(), event) }
