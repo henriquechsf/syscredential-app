@@ -1,14 +1,13 @@
 package com.github.henriquechsf.syscredentialapp.domain.usecases.auth
 
-import com.github.henriquechsf.syscredentialapp.data.model.User
 import com.github.henriquechsf.syscredentialapp.data.repository.auth.AuthFirebaseRepository
 import javax.inject.Inject
 
-class RegisterUseCase @Inject constructor(
+class ForgotUseCase @Inject constructor(
     private val authFirebaseRepository: AuthFirebaseRepository
 ) {
 
-    suspend operator fun invoke(user: User): User {
-        return authFirebaseRepository.register(user)
+    suspend operator fun invoke(email: String) {
+        return authFirebaseRepository.forgot(email)
     }
 }
