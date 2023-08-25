@@ -36,6 +36,9 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
         super.onCreate(savedInstanceState)
     }
 
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentEventsListBinding.inflate(inflater, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -117,12 +120,6 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
         if (newText != null) searchQuery(newText)
         return true
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-    ): FragmentEventsListBinding = FragmentEventsListBinding
-        .inflate(inflater, container, false)
 
     private fun searchQuery(query: String) {
         viewModel.fetch(query)

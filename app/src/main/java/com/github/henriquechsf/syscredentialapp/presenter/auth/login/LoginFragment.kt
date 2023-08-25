@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentLoginBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,9 +26,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun initListeners() = with(binding) {
-        btnForgotAccount.setOnClickListener {
-        }
         btnRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+        btnForgotAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
         }
     }
 }

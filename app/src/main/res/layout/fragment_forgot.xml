@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".presenter.auth.forgot.ForgotFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="0dp"
@@ -14,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
         app:layout_constraintVertical_bias="0.35000002">
 
         <LinearLayout
@@ -29,8 +52,8 @@
                 android:layout_marginVertical="@dimen/margin_large"
                 android:text="Enter your email to given a link \n to forgot your password."
                 android:textAlignment="center"
-                android:textSize="16sp"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:textSize="16sp" />
 
 
             <com.google.android.material.textfield.TextInputLayout

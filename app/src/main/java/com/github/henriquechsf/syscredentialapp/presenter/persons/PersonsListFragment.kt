@@ -37,6 +37,9 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
         super.onCreate(savedInstanceState)
     }
 
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPersonsListBinding.inflate(inflater, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -103,12 +106,6 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
             }
         }
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-    ): FragmentPersonsListBinding = FragmentPersonsListBinding
-        .inflate(inflater, container, false)
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) searchQuery(query)
