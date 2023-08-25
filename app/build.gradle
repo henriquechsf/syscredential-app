@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -98,8 +99,7 @@ dependencies {
 
     // Firebase Dependencies: https://firebase.google.com/docs/android/setup?hl=pt-br
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     // code scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'

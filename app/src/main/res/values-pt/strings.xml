@@ -3,7 +3,13 @@
     <string name="app_name">SysCredential</string>
     <string name="logo">Logo</string>
 
-    <!--   Common -->
+    <!-- Common -->
+    <string name="common_error_message_generic">Ops! ocorreu um erro, tente novamente.</string>
+
+    <!-- Firebase Messages -->
+    <string name="account_not_registered_register_fragment">Conta não registrada</string>
+    <string name="invalid_email_or_password_register_fragment">E-mail/Senha inválidos</string>
+
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="menu_add">Adicionar</string>
@@ -13,7 +19,7 @@
     <string name="updated_successfully">Atualizado com sucesso</string>
     <string name="search">Pesquisar...</string>
 
-    <!--   Login Fragment -->
+    <!-- Login Fragment -->
     <string name="label_email_login_fragment">E-mail</string>
     <string name="label_password_login_fragment">Senha</string>
     <string name="btn_enter_login_fragment">Entrar</string>
@@ -28,7 +34,6 @@
     <string name="label_confirm_password_register_fragment">Confirmar Senha</string>
     <string name="btn_create_account_register_fragment">Criar conta</string>
     <string name="btn_login_register_fragment">Já tem uma conta? Entrar</string>
-    <string name="btn_send">Enviar</string>
 
     <!--   Forgot Fragment -->
     <string name="title_screen_forgot_fragment">Recuperar conta</string>

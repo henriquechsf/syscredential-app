@@ -2,7 +2,9 @@
     <string name="app_name">SysCredential</string>
     <string name="logo">Logo</string>
 
-    <!--   Common -->
+    <!-- Common -->
+    <string name="common_error_message_generic">Ops! An error occurred, try again.</string>
+
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="menu_add">Add new</string>
@@ -12,7 +14,11 @@
     <string name="updated_successfully">Updated successfully</string>
     <string name="search">Search...</string>
 
-    <!--   Login Fragment -->
+    <!-- Firebase Messages -->
+    <string name="account_not_registered_register_fragment">Account not registered</string>
+    <string name="invalid_email_or_password_register_fragment">Invalid email or password</string>
+
+    <!-- Login Fragment -->
     <string name="label_email_login_fragment">Email</string>
     <string name="label_password_login_fragment">Password</string>
     <string name="btn_enter_login_fragment">Enter</string>
@@ -27,9 +33,8 @@
     <string name="label_confirm_password_register_fragment">Confirm Password</string>
     <string name="btn_create_account_register_fragment">Create account</string>
     <string name="btn_login_register_fragment">Have an account? Login</string>
-    <string name="btn_send">Send</string>
 
-    <!--   Forgot Fragment -->
+    <!-- Forgot Fragment -->
     <string name="title_screen_forgot_fragment">Forgot account</string>
     <string name="text_information_forgot_fragment">Enter your email to given a link \n to forgot your password.</string>
     <string name="label_email_forgot_fragment">Email</string>
