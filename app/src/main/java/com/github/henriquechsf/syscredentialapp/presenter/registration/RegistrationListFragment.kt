@@ -23,6 +23,7 @@ import com.github.henriquechsf.syscredentialapp.presenter.registration.ManualReg
 import com.github.henriquechsf.syscredentialapp.presenter.registration.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
 import com.github.henriquechsf.syscredentialapp.util.CsvGenerator
 import com.github.henriquechsf.syscredentialapp.util.hide
+import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.journeyapps.barcodescanner.ScanContract
@@ -50,10 +51,15 @@ class RegistrationListFragment :
         setHasOptionsMenu(true)
     }
 
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentRegistrationListBinding.inflate(inflater, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar(binding.toolbar)
 
         event = args.event
+        binding.tvEventTitle.text = event.title
 
         getRegistrations(event.id)
         initClicks()
@@ -135,12 +141,6 @@ class RegistrationListFragment :
             layoutManager = LinearLayoutManager(context)
         }
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentRegistrationListBinding =
-        FragmentRegistrationListBinding.inflate(inflater, container, false)
 
     private fun initClicks() = with(binding) {
         fabQrcodeScan.setOnClickListener {

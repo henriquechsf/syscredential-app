@@ -19,6 +19,7 @@ import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
+import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -43,8 +44,12 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
     private val viewModel: EventsListViewModel by viewModels()
     private lateinit var eventDateTime: LocalDateTime
 
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentEventFormBinding.inflate(inflater, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar(binding.toolbar)
 
         args.event?.let {
             setHasOptionsMenu(true)
@@ -237,9 +242,4 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         }
         layout.error = errorMessage
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-    ): FragmentEventFormBinding = FragmentEventFormBinding.inflate(inflater, container, false)
 }

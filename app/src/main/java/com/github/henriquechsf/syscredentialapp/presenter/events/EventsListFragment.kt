@@ -18,6 +18,7 @@ import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventsListBi
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.util.hide
+import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -41,6 +42,7 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar(binding.toolbar)
 
         setupRecyclerView()
         clickItemAdapter()

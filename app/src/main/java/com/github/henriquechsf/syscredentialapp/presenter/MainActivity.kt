@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.databinding.ActivityMainBinding
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbarApp)
+        //setSupportActionBar(binding.toolbarApp)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -40,18 +39,12 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val isTopLevelDestination =
                 appBarConfiguration.topLevelDestinations.contains(destination.id)
-            if (!isTopLevelDestination) {
-                binding.toolbarApp.setNavigationIcon(R.drawable.ic_back)
-                binding.toolbarApp.setNavigationOnClickListener { onBackPressed() }
-                binding.bottomNavigation.isVisible = false
-            } else {
-                binding.bottomNavigation.isVisible = true
-            }
+            binding.bottomNavigation.isVisible = isTopLevelDestination
         }
     }
 }

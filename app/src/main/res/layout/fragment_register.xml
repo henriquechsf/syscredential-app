@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Register"
+                android:text="@string/title_screen_register_fragment"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_name">
+                android:hint="@string/label_name_register_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_name"
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_email">
+                android:hint="@string/label_email_login_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_email"
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_password">
+                android:hint="@string/label_password_login_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_password"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_confirm_password">
+                android:hint="@string/label_confirm_password_register_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_confirm_password"
@@ -107,7 +107,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/btn_register"
+                android:text="@string/btn_create_account_register_fragment"
+                android:textAllCaps="false"
                 android:textSize="@dimen/button_text_size" />
 
             <TextView
@@ -115,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="@dimen/margin_medium"
-                android:text="Have account? Login"
+                android:layout_marginVertical="@dimen/margin_large"
+                android:text="@string/btn_login_register_fragment"
                 android:textColor="@color/primary" />
 
             <ProgressBar

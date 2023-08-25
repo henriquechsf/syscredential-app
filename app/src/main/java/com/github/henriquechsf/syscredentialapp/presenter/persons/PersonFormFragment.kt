@@ -16,6 +16,7 @@ import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
+import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -30,8 +31,12 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
 
     private val viewModel: PersonsListViewModel by viewModels()
 
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPersonFormBinding.inflate(inflater, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar(binding.toolbar)
 
         args.person?.let {
             setHasOptionsMenu(true)
@@ -154,10 +159,4 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
         }
         layout.error = errorMessage
     }
-
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentPersonFormBinding =
-        FragmentPersonFormBinding.inflate(inflater, container, false)
 }
