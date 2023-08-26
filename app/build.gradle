@@ -37,6 +37,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.github.henriquechsf.syscredentialapp'
 }
 
 dependencies {
@@ -100,6 +101,8 @@ dependencies {
     // Firebase Dependencies: https://firebase.google.com/docs/android/setup?hl=pt-br
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
 
     // code scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'

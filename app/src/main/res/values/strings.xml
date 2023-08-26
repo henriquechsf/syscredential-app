@@ -33,6 +33,7 @@
     <string name="label_confirm_password_register_fragment">Confirm Password</string>
     <string name="btn_create_account_register_fragment">Create account</string>
     <string name="btn_login_register_fragment">Have an account? Login</string>
+    <string name="message_error_on_register_register_fragment">Error to register profile</string>
 
     <!-- Forgot Fragment -->
     <string name="title_screen_forgot_fragment">Forgot account</string>
