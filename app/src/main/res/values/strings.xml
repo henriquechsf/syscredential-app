@@ -4,6 +4,7 @@
 
     <!-- Common -->
     <string name="common_error_message_generic">Ops! An error occurred, try again.</string>
+    <string name="common_error_required_field">Input all fields.</string>
 
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
@@ -46,6 +47,11 @@
     <string name="label_email_forgot_fragment">Email</string>
     <string name="btn_send_forgot_fragment">Send</string>
     <string name="send_email_success_forgot_fragment">Link sent! Verify your email</string>
+
+    <!-- Profile Fragment -->
+    <string name="title_screen_profile_fragment">Profile</string>
+    <string name="btn_save_profile_fragment">Save</string>
+    <string name="btn_logout_profile_fragment">Logout</string>
 
     <!--   Events List Fragment -->
     <string name="today">Today</string>

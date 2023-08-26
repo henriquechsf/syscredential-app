@@ -1,7 +1,9 @@
 package com.github.henriquechsf.syscredentialapp.util
 
 import android.app.AlertDialog
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -51,16 +53,6 @@ fun View.hide() {
     visibility = View.INVISIBLE
 }
 
-fun loadImage(
-    imageView: ImageView,
-    path: String,
-    extension: String
-) {
-    Glide.with(imageView.context)
-        .load("$path.$extension")
-        .into(imageView)
-}
-
 fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
     (activity as AppCompatActivity).setSupportActionBar(toolbar)
     (activity as AppCompatActivity).title = ""
@@ -73,4 +65,21 @@ fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
     toolbar.setNavigationOnClickListener {
         activity?.onBackPressedDispatcher?.onBackPressed()
     }
+}
+
+fun Fragment.hideKeyboard() {
+    val view = activity?.currentFocus
+    if (view != null) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+}
+
+fun loadImage(
+    imageView: ImageView,
+    path: String
+) {
+    Glide.with(imageView.context)
+        .load(path)
+        .into(imageView)
 }
