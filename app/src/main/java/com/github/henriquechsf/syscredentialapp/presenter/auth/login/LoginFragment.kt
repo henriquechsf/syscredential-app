@@ -27,6 +27,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
+        verifyAuth()
     }
 
     private fun initListeners() = with(binding) {
@@ -68,6 +69,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     toast(message = getString(FirebaseHelper.validError(stateView.message ?: "")))
                 }
             }
+        }
+    }
+
+    private fun verifyAuth() {
+        if (FirebaseHelper.isAuthenticated()) {
+            findNavController().navigate(R.id.action_global_profileFragment)
         }
     }
 }
