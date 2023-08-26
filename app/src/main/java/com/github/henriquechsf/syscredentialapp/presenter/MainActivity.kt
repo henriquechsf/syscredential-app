@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.eventsListFragment,
                 R.id.personsListFragment,
-                R.id.loginFragment
+                R.id.profileFragment
             )
         )
 

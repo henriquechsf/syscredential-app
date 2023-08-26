@@ -57,6 +57,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
 
 
             <Button
-                android:id="@+id/btn_enter"
+                android:id="@+id/btn_send"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_large"
@@ -81,6 +82,7 @@
                 android:textSize="@dimen/button_text_size" />
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -38,6 +38,7 @@ class AuthFirebaseRepositoryImpl @Inject constructor(
         }
     }
 
+    // TODO: format template email of Firebase
     override suspend fun forgot(email: String) {
         return suspendCoroutine { continuation ->
             firebaseAuth.sendPasswordResetEmail(email)

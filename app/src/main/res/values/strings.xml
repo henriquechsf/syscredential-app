@@ -14,6 +14,11 @@
     <string name="updated_successfully">Updated successfully</string>
     <string name="search">Search...</string>
 
+    <!-- Bottom Navigation -->
+    <string name="menu_profile_bottom_navigation">Profile</string>
+    <string name="menu_persons_bottom_navigation">Persons</string>
+    <string name="menu_events_bottom_navigation">Events</string>
+
     <!-- Firebase Messages -->
     <string name="account_not_registered_register_fragment">Account not registered</string>
     <string name="invalid_email_or_password_register_fragment">Invalid email or password</string>
@@ -40,6 +45,7 @@
     <string name="text_information_forgot_fragment">Enter your email to given a link \n to forgot your password.</string>
     <string name="label_email_forgot_fragment">Email</string>
     <string name="btn_send_forgot_fragment">Send</string>
+    <string name="send_email_success_forgot_fragment">Link sent! Verify your email</string>
 
     <!--   Events List Fragment -->
     <string name="today">Today</string>

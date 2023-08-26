@@ -6,10 +6,6 @@
     <!-- Common -->
     <string name="common_error_message_generic">Ops! ocorreu um erro, tente novamente.</string>
 
-    <!-- Firebase Messages -->
-    <string name="account_not_registered_register_fragment">Conta não registrada</string>
-    <string name="invalid_email_or_password_register_fragment">E-mail/Senha inválidos</string>
-
     <string name="btn_save">Salvar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="menu_add">Adicionar</string>
@@ -18,6 +14,15 @@
     <string name="saved_successfully">Cadastrado com sucesso</string>
     <string name="updated_successfully">Atualizado com sucesso</string>
     <string name="search">Pesquisar...</string>
+
+    <!-- Bottom Navigation -->
+    <string name="menu_profile_bottom_navigation">Perfil</string>
+    <string name="menu_persons_bottom_navigation">Pessoas</string>
+    <string name="menu_events_bottom_navigation">Eventos</string>
+
+    <!-- Firebase Messages -->
+    <string name="account_not_registered_register_fragment">Conta não registrada</string>
+    <string name="invalid_email_or_password_register_fragment">E-mail/Senha inválidos</string>
 
     <!-- Login Fragment -->
     <string name="label_email_login_fragment">E-mail</string>
@@ -41,6 +46,7 @@
     <string name="text_information_forgot_fragment">Digite seu e-mail para receber um link \npara recuperar sua senha.</string>
     <string name="label_email_forgot_fragment">E-mail</string>
     <string name="btn_send_forgot_fragment">Enviar</string>
+    <string name="send_email_success_forgot_fragment">Link enviado! Verifique seu e-mail.</string>
 
     <!--   Events List Fragment -->
     <string name="today">Hoje</string>
