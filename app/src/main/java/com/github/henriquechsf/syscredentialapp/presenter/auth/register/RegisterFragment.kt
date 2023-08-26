@@ -15,6 +15,7 @@ import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.StateView
 import com.github.henriquechsf.syscredentialapp.presenter.profile.ProfileViewModel
 import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
+import com.github.henriquechsf.syscredentialapp.util.hideKeyboard
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
@@ -39,6 +40,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     private fun initListeners() = with(binding) {
         btnCreateAccount.setOnClickListener {
+            hideKeyboard()
             submit()
         }
         btnLogin.setOnClickListener {
@@ -73,6 +75,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             when (stateView) {
                 is StateView.Loading -> {}
                 is StateView.Sucess -> {
+                    findNavController().popBackStack()
                     toast("Perfil cadastrado com sucesso")
                 }
                 is StateView.Error -> {

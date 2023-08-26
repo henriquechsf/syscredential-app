@@ -12,6 +12,7 @@ import com.github.henriquechsf.syscredentialapp.databinding.FragmentLoginBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.StateView
 import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
+import com.github.henriquechsf.syscredentialapp.util.hideKeyboard
 import com.github.henriquechsf.syscredentialapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun initListeners() = with(binding) {
         btnEnter.setOnClickListener {
+            hideKeyboard()
             validateData()
         }
         btnRegister.setOnClickListener {
