@@ -13,8 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistrationListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
@@ -30,13 +32,11 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class RegistrationListFragment :
-    BaseFragment<FragmentRegistrationListBinding>() {
+class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>() {
 
     private val args: RegistrationListFragmentArgs by navArgs()
     private lateinit var event: Event
@@ -45,6 +45,8 @@ class RegistrationListFragment :
 
     private val registrationAdapter by lazy { RegistrationAdapter() }
     private val csvGenerator by lazy { CsvGenerator(requireActivity(), event) }
+
+    private var registrationList = listOf<RegistrationUI>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +70,19 @@ class RegistrationListFragment :
         observerScanResult()
         observerCountRegistrations()
         manualRegistration()
+        configSearchView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_registration, menu)
+
+        val item = menu.findItem(R.id.menu_search)
+        binding.searchView.setMenuItem(item)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    // TODO: refactor implementation
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_report -> {
@@ -106,7 +114,8 @@ class RegistrationListFragment :
                 is ResultState.Success -> {
                     result.data?.let {
                         binding.tvEmptyRegistrations.hide()
-                        registrationAdapter.registrations = it.toList()
+                        registrationList = it
+                        registrationAdapter.registrations = registrationList
                     }
                 }
                 is ResultState.Empty -> {
@@ -183,4 +192,40 @@ class RegistrationListFragment :
         }
     }
 
+    private fun configSearchView() = with(binding) {
+        searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return if (newText.isNotEmpty()) {
+                    val newList = registrationList.filter { registration ->
+                        registration.personName.contains(newText, true)
+                    }
+                    registrationAdapter.registrations = newList
+                    true
+                } else {
+                    registrationAdapter.registrations = registrationList
+                    false
+                }
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextCleared(): Boolean {
+                return false
+            }
+        })
+
+
+
+        searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
+            override fun onSearchViewClosed() {
+                registrationAdapter.registrations = registrationList
+            }
+
+            override fun onSearchViewClosedAnimation() {}
+            override fun onSearchViewShown() {}
+            override fun onSearchViewShownAnimation() {}
+        })
+    }
 }

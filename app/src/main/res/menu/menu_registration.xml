@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_hint"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_report"
         android:icon="@drawable/ic_share"
-        android:title="Report"
+        android:title="@string/share_menu_registration_list_fragment"
         app:showAsAction="ifRoom" />
 </menu>

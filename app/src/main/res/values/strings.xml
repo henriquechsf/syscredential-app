@@ -103,5 +103,6 @@
     <string name="credential_format_not_valid">Credential format not valid</string>
     <string name="registrations">Registrations</string>
     <string name="scan_credential">Scan credential</string>
+    <string name="share_menu_registration_list_fragment">Share registration list</string>
 
 </resources>
