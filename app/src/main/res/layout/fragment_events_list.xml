@@ -4,33 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/padding_medium"
-    tools:context=".ui.events.EventsListFragment">
+    tools:context=".presenter.events.EventsListFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_screen_event_list_fragment"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.ferfalk.simplesearchview.SimpleSearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/CustomSearchViewTheme" />
+        </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_events"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_event_list"
-        tools:itemCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_event_list" />
 
     <TextView
         android:id="@+id/tv_empty_events"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_events_registered"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:visibility="invisible"
-        tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -36,6 +37,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.github.henriquechsf.syscredentialapp'
 }
 
 dependencies {
@@ -98,12 +100,19 @@ dependencies {
 
     // Firebase Dependencies: https://firebase.google.com/docs/android/setup?hl=pt-br
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
 
     // code scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    // https://github.com/ParkSangGwon/TedPermission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+
+    // https://github.com/Ferfalk/SimpleSearchView
+    implementation 'com.github.Ferfalk:SimpleSearchView:0.2.0'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

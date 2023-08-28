@@ -46,4 +46,23 @@
     <style name="CustomOutlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/primary</item>
     </style>
+
+    <style name="CustomBottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetWrapper</item>
+    </style>
+
+    <style name="CustomBottomSheetWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomSearchViewTheme">
+        <item name="colorSecondary">@color/primary</item>
+        <item name="searchBackground">@drawable/bg_search</item>
+        <item name="android:inputType">text</item>
+        <item name="android:hint">@string/search_hint</item>
+        <item name="hintColor">#B3363843</item>
+        <item name="backIconTint">@color/primary</item>
+        <item name="iconsTint">@color/primary</item>
+        <item name="android:textColor">@color/dark</item>
+    </style>
 </resources>

@@ -1,14 +1,16 @@
 package com.github.henriquechsf.syscredentialapp.util
 
 import android.app.AlertDialog
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.google.android.material.snackbar.Snackbar
 
 fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
@@ -51,12 +53,33 @@ fun View.hide() {
     visibility = View.INVISIBLE
 }
 
+fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
+    (activity as AppCompatActivity).setSupportActionBar(toolbar)
+    (activity as AppCompatActivity).title = ""
+
+    if (showIconNavigation) {
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    toolbar.setNavigationOnClickListener {
+        activity?.onBackPressedDispatcher?.onBackPressed()
+    }
+}
+
+fun Fragment.hideKeyboard() {
+    val view = activity?.currentFocus
+    if (view != null) {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+}
+
 fun loadImage(
     imageView: ImageView,
-    path: String,
-    extension: String
+    path: String
 ) {
     Glide.with(imageView.context)
-        .load("$path.$extension")
+        .load(path)
         .into(imageView)
 }

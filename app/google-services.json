@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "574472385425",
+    "firebase_url": "https://syscredential-82e55-default-rtdb.firebaseio.com",
+    "project_id": "syscredential-82e55",
+    "storage_bucket": "syscredential-82e55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574472385425:android:d6c221e3a2d75601a4a030",
+        "android_client_info": {
+          "package_name": "com.github.henriquechsf.syscredentialapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574472385425-nln7hv4s1qqmiafqd5k4f79m33jhn5qq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.henriquechsf.syscredentialapp",
+            "certificate_hash": "8c828340d8bdd52975d6c02032c5212675c2975c"
+          }
+        },
+        {
+          "client_id": "574472385425-jukmfc2fdtmv45qi3c2q85shb22etd81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMf5DXXoYNsenvWTUsiWIkp7tGIiolzwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574472385425-jukmfc2fdtmv45qi3c2q85shb22etd81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

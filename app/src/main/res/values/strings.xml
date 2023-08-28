@@ -2,7 +2,10 @@
     <string name="app_name">SysCredential</string>
     <string name="logo">Logo</string>
 
-    <!--   Common -->
+    <!-- Common -->
+    <string name="common_error_message_generic">Ops! An error occurred, try again.</string>
+    <string name="common_error_required_field">Input all fields.</string>
+
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="menu_add">Add new</string>
@@ -12,20 +15,58 @@
     <string name="updated_successfully">Updated successfully</string>
     <string name="search">Search...</string>
 
-    <!--   Login Fragment -->
-    <string name="label_email">Email</string>
-    <string name="label_password">Password</string>
-    <string name="btn_enter">Enter</string>
+    <!-- Bottom Navigation -->
+    <string name="menu_profile_bottom_navigation">Profile</string>
+    <string name="menu_persons_bottom_navigation">Persons</string>
+    <string name="menu_events_bottom_navigation">Events</string>
+
+    <!-- Firebase Messages -->
+    <string name="account_not_registered_register_fragment">Account not registered</string>
+    <string name="invalid_email_or_password_register_fragment">Invalid email or password</string>
+
+    <!-- Login Fragment -->
+    <string name="label_email_login_fragment">Email</string>
+    <string name="label_password_login_fragment">Password</string>
+    <string name="btn_enter_login_fragment">Enter</string>
+    <string name="btn_register_account_login_fragment">Don\'t have an account? Register now</string>
+    <string name="btn_forgot_account_login_fragment">I forgot my password</string>
 
     <!--   Register Fragment -->
-    <string name="label_confirm_password">Confirm Password</string>
-    <string name="btn_register">Create account</string>
-    <string name="btn_send">Send</string>
+    <string name="title_screen_register_fragment">Register</string>
+    <string name="label_name_register_fragment">Name</string>
+    <string name="label_email_register_fragment">Email</string>
+    <string name="label_password_register_fragment">Password</string>
+    <string name="label_confirm_password_register_fragment">Confirm Password</string>
+    <string name="btn_create_account_register_fragment">Create account</string>
+    <string name="btn_login_register_fragment">Have an account? Login</string>
+    <string name="message_error_on_register_register_fragment">Error to register profile</string>
+
+    <!-- Forgot Fragment -->
+    <string name="title_screen_forgot_fragment">Forgot account</string>
+    <string name="text_information_forgot_fragment">Enter your email to given a link \n to forgot your password.</string>
+    <string name="label_email_forgot_fragment">Email</string>
+    <string name="btn_send_forgot_fragment">Send</string>
+    <string name="send_email_success_forgot_fragment">Link sent! Verify your email</string>
+
+    <!-- Profile Fragment -->
+    <string name="title_screen_profile_fragment">Profile</string>
+    <string name="btn_save_profile_fragment">Save</string>
+    <string name="btn_logout_profile_fragment">Logout</string>
+    <string name="text_message_camera_denied_profile_fragment">Para que você capture imagens utilizando a câmera precisamos desta permissão. Acesse as configurações e habilite esta opção.</string>
+    <string name="text_message_gallery_denied_profile_fragment">Para que você carregue imagens utilizando a galeria precisamos desta permissão. Acesse as configurações e habilite esta opção.</string>
+    <string name="text_title_bottom_sheet_profile">Adicionar imagem de perfil</string>
+    <string name="text_message_bottom_sheet_profile">Escolha uma das opcoes abaixo para adicionar \numa imagem de perfil</string>
+    <string name="text_button_camera_bottom_sheet_profile">Camera</string>
+    <string name="text_button_gallery_bottom_sheet_profile">Galeria</string>
 
     <!--   Events List Fragment -->
+    <string name="title_screen_event_list_fragment">Events</string>
     <string name="today">Today</string>
     <string name="scheduled">Scheduled</string>
     <string name="finished">Finished</string>
+
+    <!--   Person List Fragment -->
+    <string name="title_screen_person_list_fragment">Persons</string>
 
     <!--    Details Event Fragment -->
     <string name="event_location">Location</string>
@@ -44,6 +85,7 @@
     <string name="placeholder_local">Ex.: Events Center</string>
 
     <!--    Person Form Fragment -->
+    <string name="label_cod">Cod.</string>
     <string name="label_name">Name</string>
     <string name="label_info1">Info 1</string>
     <string name="label_info2">Info 2</string>
@@ -61,5 +103,6 @@
     <string name="credential_format_not_valid">Credential format not valid</string>
     <string name="registrations">Registrations</string>
     <string name="scan_credential">Scan credential</string>
+    <string name="share_menu_registration_list_fragment">Share registration list</string>
 
 </resources>

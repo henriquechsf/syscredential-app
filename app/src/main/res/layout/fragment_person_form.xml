@@ -5,7 +5,30 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.persons.PersonFormFragment">
+    tools:context=".presenter.persons.PersonFormFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cadastro Pessoa"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -15,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,23 +46,27 @@
             android:layout_margin="@dimen/margin_large"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_id"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cod"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/label_id"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                tools:text="ID: 1001"
-                tools:visibility="visible" />
+                android:hint="@string/label_cod"
+                app:placeholderText="Digite um código identificador">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_cod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/label_name"
                 app:placeholderText="Nome completo">
 

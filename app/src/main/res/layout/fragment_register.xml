@@ -4,7 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.RegisterFragment">
+    tools:context=".presenter.auth.register.RegisterFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_screen_register_fragment"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -14,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
         app:layout_constraintVertical_bias="0.35000002">
 
         <LinearLayout
@@ -24,11 +47,12 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_name">
+                android:hint="@string/label_name_register_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_name"
@@ -38,11 +62,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_email">
+                android:hint="@string/label_email_login_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_email"
@@ -52,11 +77,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_password">
+                android:hint="@string/label_password_login_fragment"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_password"
@@ -66,11 +93,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_confirm_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_confirm_password">
+                android:hint="@string/label_confirm_password_register_fragment"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_confirm_password"
@@ -80,11 +109,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/btn_enter"
+                android:id="@+id/btn_create_account"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/btn_register"
+                android:text="@string/btn_create_account_register_fragment"
+                android:textAllCaps="false"
                 android:textSize="@dimen/button_text_size" />
 
             <TextView
@@ -92,11 +122,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="@dimen/margin_medium"
-                android:text="Have account? Login"
+                android:layout_marginVertical="@dimen/margin_large"
+                android:text="@string/btn_login_register_fragment"
                 android:textColor="@color/primary" />
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
