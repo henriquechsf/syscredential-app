@@ -64,7 +64,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 is StateView.Sucess -> {
                     binding.progressBar.isVisible = false
 
-                    findNavController().navigate(R.id.action_global_profileFragment)
+                    findNavController().navigate(R.id.action_eventsListFragment)
                 }
                 is StateView.Error -> {
                     binding.progressBar.isVisible = false
