@@ -7,13 +7,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
+import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventsListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
@@ -21,16 +22,16 @@ import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
-    SearchView.OnQueryTextListener {
+class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
 
     private val viewModel: EventsListViewModel by viewModels()
 
     private val eventsAdapter by lazy { EventsAdapter() }
+
+    private var eventList = listOf<Event>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -47,15 +48,16 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
         setupRecyclerView()
         clickItemAdapter()
         observerEventList()
+        configSearchView()
     }
 
+
+    // TODO: update method Deprecated
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_register, menu)
 
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.queryHint = getString(R.string.search)
-        searchView?.setOnQueryTextListener(this)
+        val item = menu.findItem(R.id.menu_search)
+        binding.searchView.setMenuItem(item)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -70,6 +72,7 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
         }
     }
 
+    // TODO: refactor to Livedata and ListAdapter
     private fun observerEventList() = lifecycleScope.launch {
         viewModel.eventList.collect { result ->
             when (result) {
@@ -80,7 +83,8 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
 
                     result.data?.let {
                         binding.tvEmptyEvents.hide()
-                        eventsAdapter.events = it.toList()
+                        eventList = it
+                        eventsAdapter.events = eventList
                     }
                 }
                 is ResultState.Empty -> {
@@ -113,17 +117,40 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>(),
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) searchQuery(query)
-        return true
-    }
+    private fun configSearchView() = with(binding) {
+        searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return if (newText.isNotEmpty()) {
+                    val newList = eventList.filter { event ->
+                        event.title.contains(newText, true)
+                    }
+                    eventsAdapter.events = newList
+                    true
+                } else {
+                    eventsAdapter.events = eventList
+                    false
+                }
+            }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) searchQuery(newText)
-        return true
-    }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
 
-    private fun searchQuery(query: String) {
-        viewModel.fetch(query)
+            override fun onQueryTextCleared(): Boolean {
+                return false
+            }
+        })
+
+
+
+        searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
+            override fun onSearchViewClosed() {
+                eventsAdapter.events = eventList
+            }
+
+            override fun onSearchViewClosedAnimation() {}
+            override fun onSearchViewShown() {}
+            override fun onSearchViewShownAnimation() {}
+        })
     }
 }

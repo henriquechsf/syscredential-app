@@ -56,13 +56,13 @@
     </style>
 
     <style name="CustomSearchViewTheme">
-        <item name="colorSecondary">@color/blue_500</item>
+        <item name="colorSecondary">@color/primary</item>
         <item name="searchBackground">@drawable/bg_search</item>
         <item name="android:inputType">text</item>
         <item name="android:hint">@string/search_hint</item>
-        <item name="hintColor">@color/dark</item>
-        <item name="backIconTint">@color/blue_500</item>
-        <item name="iconsTint">@color/blue_500</item>
+        <item name="hintColor">#B3363843</item>
+        <item name="backIconTint">@color/primary</item>
+        <item name="iconsTint">@color/primary</item>
         <item name="android:textColor">@color/dark</item>
     </style>
 </resources>
