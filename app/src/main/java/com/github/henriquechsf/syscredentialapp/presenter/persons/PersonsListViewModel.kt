@@ -25,14 +25,15 @@ class PersonsListViewModel @Inject constructor(
     }
 
     fun insertPerson(person: Person) = viewModelScope.launch {
-        personRepository.insert(person)
+        //personRepository.insert(person)
     }
 
     fun removePerson(person: Person) = viewModelScope.launch {
-        personRepository.delete(person)
+       // personRepository.delete(person)
     }
 
     fun fetch(query: String? = "") = viewModelScope.launch {
+        /*
         personRepository.getAll(query).collectLatest { persons ->
             if (persons.isEmpty()) {
                 _personList.value = ResultState.Empty()
@@ -40,5 +41,6 @@ class PersonsListViewModel @Inject constructor(
                 _personList.value = ResultState.Success(persons)
             }
         }
+         */
     }
 }

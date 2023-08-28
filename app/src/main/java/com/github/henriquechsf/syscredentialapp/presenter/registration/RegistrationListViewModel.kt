@@ -34,6 +34,7 @@ class RegistrationListViewModel @Inject constructor(
     fun insertRegistration(credential: String, eventId: Int) =
         viewModelScope.launch {
             try {
+                /*
                 val foundPerson = personRepository.getByRegistrationCode(credential.toLong())
 
                 if (foundPerson != null) {
@@ -48,12 +49,15 @@ class RegistrationListViewModel @Inject constructor(
                 } else {
                     _scanResult.value = ResultState.Error("Credencial não encontrada")
                 }
+
+                 */
             } catch (exception: Exception) {
                 _scanResult.value = ResultState.Error("Credencial inválida")
             }
         }
 
     fun fetchRegistrations(eventId: Int) = viewModelScope.launch {
+        /*
         registrationRepository.getByEvent(eventId).collectLatest { registrations ->
             _countRegistrations.value = registrations.size
             if (registrations.isEmpty()) {
@@ -73,5 +77,7 @@ class RegistrationListViewModel @Inject constructor(
                 _registrationsList.value = ResultState.Success(registrationsMapped)
             }
         }
+
+         */
     }
 }

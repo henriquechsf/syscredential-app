@@ -21,23 +21,20 @@ class EventsListViewModel @Inject constructor(
     private val _eventList = MutableStateFlow<ResultState<List<Event>>>(ResultState.Empty())
     val eventList: StateFlow<ResultState<List<Event>>> = _eventList
 
-    init {
-        fetch()
-    }
-
     fun insertEvent(event: Event) = viewModelScope.launch {
-        eventRepository.insert(event)
+        //eventRepository.insert(event)
     }
 
     fun removeEvent(event: Event) = viewModelScope.launch {
         try {
-            eventRepository.delete(event)
+          //  eventRepository.delete(event)
         } catch (e: Exception) {
             Log.i("TAG", "removeEvent: Error")
         }
     }
 
     private fun fetch(query: String? = "") = viewModelScope.launch {
+        /*
         eventRepository.getAll(query).collectLatest { events ->
             if (events.isEmpty()) {
                 _eventList.value = ResultState.Empty()
@@ -45,5 +42,6 @@ class EventsListViewModel @Inject constructor(
                 _eventList.value = ResultState.Success(events)
             }
         }
+         */
     }
 }
