@@ -8,13 +8,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
+import com.github.henriquechsf.syscredentialapp.data.model.Person
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonsListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
@@ -22,16 +23,16 @@ import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
-    SearchView.OnQueryTextListener {
+class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
 
     private val viewModel: PersonsListViewModel by viewModels()
 
     private val personListAdapter by lazy { PersonsListAdapter() }
+
+    private var personList = listOf<Person>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -48,6 +49,7 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
         setupRecyclerView()
         observerPersonList()
         clickItemAdapter()
+        configSearchView()
     }
 
     private fun clickItemAdapter() {
@@ -58,6 +60,16 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
         }
     }
 
+    @SuppressLint("ResourceAsColor")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_register, menu)
+
+        val item = menu.findItem(R.id.menu_search)
+        binding.searchView.setMenuItem(item)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_add -> {
@@ -66,20 +78,6 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_register, menu)
-
-        /*
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.queryHint = getString(R.string.search)
-        searchView?.setOnQueryTextListener(this)
-         */
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setupRecyclerView() = with(binding) {
@@ -99,7 +97,8 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
 
                     result.data?.let {
                         binding.tvEmptyPersons.hide()
-                        personListAdapter.persons = it.toList()
+                        personList = it
+                        personListAdapter.persons = personList
                     }
                 }
                 is ResultState.Empty -> {
@@ -111,17 +110,40 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>(),
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) searchQuery(query)
-        return true
-    }
+    private fun configSearchView() = with(binding) {
+        searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return if (newText.isNotEmpty()) {
+                    val newList = personList.filter { person ->
+                        person.name.contains(newText, true)
+                    }
+                    personListAdapter.persons = newList
+                    true
+                } else {
+                    personListAdapter.persons = personList
+                    false
+                }
+            }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) searchQuery(newText)
-        return true
-    }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
 
-    private fun searchQuery(query: String) {
-        viewModel.fetch(query)
+            override fun onQueryTextCleared(): Boolean {
+                return false
+            }
+        })
+
+
+
+        searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
+            override fun onSearchViewClosed() {
+                personListAdapter.persons = personList
+            }
+
+            override fun onSearchViewClosedAnimation() {}
+            override fun onSearchViewShown() {}
+            override fun onSearchViewShownAnimation() {}
+        })
     }
 }

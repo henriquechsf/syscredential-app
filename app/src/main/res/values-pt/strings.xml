@@ -61,9 +61,13 @@
     <string name="text_button_gallery_bottom_sheet_profile">Galeria</string>
 
     <!--   Events List Fragment -->
+    <string name="title_screen_event_list_fragment">Eventos</string>
     <string name="today">Hoje</string>
     <string name="scheduled">Agendado</string>
     <string name="finished">Finalizado</string>
+
+    <!--   Person List Fragment -->
+    <string name="title_screen_person_list_fragment">Pessoas</string>
 
     <!--    Details Event Fragment -->
     <string name="event_location">Local</string>
