@@ -63,7 +63,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         event = args.event
         binding.tvEventTitle.text = event.title
 
-        getRegistrations(event.id)
+        //getRegistrations(event.id)
         initClicks()
         setupRecyclerView()
         observerRegistrationList()
@@ -157,9 +157,12 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         }
 
         fabManualScan.setOnClickListener {
+            /*
             val action = RegistrationListFragmentDirections
                 .actionRegistrationListFragmentToManualRegistrationFragment(eventId = event.id)
             findNavController().navigate(action)
+
+             */
         }
     }
 
@@ -178,7 +181,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
     ) { result: ScanIntentResult ->
         if (result.contents != null) {
             val credential = result.contents
-            viewModel.insertRegistration(credential, event.id)
+            //viewModel.insertRegistration(credential, event.id)
         } else {
             toast(getString(R.string.cancelled_scan))
         }
@@ -187,7 +190,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
     private fun manualRegistration() {
         setFragmentResultListener(CREDENTIAL_KEY) { _, bundle ->
             bundle.getString(CREDENTIAL_RESULT)?.let { credential ->
-                viewModel.insertRegistration(credential, event.id)
+               // viewModel.insertRegistration(credential, event.id)
             }
         }
     }

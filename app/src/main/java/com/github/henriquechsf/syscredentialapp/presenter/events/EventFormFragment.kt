@@ -16,11 +16,16 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
+import com.github.henriquechsf.syscredentialapp.presenter.base.StateView
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -149,21 +154,34 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
 
         if (isValid) {
             val event = Event(
-                id = event?.id ?: 0,
                 title = edtTitle.text.toString().trim(),
                 local = edtLocal.text.toString().trim(),
                 datetime = eventDateTime.toString().trim()
             )
 
-            viewModel.insertEvent(event)
+            saveProfile(event)
 
-            val message = if (event.id > 0) {
-                R.string.updated_successfully
-            } else {
-                R.string.saved_successfully
-            }
-            layout.snackBar(getString(message))
+            layout.snackBar(getString(R.string.saved_successfully))
             findNavController().popBackStack()
+        }
+    }
+
+    private fun saveProfile(event: Event) {
+        viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    toast(message = "Perfil atualizado com sucesso")
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
         }
     }
 

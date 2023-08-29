@@ -4,11 +4,11 @@ import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.data.repository.event.EventRepository
 import javax.inject.Inject
 
-class GetEventsUseCase @Inject constructor(
+class GetEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository
 ) {
 
     suspend operator fun invoke(): List<Event> {
-        return eventRepository.getAll()
+        return eventRepository.getEventList()
     }
 }

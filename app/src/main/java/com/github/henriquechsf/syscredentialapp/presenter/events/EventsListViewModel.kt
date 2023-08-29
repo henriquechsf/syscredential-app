@@ -2,46 +2,57 @@ package com.github.henriquechsf.syscredentialapp.presenter.events
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.github.henriquechsf.syscredentialapp.data.model.Event
-import com.github.henriquechsf.syscredentialapp.data.repository.EventRepository
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetEventListUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.SaveEventUseCase
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventsListViewModel @Inject constructor(
-    private val eventRepository: EventRepository,
+    private val saveEventUseCase: SaveEventUseCase,
+    private val getEventListUseCase: GetEventListUseCase
 ) : ViewModel() {
 
-    private val _eventList = MutableStateFlow<ResultState<List<Event>>>(ResultState.Empty())
-    val eventList: StateFlow<ResultState<List<Event>>> = _eventList
+    // TODO: refactor to ResultState
+    fun saveEvent(event: Event) = liveData(Dispatchers.IO) {
+        try {
+            emit(ResultState.Loading())
 
-    fun insertEvent(event: Event) = viewModelScope.launch {
-        //eventRepository.insert(event)
+            saveEventUseCase(event)
+
+            emit(ResultState.Success(null))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message))
+        }
+    }
+
+    fun getEventList() = liveData(Dispatchers.IO) {
+        try {
+            emit(ResultState.Loading())
+
+            val eventList = getEventListUseCase()
+
+            if (eventList.isEmpty()) {
+                emit(ResultState.Empty())
+            }
+
+            emit(ResultState.Success(eventList))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message))
+        }
     }
 
     fun removeEvent(event: Event) = viewModelScope.launch {
         try {
-          //  eventRepository.delete(event)
+            //  eventRepository.delete(event)
         } catch (e: Exception) {
             Log.i("TAG", "removeEvent: Error")
         }
-    }
-
-    private fun fetch(query: String? = "") = viewModelScope.launch {
-        /*
-        eventRepository.getAll(query).collectLatest { events ->
-            if (events.isEmpty()) {
-                _eventList.value = ResultState.Empty()
-            } else {
-                _eventList.value = ResultState.Success(events)
-            }
-        }
-         */
     }
 }

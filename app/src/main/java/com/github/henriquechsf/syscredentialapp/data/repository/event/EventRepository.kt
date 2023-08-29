@@ -4,11 +4,7 @@ import com.github.henriquechsf.syscredentialapp.data.model.Event
 
 interface EventRepository {
 
-    suspend fun getAll(query: String? = ""): List<Event>
+    suspend fun getEventList(): List<Event>
 
-    suspend fun getById(id: String): Event?
-
-    suspend fun insert(eventEntity: Event)
-
-    suspend fun delete(eventEntity: Event)
+    suspend fun saveEvent(event: Event)
 }
