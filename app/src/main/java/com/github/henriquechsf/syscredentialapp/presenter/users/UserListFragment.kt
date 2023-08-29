@@ -1,6 +1,5 @@
-package com.github.henriquechsf.syscredentialapp.presenter.persons
+package com.github.henriquechsf.syscredentialapp.presenter.users
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,31 +7,24 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Person
-import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonsListBinding
+import com.github.henriquechsf.syscredentialapp.data.model.User
+import com.github.henriquechsf.syscredentialapp.databinding.FragmentUserListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
-import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
-import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
-import com.github.henriquechsf.syscredentialapp.util.show
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
+class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
-    private val viewModel: PersonsListViewModel by viewModels()
+    private val viewModel: UserListViewModel by viewModels()
 
-    private val personListAdapter by lazy { PersonsListAdapter() }
+    private val userListAdapter by lazy { UserListAdapter() }
 
-    private var personList = listOf<Person>()
+    private var userList = listOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -40,27 +32,28 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentPersonsListBinding.inflate(inflater, container, false)
+        FragmentUserListBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
         setupRecyclerView()
-        observerPersonList()
         clickItemAdapter()
         configSearchView()
     }
 
     private fun clickItemAdapter() {
-        personListAdapter.setOnClickListener { person ->
+        userListAdapter.setOnClickListener { person ->
+            /*
             val action = PersonsListFragmentDirections
                 .actionPersonsListFragmentToPersonFormFragment(person)
             findNavController().navigate(action)
+
+             */
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_register, menu)
 
@@ -73,7 +66,7 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_add -> {
-                findNavController().navigate(R.id.action_personsListFragment_to_personFormFragment)
+                //findNavController().navigate(R.id.action_personsListFragment_to_personFormFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -82,45 +75,23 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
 
     private fun setupRecyclerView() = with(binding) {
         rvListPersons.apply {
-            adapter = personListAdapter
+            adapter = userListAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
 
-    private fun observerPersonList() = lifecycleScope.launch {
-        viewModel.personList.collect { result ->
-            when (result) {
-                is ResultState.Success -> {
-                    if (binding.rvListPersons.isVisible.not()) {
-                        binding.rvListPersons.show()
-                    }
-
-                    result.data?.let {
-                        binding.tvEmptyPersons.hide()
-                        personList = it
-                        personListAdapter.persons = personList
-                    }
-                }
-                is ResultState.Empty -> {
-                    binding.rvListPersons.hide()
-                    binding.tvEmptyPersons.show()
-                }
-                else -> {}
-            }
-        }
-    }
 
     private fun configSearchView() = with(binding) {
         searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return if (newText.isNotEmpty()) {
-                    val newList = personList.filter { person ->
+                    val newList = userList.filter { person ->
                         person.name.contains(newText, true)
                     }
-                    personListAdapter.persons = newList
+                    userListAdapter.users = newList
                     true
                 } else {
-                    personListAdapter.persons = personList
+                    userListAdapter.users = userList
                     false
                 }
             }
@@ -138,7 +109,7 @@ class PersonsListFragment : BaseFragment<FragmentPersonsListBinding>() {
 
         searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {
-                personListAdapter.persons = personList
+                userListAdapter.users = userList
             }
 
             override fun onSearchViewClosedAnimation() {}

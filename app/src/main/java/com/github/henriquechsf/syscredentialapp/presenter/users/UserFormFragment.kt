@@ -1,4 +1,4 @@
-package com.github.henriquechsf.syscredentialapp.presenter.persons
+package com.github.henriquechsf.syscredentialapp.presenter.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Person
+import com.github.henriquechsf.syscredentialapp.data.model.User
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
@@ -24,12 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
+class UserFormFragment : BaseFragment<FragmentPersonFormBinding>() {
 
-    private val args: PersonFormFragmentArgs by navArgs()
-    private var person: Person? = null
+    //private val args: PersonFormFragmentArgs by navArgs()
+    private var user: User? = null
 
-    private val viewModel: PersonsListViewModel by viewModels()
+    private val viewModel: UserListViewModel by viewModels()
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentPersonFormBinding.inflate(inflater, container, false)
@@ -38,11 +37,13 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
-        args.person?.let {
+        /*
+        args.user?.let {
             setHasOptionsMenu(true)
-            person = it
+            user = it
             bindUpdateFormData(it)
         }
+         */
 
         initClicks()
         initFieldListeners()
@@ -56,9 +57,9 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remove -> {
-                person?.let {
+                user?.let {
                     alertRemove {
-                        viewModel.removePerson(it)
+                        //viewModel.removePerson(it)
                         findNavController().popBackStack()
                     }
                 }
@@ -67,12 +68,10 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun bindUpdateFormData(person: Person) = with(binding) {
-        edtCod.setText(person.registrationCode.toString())
+    private fun bindUpdateFormData(person: User) = with(binding) {
+        edtCod.setText(user?.id)
         edtCod.isEnabled = false
         edtName.setText(person.name)
-        edtInfo1.setText(person.info1)
-        edtInfo2.setText(person.info2)
     }
 
     private fun initFieldListeners() = with(binding) {
@@ -117,23 +116,11 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
         ).all { it }
 
         if (isValid) {
-            val person = Person(
-                id = person?.id ?: 0L,
-                name = edtName.text.toString().trim(),
-                info1 = edtInfo1.text.toString().trim(),
-                info2 = edtInfo2.text.toString().trim(),
-                registrationCode = edtCod.text.toString().trim().toLong()
-            )
 
-            viewModel.insertPerson(person)
+            //viewModel.insertPerson(person)
 
-            val message = if (person.id > 0) {
-                R.string.updated_successfully
-            } else {
-                R.string.saved_successfully
-            }
             findNavController().popBackStack()
-            layout.snackBar(getString(message))
+            layout.snackBar(getString(R.string.saved_successfully))
         }
     }
 

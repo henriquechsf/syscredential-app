@@ -2,23 +2,19 @@ package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
-import com.github.henriquechsf.syscredentialapp.data.repository.PersonRepository
 import com.github.henriquechsf.syscredentialapp.data.repository.RegistrationRepository
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationListViewModel @Inject constructor(
     private val registrationRepository: RegistrationRepository,
-    private val personRepository: PersonRepository
+    //private val personRepository: PersonRepository
 ) : ViewModel() {
 
     private val _registrationsList =

@@ -95,7 +95,7 @@
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume +- liga/desl flash</string>
     <string name="no_events_registered">Nenhum evento cadastrado</string>
-    <string name="no_persons_registered">Nenhuma pessoa cadastrada</string>
+    <string name="no_users_registered">Nenhum usuário cadastrado</string>
     <string name="empty_registrations">Nenhum registro</string>
     <string name="add_event_icon">Adicionar evento</string>
     <string name="cancelled_scan">Leitura cancelada</string>
