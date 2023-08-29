@@ -73,13 +73,7 @@ class ProfileRepositoryImpl @Inject constructor(
                         user?.let { userList.add(it) }
                     }
 
-                    continuation.resumeWith(
-                        Result.success(
-                            userList.apply {
-                                removeAll { it.id == FirebaseHelper.getUserId() }
-                            }
-                        )
-                    )
+                    continuation.resumeWith(Result.success(userList))
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -103,5 +103,18 @@
         android:id="@+id/userListFragment"
         android:name="com.github.henriquechsf.syscredentialapp.presenter.users.UserListFragment"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" />
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_userFormFragment"
+            app:destination="@id/userFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFormFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.presenter.users.UserFormFragment"
+        android:label="fragment_user_form"
+        tools:layout="@layout/fragment_user_form" >
+        <argument
+            android:name="user"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.User" />
+    </fragment>
 </navigation>

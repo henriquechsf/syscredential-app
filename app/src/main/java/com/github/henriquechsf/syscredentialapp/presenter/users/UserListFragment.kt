@@ -8,19 +8,24 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.User
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentUserListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
+import com.github.henriquechsf.syscredentialapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
-    private val viewModel: UserListViewModel by viewModels()
+    private val userListViewModel: UserListViewModel by viewModels()
 
     private val userListAdapter by lazy { UserListAdapter() }
 
@@ -38,19 +43,16 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
+        getUserList()
         setupRecyclerView()
         clickItemAdapter()
         configSearchView()
     }
 
     private fun clickItemAdapter() {
-        userListAdapter.setOnClickListener { person ->
-            /*
-            val action = PersonsListFragmentDirections
-                .actionPersonsListFragmentToPersonFormFragment(person)
+        userListAdapter.setOnClickListener { user ->
+            val action = UserListFragmentDirections.actionUserListFragmentToUserFormFragment(user)
             findNavController().navigate(action)
-
-             */
         }
     }
 
@@ -74,19 +76,46 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     }
 
     private fun setupRecyclerView() = with(binding) {
-        rvListPersons.apply {
+        rvListUsers.apply {
             adapter = userListAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
 
+    private fun getUserList() {
+        userListViewModel.getProfileList().observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+
+                    stateView.data?.let {
+                        binding.rvListUsers.show()
+
+                        userList = it
+                        userListAdapter.users = userList
+                    }
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                is ResultState.Empty -> {
+                    binding.progressBar.hide()
+                    binding.tvEmptyUsers.show()
+                }
+            }
+        }
+    }
 
     private fun configSearchView() = with(binding) {
         searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return if (newText.isNotEmpty()) {
-                    val newList = userList.filter { person ->
-                        person.name.contains(newText, true)
+                    val newList = userList.filter { user ->
+                        user.name.contains(newText, true)
                     }
                     userListAdapter.users = newList
                     true
