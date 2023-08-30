@@ -27,48 +27,41 @@
                 android:textSize="20sp"
                 tools:text="Event Title" />
 
-            <ImageButton
-                android:id="@+id/btn_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/padding_medium"
-                android:src="@drawable/ic_add"
-                tools:ignore="ContentDescription" />
-
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/img_event"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/white"
+        android:src="@drawable/image_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tv_event_title"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        app:layout_constraintTop_toBottomOf="@+id/img_event"
         tools:text="Event Title" />
 
     <TextView
         android:id="@+id/tv_datetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_event_title"
         tools:text="10/10/2023 09:00" />
-
-    <TextView
-        android:id="@+id/tv_event_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_datetime"
-        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
 
     <TextView
         android:id="@+id/tv_subtitle_location"
@@ -76,9 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/event_location"
+        android:text="@string/event_location_event_details_fragment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_event_description" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_datetime" />
 
     <TextView
         android:id="@+id/tv_location"
@@ -95,13 +88,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/event_timeline"
+        android:text="@string/event_timeline_event_details_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,11 +122,26 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_registration"
+        android:id="@+id/btn_confirm_presence"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
-        android:text="@string/registration"
+        android:textAllCaps="false"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_largest"
+        android:text="@string/confirm_subscribe_event_details_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_show_credential"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/button_height"
+        style="@style/CustomOutlineButton"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        android:text="@string/show_credential_event_details_fragment"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/btn_confirm_presence"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -99,8 +99,10 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
 
     private fun initListeners() {
         eventsAdapter.setOnClickListener { event ->
-            val action = EventsListFragmentDirections
-                .actionEventsListFragmentToEventFormFragment(event)
+            val action = EventsListFragmentDirections.actionEventsListFragmentToEventDetailFragment(
+                event,
+                event.title
+            )
             findNavController().navigate(action)
         }
     }

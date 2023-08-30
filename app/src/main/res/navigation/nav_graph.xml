@@ -126,5 +126,11 @@
         <action
             android:id="@+id/action_eventDetailFragment_to_registrationListFragment"
             app:destination="@id/registrationListFragment" />
+        <argument
+            android:name="event"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
+        <argument
+            android:name="screenTitle"
+            app:argType="string" />
     </fragment>
 </navigation>

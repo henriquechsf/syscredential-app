@@ -75,10 +75,12 @@
     <string name="user_role_creditor_user_list_fragment">Creditor</string>
 
     <!--    Details Event Fragment -->
-    <string name="event_location">Location</string>
-    <string name="event_timeline">Timeline</string>
-    <string name="registration">Registration</string>
-    <string name="menu_edit_event">Edit</string>
+    <string name="event_location_event_details_fragment">Location</string>
+    <string name="event_timeline_event_details_fragment">Timeline</string>
+    <string name="confirm_subscribe_event_details_fragment">Confirm Subscribe</string>
+    <string name="show_credential_event_details_fragment">Show Credential</string>
+    <string name="menu_registration_event_details_fragment">Registration</string>
+    <string name="menu_edit_event_details_fragment">Edit</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Title</string>

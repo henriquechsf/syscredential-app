@@ -76,10 +76,12 @@
     <string name="user_role_creditor_user_list_fragment">Credenciador</string>
 
     <!--    Details Event Fragment -->
-    <string name="event_location">Local</string>
-    <string name="event_timeline">Cronograma</string>
-    <string name="registration">Credenciamento</string>
-    <string name="menu_edit_event">Editar</string>
+    <string name="event_location_event_details_fragment">Local</string>
+    <string name="event_timeline_event_details_fragment">Cronograma</string>
+    <string name="menu_registration_event_details_fragment">Credenciamento</string>
+    <string name="confirm_subscribe_event_details_fragment">Confirmar Inscrição</string>
+    <string name="show_credential_event_details_fragment">Abrir Credencial</string>
+    <string name="menu_edit_event_details_fragment">Editar</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Título</string>
