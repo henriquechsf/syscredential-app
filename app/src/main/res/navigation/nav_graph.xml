@@ -115,6 +115,7 @@
         tools:layout="@layout/fragment_user_form" >
         <argument
             android:name="user"
-            app:argType="com.github.henriquechsf.syscredentialapp.data.model.User" />
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.User"
+            app:nullable="true" />
     </fragment>
 </navigation>

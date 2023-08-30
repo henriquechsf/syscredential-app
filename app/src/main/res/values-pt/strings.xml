@@ -95,8 +95,8 @@
     <string name="title_screen_user_form_fragment">Dados usuário</string>
     <string name="label_id_user_form_fragment">ID</string>
     <string name="label_name_user_form_fragment">Nome</string>
-    <string name="label_info1_user_form_fragment">Info 1</string>
-    <string name="label_info2_user_form_fragment">Info 2</string>
+    <string name="label_email_user_form_fragment">E-mail</string>
+    <string name="label_department_user_form_fragment">Departamento</string>
 
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume +- liga/desl flash</string>

@@ -15,6 +15,7 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.User
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentUserFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.snackBar
@@ -27,9 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
 
     private val args: UserFormFragmentArgs by navArgs()
-    private lateinit var user: User
+    private var user: User? = null
 
-    private val viewModel: UserListViewModel by viewModels()
+    private val userFormViewModel: UserFormViewModel by viewModels()
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentUserFormBinding.inflate(inflater, container, false)
@@ -37,10 +38,14 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-        user = args.user
 
-        bindUserFormData(user)
-        initClicks()
+        args.user?.let {
+            setHasOptionsMenu(true)
+            user = it
+            bindUserFormData(it)
+        }
+
+        initListeners()
         initFieldListeners()
     }
 
@@ -61,22 +66,12 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
     }
 
     private fun bindUserFormData(user: User) = with(binding) {
-        edtId.setText(user.id)
         edtName.setText(user.name)
+        edtEmail.setText(user.email)
+        edtDepartment.setText(user.department)
     }
 
     private fun initFieldListeners() = with(binding) {
-        edtId.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                validateField(edtId, tilId)
-            }
-        }
-        edtId.addTextChangedListener {
-            if (binding.tilId.error != null) {
-                validateField(edtId, tilId)
-            }
-        }
-
         edtName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateField(edtName, tilName)
@@ -89,7 +84,7 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
         }
     }
 
-    private fun initClicks() = with(binding) {
+    private fun initListeners() = with(binding) {
         btnSave.setOnClickListener {
             submit()
         }
@@ -103,12 +98,12 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
 
         val isValid = listOf(
             validateField(edtName, tilName),
-            validateField(edtId, tilId)
+            validateField(edtEmail, tilEmail),
         ).all { it }
 
         if (isValid) {
 
-            //viewModel.insertPerson(person)
+            //userFormViewModel.saveProfile(user)
 
             findNavController().popBackStack()
             layout.snackBar(getString(R.string.saved_successfully))
