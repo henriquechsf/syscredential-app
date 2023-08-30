@@ -58,12 +58,6 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
             val eventStatus = handleEventStatus(LocalDateTime.parse(event.datetime).toLocalDate())
             tvEventStatus.text = holder.itemView.context.getString(eventStatus.translation)
             cardEventStatus.setCardBackgroundColor(holder.itemView.context.getColor(eventStatus.color))
-
-            btnRegister.setOnClickListener {
-                onRegisterClickListener?.let { registerClicked ->
-                    registerClicked(event)
-                }
-            }
         }
 
         holder.itemView.setOnClickListener {
@@ -85,10 +79,5 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
     private var onItemClickListener: ((Event) -> Unit)? = null
     fun setOnClickListener(listener: (Event) -> Unit) {
         onItemClickListener = listener
-    }
-
-    private var onRegisterClickListener: ((Event) -> Unit)? = null
-    fun setRegisterClickListener(listener: (Event) -> Unit) {
-        onRegisterClickListener = listener
     }
 }

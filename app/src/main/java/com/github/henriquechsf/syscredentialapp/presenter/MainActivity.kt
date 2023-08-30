@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.eventsListFragment,
-                R.id.personsListFragment,
+                R.id.userListFragment,
                 R.id.profileFragment
             )
         )

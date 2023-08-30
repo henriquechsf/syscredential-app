@@ -2,6 +2,7 @@ package com.github.henriquechsf.syscredentialapp.util
 
 import com.github.henriquechsf.syscredentialapp.R
 import com.google.firebase.auth.FirebaseAuth
+import java.util.UUID
 
 // TODO: Mover implementacao para classe repository
 class FirebaseHelper {
@@ -12,6 +13,8 @@ class FirebaseHelper {
         fun getUserId() = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         fun getAuth() = FirebaseAuth.getInstance()
+
+        fun getUUID() = UUID.randomUUID().toString()
 
         // TODO: Adicionar demais mapeamentos de erro Firebase
         fun validError(error: String): Int {

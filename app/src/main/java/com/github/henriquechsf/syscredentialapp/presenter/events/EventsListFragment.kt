@@ -7,9 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
@@ -21,13 +19,13 @@ import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
+import com.github.henriquechsf.syscredentialapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
 
-    private val viewModel: EventsListViewModel by viewModels()
+    private val eventsListViewModel: EventsListViewModel by viewModels()
 
     private val eventsAdapter by lazy { EventsAdapter() }
 
@@ -45,12 +43,11 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
+        getEventList()
         setupRecyclerView()
-        clickItemAdapter()
-        observerEventList()
         configSearchView()
+        initListeners()
     }
-
 
     // TODO: update method Deprecated
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -72,40 +69,40 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
         }
     }
 
-    // TODO: refactor to Livedata and ListAdapter
-    private fun observerEventList() = lifecycleScope.launch {
-        viewModel.eventList.collect { result ->
-            when (result) {
+    private fun getEventList() {
+        eventsListViewModel.getEventList().observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
                 is ResultState.Success -> {
-                    if (binding.rvListEvents.isVisible.not()) {
-                        binding.rvListEvents.show()
-                    }
+                    binding.progressBar.hide()
 
-                    result.data?.let {
-                        binding.tvEmptyEvents.hide()
+                    stateView.data?.let {
+                        binding.rvListEvents.show()
+
                         eventList = it
                         eventsAdapter.events = eventList
                     }
                 }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
                 is ResultState.Empty -> {
-                    binding.rvListEvents.hide()
+                    binding.progressBar.hide()
                     binding.tvEmptyEvents.show()
                 }
-                else -> {}
             }
         }
     }
 
-    private fun clickItemAdapter() {
+    private fun initListeners() {
         eventsAdapter.setOnClickListener { event ->
-            val action = EventsListFragmentDirections
-                .actionEventsListFragmentToEventFormFragment(event)
-            findNavController().navigate(action)
-        }
-
-        eventsAdapter.setRegisterClickListener { event ->
-            val action = EventsListFragmentDirections
-                .actionEventsListFragmentToRegistrationListFragment(event, event.title)
+            val action = EventsListFragmentDirections.actionEventsListFragmentToEventDetailFragment(
+                event,
+                event.title
+            )
             findNavController().navigate(action)
         }
     }
@@ -140,8 +137,6 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
                 return false
             }
         })
-
-
 
         searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {

@@ -12,6 +12,7 @@
     <string name="menu_remove">Remove</string>
     <string name="required_field">Required field.</string>
     <string name="saved_successfully">Saved successfully</string>
+    <string name="removed_successfully">Removed successfully</string>
     <string name="updated_successfully">Updated successfully</string>
     <string name="search">Search...</string>
 
@@ -65,14 +66,22 @@
     <string name="scheduled">Scheduled</string>
     <string name="finished">Finished</string>
 
-    <!--   Person List Fragment -->
-    <string name="title_screen_person_list_fragment">Persons</string>
+    <!--   User List Fragment -->
+    <string name="title_screen_user_list_fragment">Users</string>
+    <string name="user_status_active_user_list_fragment">Active</string>
+    <string name="user_status_inactive_user_list_fragment">Inactive</string>
+    <string name="user_status_blocked_user_list_fragment">Blocked</string>
+    <string name="user_role_admin_user_list_fragment">Administrator</string>
+    <string name="user_role_participant_user_list_fragment">Participant</string>
+    <string name="user_role_creditor_user_list_fragment">Creditor</string>
 
     <!--    Details Event Fragment -->
-    <string name="event_location">Location</string>
-    <string name="event_timeline">Timeline</string>
-    <string name="registration">Registration</string>
-    <string name="menu_edit_event">Edit</string>
+    <string name="event_location_event_details_fragment">Location</string>
+    <string name="event_timeline_event_details_fragment">Timeline</string>
+    <string name="confirm_subscribe_event_details_fragment">Confirm Subscribe</string>
+    <string name="show_credential_event_details_fragment">Show Credential</string>
+    <string name="menu_registration_event_details_fragment">Registration</string>
+    <string name="menu_edit_event_details_fragment">Edit</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Title</string>
@@ -84,17 +93,17 @@
     <string name="placeholder_title">Ex.: Sales Convention</string>
     <string name="placeholder_local">Ex.: Events Center</string>
 
-    <!--    Person Form Fragment -->
-    <string name="label_cod">Cod.</string>
-    <string name="label_name">Name</string>
-    <string name="label_info1">Info 1</string>
-    <string name="label_info2">Info 2</string>
-    <string name="label_id">ID: %s</string>
+    <!--    User Form Fragment -->
+    <string name="title_screen_user_form_fragment">User data</string>
+    <string name="label_id_user_form_fragment">ID</string>
+    <string name="label_name_user_form_fragment">Name</string>
+    <string name="label_email_user_form_fragment">Email</string>
+    <string name="label_department_user_form_fragment">Department</string>
 
     <!--   Registration List Fragment -->
     <string name="volume_up_flash_scan">Volume up to flash on</string>
     <string name="no_events_registered">No events registered</string>
-    <string name="no_persons_registered">No persons registered</string>
+    <string name="no_users_registered">No users registered</string>
     <string name="empty_registrations">Empty registrations</string>
     <string name="add_event_icon">Add event icon</string>
     <string name="cancelled_scan">Cancelled Scan</string>

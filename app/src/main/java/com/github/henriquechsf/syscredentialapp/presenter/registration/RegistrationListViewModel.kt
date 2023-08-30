@@ -2,23 +2,19 @@ package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
-import com.github.henriquechsf.syscredentialapp.data.repository.PersonRepository
 import com.github.henriquechsf.syscredentialapp.data.repository.RegistrationRepository
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationListViewModel @Inject constructor(
     private val registrationRepository: RegistrationRepository,
-    private val personRepository: PersonRepository
+    //private val personRepository: PersonRepository
 ) : ViewModel() {
 
     private val _registrationsList =
@@ -34,6 +30,7 @@ class RegistrationListViewModel @Inject constructor(
     fun insertRegistration(credential: String, eventId: Int) =
         viewModelScope.launch {
             try {
+                /*
                 val foundPerson = personRepository.getByRegistrationCode(credential.toLong())
 
                 if (foundPerson != null) {
@@ -48,12 +45,15 @@ class RegistrationListViewModel @Inject constructor(
                 } else {
                     _scanResult.value = ResultState.Error("Credencial não encontrada")
                 }
+
+                 */
             } catch (exception: Exception) {
                 _scanResult.value = ResultState.Error("Credencial inválida")
             }
         }
 
     fun fetchRegistrations(eventId: Int) = viewModelScope.launch {
+        /*
         registrationRepository.getByEvent(eventId).collectLatest { registrations ->
             _countRegistrations.value = registrations.size
             if (registrations.isEmpty()) {
@@ -73,5 +73,7 @@ class RegistrationListViewModel @Inject constructor(
                 _registrationsList.value = ResultState.Success(registrationsMapped)
             }
         }
+
+         */
     }
 }

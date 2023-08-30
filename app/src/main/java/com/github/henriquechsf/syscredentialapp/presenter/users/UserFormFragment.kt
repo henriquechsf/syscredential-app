@@ -1,4 +1,4 @@
-package com.github.henriquechsf.syscredentialapp.presenter.persons
+package com.github.henriquechsf.syscredentialapp.presenter.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,39 +12,45 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
-import com.github.henriquechsf.syscredentialapp.data.model.Person
-import com.github.henriquechsf.syscredentialapp.databinding.FragmentPersonFormBinding
+import com.github.henriquechsf.syscredentialapp.data.model.User
+import com.github.henriquechsf.syscredentialapp.data.model.UserStatus
+import com.github.henriquechsf.syscredentialapp.databinding.FragmentUserFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
 
 
 @AndroidEntryPoint
-class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
+class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
 
-    private val args: PersonFormFragmentArgs by navArgs()
-    private var person: Person? = null
+    private val args: UserFormFragmentArgs by navArgs()
+    private var user: User? = null
 
-    private val viewModel: PersonsListViewModel by viewModels()
+    private val userFormViewModel: UserFormViewModel by viewModels()
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentPersonFormBinding.inflate(inflater, container, false)
+        FragmentUserFormBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
-        args.person?.let {
+        args.user?.let {
             setHasOptionsMenu(true)
-            person = it
-            bindUpdateFormData(it)
+            user = it
+            bindUserFormData(it)
         }
 
-        initClicks()
+        initListeners()
         initFieldListeners()
     }
 
@@ -56,37 +62,21 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remove -> {
-                person?.let {
-                    alertRemove {
-                        viewModel.removePerson(it)
-                        findNavController().popBackStack()
-                    }
+                alertRemove {
+                    user?.let { safeRemoveUser(it) }
                 }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun bindUpdateFormData(person: Person) = with(binding) {
-        edtCod.setText(person.registrationCode.toString())
-        edtCod.isEnabled = false
-        edtName.setText(person.name)
-        edtInfo1.setText(person.info1)
-        edtInfo2.setText(person.info2)
+    private fun bindUserFormData(user: User) = with(binding) {
+        edtName.setText(user.name)
+        edtEmail.setText(user.email)
+        edtDepartment.setText(user.department)
     }
 
     private fun initFieldListeners() = with(binding) {
-        edtCod.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                validateField(edtCod, tilCod)
-            }
-        }
-        edtCod.addTextChangedListener {
-            if (binding.tilCod.error != null) {
-                validateField(edtCod, tilCod)
-            }
-        }
-
         edtName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateField(edtName, tilName)
@@ -99,7 +89,7 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
         }
     }
 
-    private fun initClicks() = with(binding) {
+    private fun initListeners() = with(binding) {
         btnSave.setOnClickListener {
             submit()
         }
@@ -113,27 +103,15 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
 
         val isValid = listOf(
             validateField(edtName, tilName),
-            validateField(edtCod, tilCod)
+            validateField(edtEmail, tilEmail),
         ).all { it }
 
         if (isValid) {
-            val person = Person(
-                id = person?.id ?: 0L,
-                name = edtName.text.toString().trim(),
-                info1 = edtInfo1.text.toString().trim(),
-                info2 = edtInfo2.text.toString().trim(),
-                registrationCode = edtCod.text.toString().trim().toLong()
-            )
 
-            viewModel.insertPerson(person)
+            //userFormViewModel.saveProfile(user)
 
-            val message = if (person.id > 0) {
-                R.string.updated_successfully
-            } else {
-                R.string.saved_successfully
-            }
             findNavController().popBackStack()
-            layout.snackBar(getString(message))
+            layout.snackBar(getString(R.string.saved_successfully))
         }
     }
 
@@ -158,5 +136,28 @@ class PersonFormFragment : BaseFragment<FragmentPersonFormBinding>() {
             layout.isErrorEnabled = false
         }
         layout.error = errorMessage
+    }
+
+    private fun safeRemoveUser(user: User) {
+        user.status = UserStatus.INACTIVE
+        user.deletedAt = LocalDateTime.now().toString()
+
+        userFormViewModel.saveProfile(user).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.removed_successfully))
+                    findNavController().popBackStack(R.id.userListFragment, false)
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
+        }
     }
 }

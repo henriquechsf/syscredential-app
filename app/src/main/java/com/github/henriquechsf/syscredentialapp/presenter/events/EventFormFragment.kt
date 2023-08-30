@@ -16,11 +16,16 @@ import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
+import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -72,10 +77,9 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remove -> {
-                event?.let {
-                    alertRemove {
-                        viewModel.removeEvent(it)
-                        findNavController().popBackStack()
+                alertRemove {
+                    event?.let {
+                        safeRemoveEvent(it)
                     }
                 }
             }
@@ -148,22 +152,62 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         ).all { it }
 
         if (isValid) {
-            val event = Event(
-                id = event?.id ?: 0,
+            val eventToSave = Event(
+                id = event?.id ?: FirebaseHelper.getUUID(),
                 title = edtTitle.text.toString().trim(),
                 local = edtLocal.text.toString().trim(),
-                datetime = eventDateTime.toString().trim()
+                datetime = eventDateTime.toString().trim(),
+                createdAt = event?.createdAt ?: LocalDateTime.now().toString()
             )
 
-            viewModel.insertEvent(event)
+            saveEvent(eventToSave)
+        }
+    }
 
-            val message = if (event.id > 0) {
-                R.string.updated_successfully
-            } else {
-                R.string.saved_successfully
+    private fun saveEvent(event: Event) {
+        viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.saved_successfully))
+                    val action =
+                        EventFormFragmentDirections.actionEventFormFragmentToEventDetailFragment(
+                            event,
+                            event.title
+                        )
+                    findNavController().navigate(action)
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
             }
-            layout.snackBar(getString(message))
-            findNavController().popBackStack()
+        }
+    }
+
+    private fun safeRemoveEvent(event: Event) {
+        event.deletedAt = LocalDateTime.now().toString()
+
+        viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.removed_successfully))
+                    findNavController().popBackStack(R.id.eventsListFragment, false)
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
         }
     }
 

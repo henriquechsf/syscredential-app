@@ -14,19 +14,10 @@
             android:id="@+id/action_eventsListFragment_to_eventFormFragment"
             app:destination="@id/eventFormFragment" />
         <action
-            android:id="@+id/action_eventsListFragment_to_registrationListFragment"
-            app:destination="@id/registrationListFragment" />
+            android:id="@+id/action_eventsListFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/personsListFragment"
-        android:name="com.github.henriquechsf.syscredentialapp.presenter.persons.PersonsListFragment"
-        android:label="Pessoas Cadastradas"
-        tools:layout="@layout/fragment_persons_list">
-        <action
-            android:id="@+id/action_personsListFragment_to_personFormFragment"
-            app:destination="@id/personFormFragment" />
-    </fragment>
     <fragment
         android:id="@+id/eventFormFragment"
         android:name="com.github.henriquechsf.syscredentialapp.presenter.events.EventFormFragment"
@@ -37,17 +28,10 @@
             android:defaultValue="@null"
             app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event"
             app:nullable="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/personFormFragment"
-        android:name="com.github.henriquechsf.syscredentialapp.presenter.persons.PersonFormFragment"
-        android:label="Cadastro Pessoa"
-        tools:layout="@layout/fragment_person_form">
-        <argument
-            android:name="person"
-            android:defaultValue="@null"
-            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Person"
-            app:nullable="true" />
+        <action
+            android:id="@+id/action_eventFormFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment"
+            app:popUpTo="@id/eventsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationListFragment"
@@ -118,5 +102,42 @@
             app:destination="@id/auth_graph"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.presenter.users.UserListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_user_list" >
+        <action
+            android:id="@+id/action_userListFragment_to_userFormFragment"
+            app:destination="@id/userFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFormFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.presenter.users.UserFormFragment"
+        android:label="fragment_user_form"
+        tools:layout="@layout/fragment_user_form" >
+        <argument
+            android:name="user"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.User"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.presenter.event_detail.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_event_detail" >
+        <action
+            android:id="@+id/action_eventDetailFragment_to_registrationListFragment"
+            app:destination="@id/registrationListFragment" />
+        <argument
+            android:name="event"
+            app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event" />
+        <argument
+            android:name="screenTitle"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_eventDetailFragment_to_eventFormFragment"
+            app:destination="@id/eventFormFragment" />
     </fragment>
 </navigation>

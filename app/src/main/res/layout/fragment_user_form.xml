@@ -5,7 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presenter.persons.PersonFormFragment">
+    tools:context=".presenter.users.UserFormFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cadastro Pessoa"
+                android:text="Dados usuario"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -47,18 +47,20 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_cod"
+                android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/label_cod"
-                app:placeholderText="Digite um código identificador">
+                android:layout_marginTop="@dimen/margin_medium"
+                android:enabled="false"
+                android:hint="@string/label_email_user_form_fragment"
+                app:placeholderText="john.doe@email.com">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_cod"
+                    android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_name"
+                android:hint="@string/label_name_user_form_fragment"
                 app:placeholderText="Nome completo">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -82,26 +84,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_info1"
-                app:placeholderText="Profissão, função, cargo...">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_info1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/label_info2"
+                android:hint="@string/label_department_user_form_fragment"
                 app:placeholderText="Departamento, regional, turma">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_info2"
+                    android:id="@+id/edt_department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -125,6 +112,7 @@
                 android:textSize="@dimen/button_text_size" />
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

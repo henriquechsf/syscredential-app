@@ -2,6 +2,8 @@ package com.github.henriquechsf.syscredentialapp.di
 
 import com.github.henriquechsf.syscredentialapp.data.repository.auth.AuthFirebaseRepository
 import com.github.henriquechsf.syscredentialapp.data.repository.auth.AuthFirebaseRepositoryImpl
+import com.github.henriquechsf.syscredentialapp.data.repository.event.EventRepository
+import com.github.henriquechsf.syscredentialapp.data.repository.event.EventRepositoryImpl
 import com.github.henriquechsf.syscredentialapp.data.repository.profile.ProfileRepository
 import com.github.henriquechsf.syscredentialapp.data.repository.profile.ProfileRepositoryImpl
 import dagger.Binds
@@ -22,4 +24,9 @@ interface DomainModule {
     fun bindsProfileRepository(
         profileRepositoryImpl: ProfileRepositoryImpl
     ): ProfileRepository
+
+    @Binds
+    fun bindsEventRepository(
+        eventRepositoryImpl: EventRepositoryImpl
+    ): EventRepository
 }

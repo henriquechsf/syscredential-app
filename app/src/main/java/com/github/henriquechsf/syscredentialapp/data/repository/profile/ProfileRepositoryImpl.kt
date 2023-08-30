@@ -48,7 +48,7 @@ class ProfileRepositoryImpl @Inject constructor(
     override suspend fun saveProfile(user: User) {
         return suspendCoroutine { continuation ->
             profileDatabaseRef
-                .child(FirebaseHelper.getUserId())
+                .child(user.id)
                 .setValue(user)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -76,7 +76,7 @@ class ProfileRepositoryImpl @Inject constructor(
                     continuation.resumeWith(
                         Result.success(
                             userList.apply {
-                                removeAll { it.id == FirebaseHelper.getUserId() }
+                                removeAll { it.deletedAt.isNotEmpty() }
                             }
                         )
                     )
