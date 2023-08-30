@@ -12,12 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.databinding.BottomSheetCredentialBinding
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
-import com.github.henriquechsf.syscredentialapp.util.toast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import net.glxn.qrgen.android.QRCode
 
 @AndroidEntryPoint
 class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
@@ -42,6 +44,11 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
         event = args.event
 
         configData()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.btnShowCredential.setOnClickListener { showBottomSheetCredential(credential = "1234") }
     }
 
     private fun configData() = with(binding) {
@@ -74,5 +81,17 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showBottomSheetCredential(credential: String) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetBinding: BottomSheetCredentialBinding =
+            BottomSheetCredentialBinding.inflate(layoutInflater, null, false)
+
+        val credentialCodeBitmap = QRCode.from(credential).bitmap()
+        bottomSheetBinding.imgCredential.setImageBitmap(credentialCodeBitmap)
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
     }
 }
