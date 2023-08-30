@@ -18,6 +18,7 @@ data class User(
     var password: String = "",
     var department: String = "",
     var status: UserStatus = UserStatus.BLOCKED,
-    val createdAt: String = Date().toString(),
-    var role: UserRole = UserRole.PARTICIPANT
+    var role: UserRole = UserRole.PARTICIPANT,
+    var createdAt: String = "",
+    var deletedAt: String = "",
 ) : Parcelable

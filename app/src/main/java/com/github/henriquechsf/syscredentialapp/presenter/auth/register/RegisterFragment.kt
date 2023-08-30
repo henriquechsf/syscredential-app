@@ -21,6 +21,7 @@ import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
@@ -55,7 +56,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     binding.progressBar.isVisible = true
                 }
                 is StateView.Sucess -> {
-                    saveProfile(user.copy(id = FirebaseHelper.getUserId()))
+                    saveProfile(
+                        user.copy(
+                            id = FirebaseHelper.getUserId(),
+                            createdAt = LocalDateTime.now().toString()
+                        )
+                    )
                 }
                 is StateView.Error -> {
                     binding.progressBar.isVisible = false

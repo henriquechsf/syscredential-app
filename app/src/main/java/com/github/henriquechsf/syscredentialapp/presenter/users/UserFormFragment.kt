@@ -13,15 +13,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.User
+import com.github.henriquechsf.syscredentialapp.data.model.UserStatus
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentUserFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
-import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
 
 
 @AndroidEntryPoint
@@ -58,7 +63,7 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
         when (item.itemId) {
             R.id.menu_remove -> {
                 alertRemove {
-                    findNavController().popBackStack()
+                    user?.let { safeRemoveUser(it) }
                 }
             }
         }
@@ -131,5 +136,28 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
             layout.isErrorEnabled = false
         }
         layout.error = errorMessage
+    }
+
+    private fun safeRemoveUser(user: User) {
+        user.status = UserStatus.INACTIVE
+        user.deletedAt = LocalDateTime.now().toString()
+
+        userFormViewModel.saveProfile(user).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.removed_successfully))
+                    findNavController().popBackStack(R.id.userListFragment, false)
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
+        }
     }
 }

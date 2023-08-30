@@ -1,7 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.data.repository.event
 
 import com.github.henriquechsf.syscredentialapp.data.model.Event
-import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -59,15 +58,15 @@ class EventRepositoryImpl @Inject constructor(
 
                     snapshot.children.forEach { dataSnapshot ->
                         val event = dataSnapshot.getValue(Event::class.java)
-                        event?.let {
-                            if (it.deletedAt.isEmpty()) {
-                                eventList.add(it)
-                            }
-                        }
+                        event?.let { eventList.add(it) }
                     }
 
                     continuation.resumeWith(
-                        Result.success(eventList)
+                        Result.success(
+                            eventList.apply {
+                                removeAll { it.deletedAt.isNotEmpty() }
+                            }
+                        )
                     )
                 }
 

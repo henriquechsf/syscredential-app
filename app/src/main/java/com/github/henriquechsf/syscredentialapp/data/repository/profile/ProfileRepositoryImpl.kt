@@ -48,7 +48,7 @@ class ProfileRepositoryImpl @Inject constructor(
     override suspend fun saveProfile(user: User) {
         return suspendCoroutine { continuation ->
             profileDatabaseRef
-                .child(FirebaseHelper.getUserId())
+                .child(user.id)
                 .setValue(user)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -73,7 +73,13 @@ class ProfileRepositoryImpl @Inject constructor(
                         user?.let { userList.add(it) }
                     }
 
-                    continuation.resumeWith(Result.success(userList))
+                    continuation.resumeWith(
+                        Result.success(
+                            userList.apply {
+                                removeAll { it.deletedAt.isNotEmpty() }
+                            }
+                        )
+                    )
                 }
 
                 override fun onCancelled(error: DatabaseError) {
