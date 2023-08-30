@@ -10,5 +10,5 @@ data class Event(
     var local: String = "",
     var datetime: String = "",
     var createdAt: String = "",
-    var deletedAt: String? = null,
+    var deletedAt: String = "",
 ) : Parcelable

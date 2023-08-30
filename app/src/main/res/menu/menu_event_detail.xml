@@ -14,10 +14,4 @@
         android:title="@string/menu_edit_event_details_fragment"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_remove"
-        android:icon="@drawable/ic_remove"
-        android:title="@string/menu_remove"
-        app:showAsAction="never" />
-
 </menu>

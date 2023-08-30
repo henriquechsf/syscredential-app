@@ -78,8 +78,10 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         when (item.itemId) {
             R.id.menu_remove -> {
                 alertRemove {
-                    //viewModel.removeEvent(it)
-                    findNavController().popBackStack()
+                    event?.let {
+                        //removeEvent(it)
+                        safeRemoveEvent(it)
+                    }
                 }
             }
         }
@@ -159,7 +161,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
                 createdAt = event?.createdAt ?: LocalDateTime.now().toString()
             )
 
-            saveProfile(eventToSave)
+            saveEvent(eventToSave)
 
             layout.snackBar(getString(R.string.saved_successfully))
             val action = EventFormFragmentDirections.actionEventFormFragmentToEventDetailFragment(
@@ -170,7 +172,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         }
     }
 
-    private fun saveProfile(event: Event) {
+    private fun saveEvent(event: Event) {
         viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
                 is ResultState.Loading -> {
@@ -178,7 +180,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
                 }
                 is ResultState.Success -> {
                     binding.progressBar.hide()
-                    toast(message = "Perfil atualizado com sucesso")
+                    toast(message = "Evento salvo com sucesso")
                 }
                 is ResultState.Error -> {
                     binding.progressBar.hide()
@@ -187,6 +189,11 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
                 else -> {}
             }
         }
+    }
+
+    private fun safeRemoveEvent(event: Event) {
+        event.deletedAt = LocalDateTime.now().toString()
+        saveEvent(event)
     }
 
     private fun initDatePickerDialog() {
