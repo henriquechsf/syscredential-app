@@ -9,4 +9,6 @@ data class Event(
     var title: String = "",
     var local: String = "",
     var datetime: String = "",
+    var createdAt: String = "",
+    var deletedAt: String? = null,
 ) : Parcelable

@@ -28,6 +28,10 @@
             android:defaultValue="@null"
             app:argType="com.github.henriquechsf.syscredentialapp.data.model.Event"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_eventFormFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment"
+            app:popUpTo="@id/eventsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationListFragment"
@@ -132,5 +136,8 @@
         <argument
             android:name="screenTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_eventDetailFragment_to_eventFormFragment"
+            app:destination="@id/eventFormFragment" />
     </fragment>
 </navigation>

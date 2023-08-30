@@ -19,7 +19,7 @@ class EventRepositoryImpl @Inject constructor(
     override suspend fun saveEvent(event: Event) {
         return suspendCoroutine { continuation ->
             eventDatabaseRef
-                .child(FirebaseHelper.getUUID())
+                .child(event.id!!)
                 .setValue(event)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

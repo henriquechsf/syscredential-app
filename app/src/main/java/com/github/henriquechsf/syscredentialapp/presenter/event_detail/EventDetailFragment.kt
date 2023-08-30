@@ -57,7 +57,19 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menu_register -> {
+                val action =
+                    EventDetailFragmentDirections.actionEventDetailFragmentToRegistrationListFragment(
+                        event,
+                        event.title
+                    )
+                findNavController().navigate(action)
+                true
+            }
             R.id.menu_edit_event -> {
+                val action =
+                    EventDetailFragmentDirections.actionEventDetailFragmentToEventFormFragment(event)
+                findNavController().navigate(action)
                 true
             }
             R.id.menu_remove -> {
