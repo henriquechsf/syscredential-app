@@ -12,6 +12,7 @@
     <string name="menu_remove">Remove</string>
     <string name="required_field">Required field.</string>
     <string name="saved_successfully">Saved successfully</string>
+    <string name="removed_successfully">Removed successfully</string>
     <string name="updated_successfully">Updated successfully</string>
     <string name="search">Search...</string>
 

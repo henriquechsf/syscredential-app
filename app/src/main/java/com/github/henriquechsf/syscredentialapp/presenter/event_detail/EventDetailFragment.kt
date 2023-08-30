@@ -72,11 +72,6 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
                 findNavController().navigate(action)
                 true
             }
-            R.id.menu_remove -> {
-                toast("Remove Event")
-                findNavController().popBackStack()
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }

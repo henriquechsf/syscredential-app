@@ -13,6 +13,7 @@
     <string name="menu_remove">Remover</string>
     <string name="required_field">Campo obrigatório.</string>
     <string name="saved_successfully">Cadastrado com sucesso</string>
+    <string name="removed_successfully">Removido com sucessso</string>
     <string name="updated_successfully">Atualizado com sucesso</string>
     <string name="search">Pesquisar...</string>
 

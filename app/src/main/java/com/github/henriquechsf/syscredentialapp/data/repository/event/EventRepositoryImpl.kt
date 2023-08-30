@@ -33,6 +33,23 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun removeEvent(event: Event) {
+        return suspendCoroutine { continuation ->
+            eventDatabaseRef
+                .child(event.id!!)
+                .removeValue()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        continuation.resumeWith(Result.success(Unit))
+                    } else {
+                        task.exception?.let {
+                            continuation.resumeWith(Result.failure(it))
+                        }
+                    }
+                }
+        }
+    }
+
     // TODO: update to real time changes
     override suspend fun getEventList(): List<Event> {
         return suspendCoroutine { continuation ->
@@ -42,7 +59,11 @@ class EventRepositoryImpl @Inject constructor(
 
                     snapshot.children.forEach { dataSnapshot ->
                         val event = dataSnapshot.getValue(Event::class.java)
-                        event?.let { eventList.add(it) }
+                        event?.let {
+                            if (it.deletedAt.isEmpty()) {
+                                eventList.add(it)
+                            }
+                        }
                     }
 
                     continuation.resumeWith(

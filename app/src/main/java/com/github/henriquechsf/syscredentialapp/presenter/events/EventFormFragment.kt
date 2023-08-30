@@ -78,8 +78,9 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         when (item.itemId) {
             R.id.menu_remove -> {
                 alertRemove {
-                    //viewModel.removeEvent(it)
-                    findNavController().popBackStack()
+                    event?.let {
+                        safeRemoveEvent(it)
+                    }
                 }
             }
         }
@@ -159,18 +160,11 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
                 createdAt = event?.createdAt ?: LocalDateTime.now().toString()
             )
 
-            saveProfile(eventToSave)
-
-            layout.snackBar(getString(R.string.saved_successfully))
-            val action = EventFormFragmentDirections.actionEventFormFragmentToEventDetailFragment(
-                eventToSave,
-                eventToSave.title
-            )
-            findNavController().navigate(action)
+            saveEvent(eventToSave)
         }
     }
 
-    private fun saveProfile(event: Event) {
+    private fun saveEvent(event: Event) {
         viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
                 is ResultState.Loading -> {
@@ -178,7 +172,35 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
                 }
                 is ResultState.Success -> {
                     binding.progressBar.hide()
-                    toast(message = "Perfil atualizado com sucesso")
+                    binding.layout.snackBar(getString(R.string.saved_successfully))
+                    val action =
+                        EventFormFragmentDirections.actionEventFormFragmentToEventDetailFragment(
+                            event,
+                            event.title
+                        )
+                    findNavController().navigate(action)
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun safeRemoveEvent(event: Event) {
+        event.deletedAt = LocalDateTime.now().toString()
+
+        viewModel.saveEvent(event).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.removed_successfully))
+                    findNavController().popBackStack(R.id.eventsListFragment, false)
                 }
                 is ResultState.Error -> {
                     binding.progressBar.hide()
