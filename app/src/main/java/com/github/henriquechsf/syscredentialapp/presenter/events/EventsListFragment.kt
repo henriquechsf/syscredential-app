@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventsListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
-import com.github.henriquechsf.syscredentialapp.presenter.base.StateView
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
@@ -103,12 +101,6 @@ class EventsListFragment : BaseFragment<FragmentEventsListBinding>() {
         eventsAdapter.setOnClickListener { event ->
             val action = EventsListFragmentDirections
                 .actionEventsListFragmentToEventFormFragment(event)
-            findNavController().navigate(action)
-        }
-
-        eventsAdapter.setRegisterClickListener { event ->
-            val action = EventsListFragmentDirections
-                .actionEventsListFragmentToRegistrationListFragment(event, event.title)
             findNavController().navigate(action)
         }
     }

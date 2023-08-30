@@ -14,8 +14,8 @@
             android:id="@+id/action_eventsListFragment_to_eventFormFragment"
             app:destination="@id/eventFormFragment" />
         <action
-            android:id="@+id/action_eventsListFragment_to_registrationListFragment"
-            app:destination="@id/registrationListFragment" />
+            android:id="@+id/action_eventsListFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
 
     <fragment
@@ -117,5 +117,14 @@
             android:name="user"
             app:argType="com.github.henriquechsf.syscredentialapp.data.model.User"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.github.henriquechsf.syscredentialapp.presenter.event_detail.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_event_detail" >
+        <action
+            android:id="@+id/action_eventDetailFragment_to_registrationListFragment"
+            app:destination="@id/registrationListFragment" />
     </fragment>
 </navigation>
