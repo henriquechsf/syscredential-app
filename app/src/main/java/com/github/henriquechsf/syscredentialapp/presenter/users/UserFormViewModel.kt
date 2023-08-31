@@ -8,6 +8,7 @@ import com.github.henriquechsf.syscredentialapp.domain.usecases.profile.SaveImag
 import com.github.henriquechsf.syscredentialapp.domain.usecases.profile.SaveProfileUseCase
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.presenter.base.StateView
+import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
@@ -48,7 +49,7 @@ class UserFormViewModel @Inject constructor(
         try {
             emit(StateView.Loading())
 
-            val user = getProfileUseCase()
+            val user = getProfileUseCase(FirebaseHelper.getUserId())
 
             emit(StateView.Sucess(user))
         } catch (e: Exception) {

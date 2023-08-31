@@ -8,7 +8,7 @@ class GetProfileUseCase @Inject constructor(
     private val profileRepository: ProfileRepository
 ) {
 
-    suspend operator fun invoke(): User {
-        return profileRepository.getProfile()
+    suspend operator fun invoke(userId: String): User {
+        return profileRepository.getProfile(userId)
     }
 }

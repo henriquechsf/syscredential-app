@@ -19,7 +19,7 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
         override fun areItemsTheSame(oldItem: RegistrationUI, newItem: RegistrationUI): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.eventId == newItem.eventId &&
-                    oldItem.personId == newItem.personId &&
+                    oldItem.userId == newItem.userId &&
                     oldItem.createdAt == newItem.createdAt
         }
 
@@ -49,8 +49,8 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val registration = registrations[position]
         holder.binding.apply {
-            tvUserName.text = registration.personName
-            tvUserInfo1.text = registration.personInfo1
+            tvUserName.text = registration.userName
+            //tvUserInfo1.text = registration.personInfo1
             tvRegistrationTime.text = formatTime(registration.createdAt)
             tvRegistrationDate.text = formatDateString(registration.createdAt, false)
         }

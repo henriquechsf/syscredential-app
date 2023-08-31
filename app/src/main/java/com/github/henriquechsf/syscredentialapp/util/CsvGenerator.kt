@@ -25,7 +25,7 @@ class CsvGenerator(
         val csvData = StringBuilder().apply {
             append("$header\n")
             registrations.forEach {
-                append("${it.personName},${it.personInfo1},${formatDateString(it.createdAt)},${event.title}\n")
+                append("${it.userName},${it.userDepartment},${formatDateString(it.createdAt)},${event.title}\n")
             }
         }
         val csvFile = saveCsvFile(csvData.toString(), filename)

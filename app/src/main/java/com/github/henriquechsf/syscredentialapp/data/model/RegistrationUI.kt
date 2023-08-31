@@ -1,10 +1,10 @@
 package com.github.henriquechsf.syscredentialapp.data.model
 
 data class RegistrationUI(
-    val id: Int = 0,
+    val id: String,
     val createdAt: String,
-    val eventId: Int,
-    val personId: Long,
-    val personName: String,
-    val personInfo1: String? = "",
+    val eventId: String,
+    val userId: String,
+    val userName: String,
+    val userDepartment: String
 )

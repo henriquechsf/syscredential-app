@@ -1,14 +1,12 @@
 package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -21,8 +19,6 @@ import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistration
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.presenter.code_scanner.CaptureAct
-import com.github.henriquechsf.syscredentialapp.presenter.registration.ManualRegistrationFragment.Companion.CREDENTIAL_KEY
-import com.github.henriquechsf.syscredentialapp.presenter.registration.ManualRegistrationFragment.Companion.CREDENTIAL_RESULT
 import com.github.henriquechsf.syscredentialapp.util.CsvGenerator
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
@@ -64,13 +60,11 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         event = args.event
         binding.tvEventTitle.text = event.title
 
-        //getRegistrations(event.id)
-        initClicks()
+        getRegistrationList()
+        initListeners()
         setupRecyclerView()
-        observerRegistrationList()
         observerScanResult()
         observerCountRegistrations()
-        manualRegistration()
         configSearchView()
     }
 
@@ -87,7 +81,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_report -> {
-                val csvHeader = "Nome,Info1,CheckIn,Evento"
+                val csvHeader = "Nome,Departamento,CheckIn,Evento"
                 val csvIntent = csvGenerator.createCsvDataIntent(
                     registrations = registrationAdapter.registrations,
                     header = csvHeader,
@@ -102,28 +96,6 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
     private fun observerCountRegistrations() = lifecycleScope.launch {
         viewModel.countRegistrations.collect {
             binding.tvCountRegistrations.text = it.toString()
-        }
-    }
-
-    private fun getRegistrations(eventId: Int) = lifecycleScope.launch {
-        viewModel.fetchRegistrations(eventId)
-    }
-
-    private fun observerRegistrationList() = lifecycleScope.launch {
-        viewModel.registrationsList.collect { result ->
-            when (result) {
-                is ResultState.Success -> {
-                    result.data?.let {
-                        binding.tvEmptyRegistrations.hide()
-                        registrationList = it
-                        registrationAdapter.registrations = registrationList
-                    }
-                }
-                is ResultState.Empty -> {
-                    binding.tvEmptyRegistrations.show()
-                }
-                else -> {}
-            }
         }
     }
 
@@ -152,18 +124,9 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         }
     }
 
-    private fun initClicks() = with(binding) {
+    private fun initListeners() = with(binding) {
         fabQrcodeScan.setOnClickListener {
             scanCode()
-        }
-
-        fabManualScan.setOnClickListener {
-            /*
-            val action = RegistrationListFragmentDirections
-                .actionRegistrationListFragmentToManualRegistrationFragment(eventId = event.id)
-            findNavController().navigate(action)
-
-             */
         }
     }
 
@@ -181,7 +144,6 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         ScanContract()
     ) { result: ScanIntentResult ->
         if (result.contents != null) {
-            Log.i("INFOTEST", "RESULT $result.contents")
             insertRegistration(result.contents)
         } else {
             toast(getString(R.string.cancelled_scan))
@@ -190,29 +152,52 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
 
     private fun insertRegistration(credential: String) {
         event.id?.let { eventId ->
-            viewModel.saveRegistration(eventId = eventId, credential = credential).observe(viewLifecycleOwner) {stateView ->
+            viewModel.saveRegistration(eventId = eventId, credential = credential)
+                .observe(viewLifecycleOwner) { stateView ->
+                    when (stateView) {
+                        is ResultState.Loading -> {
+                            binding.progressBar.show()
+                        }
+                        is ResultState.Success -> {
+                            binding.progressBar.hide()
+                            getRegistrationList()
+                        }
+                        is ResultState.Error -> {
+                            binding.progressBar.hide()
+                            toast(message = stateView.message ?: "")
+                        }
+                        else -> {}
+                    }
+                }
+        }
+    }
+
+    private fun getRegistrationList() {
+        event.id?.let { eventId ->
+            viewModel.getRegistrationList(eventId).observe(viewLifecycleOwner) { stateView ->
                 when (stateView) {
                     is ResultState.Loading -> {
                         binding.progressBar.show()
                     }
                     is ResultState.Success -> {
                         binding.progressBar.hide()
-                        binding.layout.snackBar(getString(R.string.saved_successfully))
+
+                        stateView.data?.let {
+                            binding.rvEventRegistrations.show()
+
+                            registrationList = it
+                            registrationAdapter.registrations = registrationList
+                        }
                     }
                     is ResultState.Error -> {
                         binding.progressBar.hide()
                         toast(message = stateView.message ?: "")
                     }
-                    else -> {}
+                    is ResultState.Empty -> {
+                        binding.progressBar.hide()
+                        binding.tvEmptyRegistrations.show()
+                    }
                 }
-            }
-        }
-    }
-
-    private fun manualRegistration() {
-        setFragmentResultListener(CREDENTIAL_KEY) { _, bundle ->
-            bundle.getString(CREDENTIAL_RESULT)?.let { credential ->
-                insertRegistration(credential)
             }
         }
     }
@@ -222,7 +207,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
             override fun onQueryTextChange(newText: String): Boolean {
                 return if (newText.isNotEmpty()) {
                     val newList = registrationList.filter { registration ->
-                        registration.personName.contains(newText, true)
+                        registration.userName.contains(newText, true)
                     }
                     registrationAdapter.registrations = newList
                     true
@@ -240,8 +225,6 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
                 return false
             }
         })
-
-
 
         searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
             override fun onSearchViewClosed() {

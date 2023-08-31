@@ -111,7 +111,9 @@ class EventRepositoryImpl @Inject constructor(
                         credential?.let {
                             continuation.resumeWith(Result.success(it))
                         } ?: run {
-                            continuation.resumeWith(Result.failure(NotFoundException("Credential not found")))
+                            continuation.resumeWith(
+                                Result.failure(NotFoundException("Credencial não encontrada!"))
+                            )
                         }
                     }
 
@@ -138,6 +140,32 @@ class EventRepositoryImpl @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    override suspend fun getRegistrationList(eventId: String): List<Registration> {
+        return suspendCoroutine { continuation ->
+            eventDatabaseRef
+                .child(eventId)
+                .child("registrations")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val registrationList = mutableListOf<Registration>()
+
+                        snapshot.children.forEach { dataSnapshot ->
+                            val registration = dataSnapshot.getValue(Registration::class.java)
+                            registration?.let { registrationList.add(it) }
+                        }
+
+                        continuation.resumeWith(
+                            Result.success(registrationList)
+                        )
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWith(Result.failure(error.toException()))
+                    }
+                })
         }
     }
 }
