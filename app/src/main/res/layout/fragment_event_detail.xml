@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presenter.event_detail.EventDetailFragment">
@@ -93,6 +94,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
@@ -125,24 +127,41 @@
         android:id="@+id/btn_confirm_presence"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
-        android:textAllCaps="false"
         android:layout_marginHorizontal="@dimen/margin_large"
         android:layout_marginBottom="@dimen/margin_largest"
         android:text="@string/confirm_subscribe_event_details_fragment"
+        android:textAllCaps="false"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/btn_show_credential"
+        style="@style/CustomOutlineButton"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
-        style="@style/CustomOutlineButton"
         android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_largest"
         android:text="@string/show_credential_event_details_fragment"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/btn_confirm_presence"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

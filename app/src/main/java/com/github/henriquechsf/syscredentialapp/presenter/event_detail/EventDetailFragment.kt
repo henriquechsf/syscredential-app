@@ -11,15 +11,23 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
+import com.github.henriquechsf.syscredentialapp.data.model.Credential
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.databinding.BottomSheetCredentialBinding
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
+import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
+import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
+import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.show
+import com.github.henriquechsf.syscredentialapp.util.snackBar
+import com.github.henriquechsf.syscredentialapp.util.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import net.glxn.qrgen.android.QRCode
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
@@ -27,7 +35,9 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
     private val args: EventDetailFragmentArgs by navArgs()
     private lateinit var event: Event
 
-    private val viewModel: EventDetailViewModel by viewModels()
+    private val eventDetailViewModel: EventDetailViewModel by viewModels()
+
+    private var credential: Credential? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +53,28 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
         event = args.event
 
-        configData()
+        getCredential()
         initListeners()
+        configData()
     }
 
     private fun initListeners() {
-        binding.btnShowCredential.setOnClickListener { showBottomSheetCredential(credential = "1234") }
+        binding.btnShowCredential.setOnClickListener {
+            credential?.id?.let {
+                showBottomSheetCredential(credentialId = it)
+            }
+        }
+        binding.btnConfirmPresence.setOnClickListener {
+            event.id?.let { eventId ->
+                val credential = Credential(
+                    id = FirebaseHelper.getUserId(),
+                    eventId = eventId,
+                    userId = FirebaseHelper.getUserId(),
+                    createdAt = LocalDateTime.now().toString()
+                )
+                saveCredential(credential)
+            }
+        }
     }
 
     private fun configData() = with(binding) {
@@ -83,12 +109,64 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
         }
     }
 
-    private fun showBottomSheetCredential(credential: String) {
+    private fun saveCredential(credential: Credential) {
+        eventDetailViewModel.saveCredential(credential).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is ResultState.Loading -> {
+                    binding.progressBar.show()
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.hide()
+                    binding.layout.snackBar(getString(R.string.saved_successfully))
+                    getCredential()
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.hide()
+                    toast(message = stateView.message ?: "")
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun getCredential() {
+        event.id?.let { eventId ->
+
+            eventDetailViewModel.getCredential(eventId, FirebaseHelper.getUserId())
+                .observe(viewLifecycleOwner) { stateView ->
+                    when (stateView) {
+                        is ResultState.Loading -> {
+                            binding.progressBar.show()
+                        }
+                        is ResultState.Success -> {
+                            binding.progressBar.hide()
+
+                            stateView.data?.let {
+                                credential = it
+                                binding.btnShowCredential.show()
+                                binding.btnConfirmPresence.hide()
+                            } ?: run {
+                                credential = null
+                                binding.btnConfirmPresence.show()
+                                binding.btnShowCredential.hide()
+                            }
+                        }
+                        is ResultState.Error -> {
+                            binding.progressBar.hide()
+                            binding.btnConfirmPresence.show()
+                        }
+                        else -> {}
+                    }
+                }
+        }
+    }
+
+    private fun showBottomSheetCredential(credentialId: String) {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
         val bottomSheetBinding: BottomSheetCredentialBinding =
             BottomSheetCredentialBinding.inflate(layoutInflater, null, false)
 
-        val credentialCodeBitmap = QRCode.from(credential).bitmap()
+        val credentialCodeBitmap = QRCode.from(credentialId).bitmap()
         bottomSheetBinding.imgCredential.setImageBitmap(credentialCodeBitmap)
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)

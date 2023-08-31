@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationListViewModel @Inject constructor(
-    private val registrationRepository: RegistrationRepository,
+    //private val registrationRepository: RegistrationRepository,
     //private val personRepository: PersonRepository
 ) : ViewModel() {
 
@@ -73,7 +73,6 @@ class RegistrationListViewModel @Inject constructor(
                 _registrationsList.value = ResultState.Success(registrationsMapped)
             }
         }
-
          */
     }
 }
