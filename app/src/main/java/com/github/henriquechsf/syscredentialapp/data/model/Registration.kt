@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Registration(
-    val id: Int = 0,
+    val id: String,
+    val eventId: String,
+    val userId: String,
     val createdAt: String,
-    val eventId: Int,
-    val personId: Long,
 ) : Parcelable

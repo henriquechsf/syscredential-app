@@ -3,6 +3,7 @@ package com.github.henriquechsf.syscredentialapp.data.repository.event
 import android.content.res.Resources.NotFoundException
 import com.github.henriquechsf.syscredentialapp.data.model.Credential
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -98,12 +99,12 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCredential(eventId: String, userId: String): Credential {
+    override suspend fun getCredential(eventId: String, credentialNumber: String): Credential {
         return suspendCoroutine { continuation ->
             eventDatabaseRef
                 .child(eventId)
                 .child("credentials")
-                .child(userId)
+                .child(credentialNumber)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val credential = snapshot.getValue(Credential::class.java)
@@ -118,6 +119,25 @@ class EventRepositoryImpl @Inject constructor(
                         continuation.resumeWith(Result.failure(error.toException()))
                     }
                 })
+        }
+    }
+
+    override suspend fun saveRegistration(registration: Registration) {
+        return suspendCoroutine { continuation ->
+            eventDatabaseRef
+                .child(registration.eventId)
+                .child("registrations")
+                .child(registration.id)
+                .setValue(registration)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        continuation.resumeWith(Result.success(Unit))
+                    } else {
+                        task.exception?.let {
+                            continuation.resumeWith(Result.failure(it))
+                        }
+                    }
+                }
         }
     }
 }

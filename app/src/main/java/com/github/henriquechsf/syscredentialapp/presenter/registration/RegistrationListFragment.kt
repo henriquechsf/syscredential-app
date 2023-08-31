@@ -1,6 +1,7 @@
 package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
@@ -27,6 +27,7 @@ import com.github.henriquechsf.syscredentialapp.util.CsvGenerator
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
+import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -180,17 +181,38 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
         ScanContract()
     ) { result: ScanIntentResult ->
         if (result.contents != null) {
-            val credential = result.contents
-            //viewModel.insertRegistration(credential, event.id)
+            Log.i("INFOTEST", "RESULT $result.contents")
+            insertRegistration(result.contents)
         } else {
             toast(getString(R.string.cancelled_scan))
+        }
+    }
+
+    private fun insertRegistration(credential: String) {
+        event.id?.let { eventId ->
+            viewModel.saveRegistration(eventId = eventId, credential = credential).observe(viewLifecycleOwner) {stateView ->
+                when (stateView) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.show()
+                    }
+                    is ResultState.Success -> {
+                        binding.progressBar.hide()
+                        binding.layout.snackBar(getString(R.string.saved_successfully))
+                    }
+                    is ResultState.Error -> {
+                        binding.progressBar.hide()
+                        toast(message = stateView.message ?: "")
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
     private fun manualRegistration() {
         setFragmentResultListener(CREDENTIAL_KEY) { _, bundle ->
             bundle.getString(CREDENTIAL_RESULT)?.let { credential ->
-               // viewModel.insertRegistration(credential, event.id)
+                insertRegistration(credential)
             }
         }
     }

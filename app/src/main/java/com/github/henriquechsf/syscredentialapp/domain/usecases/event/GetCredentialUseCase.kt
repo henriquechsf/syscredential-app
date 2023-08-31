@@ -8,7 +8,7 @@ class GetCredentialUseCase @Inject constructor(
     private val eventRepository: EventRepository
 ) {
 
-    suspend operator fun invoke(eventId: String, userId: String): Credential {
-        return eventRepository.getCredential(eventId, userId)
+    suspend operator fun invoke(eventId: String, credentialNumber: String): Credential {
+        return eventRepository.getCredential(eventId, credentialNumber)
     }
 }

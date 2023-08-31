@@ -1,18 +1,26 @@
 package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
-import com.github.henriquechsf.syscredentialapp.data.repository.RegistrationRepository
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetCredentialUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.SaveRegistrationUseCase
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationListViewModel @Inject constructor(
+    private val saveRegistrationUseCase: SaveRegistrationUseCase,
+    private val getCredentialUseCase: GetCredentialUseCase
     //private val registrationRepository: RegistrationRepository,
     //private val personRepository: PersonRepository
 ) : ViewModel() {
@@ -74,5 +82,25 @@ class RegistrationListViewModel @Inject constructor(
             }
         }
          */
+    }
+
+    fun saveRegistration(eventId: String, credential: String) = liveData(Dispatchers.IO) {
+        try {
+            emit(ResultState.Loading())
+
+            val foundCredential = getCredentialUseCase(eventId, credential)
+
+            val registration = Registration(
+                id = UUID.randomUUID().toString(),
+                eventId = foundCredential.eventId,
+                userId = foundCredential.userId,
+                createdAt = LocalDateTime.now().toString()
+            )
+            saveRegistrationUseCase(registration)
+
+            emit(ResultState.Success(null))
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message))
+        }
     }
 }

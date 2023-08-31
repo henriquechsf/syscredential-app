@@ -28,11 +28,11 @@ class EventDetailViewModel @Inject constructor(
         }
     }
 
-    fun getCredential(eventId: String, userId: String) = liveData(Dispatchers.IO) {
+    fun getCredential(eventId: String, credentialNumber: String) = liveData(Dispatchers.IO) {
         try {
             emit(ResultState.Loading())
 
-            val credential = getCredentialUseCase(eventId, userId)
+            val credential = getCredentialUseCase(eventId, credentialNumber)
 
             emit(ResultState.Success(credential))
         } catch (e: Exception) {
