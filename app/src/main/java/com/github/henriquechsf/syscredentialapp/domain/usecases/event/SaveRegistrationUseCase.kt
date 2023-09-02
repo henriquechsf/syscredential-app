@@ -19,7 +19,10 @@ class SaveRegistrationUseCase @Inject constructor(
             id = UUID.randomUUID().toString(),
             eventId = credential.eventId,
             userId = credential.userId,
-            createdAt = LocalDateTime.now().toString(),
+            userName = credential.userName,
+            userDepartment = credential.userDepartment,
+            userImage = credential.userImage,
+            createdAt = LocalDateTime.now().toString()
         )
 
         return eventRepository.saveRegistration(registration)

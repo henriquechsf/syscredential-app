@@ -17,10 +17,7 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
 
     private val differCallback = object : DiffUtil.ItemCallback<RegistrationUI>() {
         override fun areItemsTheSame(oldItem: RegistrationUI, newItem: RegistrationUI): Boolean {
-            return oldItem.id == newItem.id &&
-                    oldItem.eventId == newItem.eventId &&
-                    oldItem.userId == newItem.userId &&
-                    oldItem.createdAt == newItem.createdAt
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: RegistrationUI, newItem: RegistrationUI): Boolean {
@@ -50,11 +47,9 @@ class RegistrationAdapter : RecyclerView.Adapter<RegistrationAdapter.ViewHolder>
         val registration = registrations[position]
         holder.binding.apply {
             tvUserName.text = registration.userName
-            //tvUserInfo1.text = registration.personInfo1
+            tvUserDepartment.text = registration.userDepartment
             tvRegistrationTime.text = formatTime(registration.createdAt)
             tvRegistrationDate.text = formatDateString(registration.createdAt, false)
         }
     }
-
-
 }

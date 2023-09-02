@@ -61,16 +61,14 @@ class RegistrationListViewModel @Inject constructor(
                 emit(ResultState.Empty())
             } else {
                 val registrationsMapped = registrationList.map {
-                    // TODO: set user data on subscribe event
-                    val user = getProfileUseCase(it.userId)
-
                     RegistrationUI(
                         id = it.id,
                         createdAt = it.createdAt,
                         eventId = it.eventId,
                         userId = it.userId,
-                        userName = user.name,
-                        userDepartment = user.department
+                        userName = it.userName,
+                        userDepartment = it.userDepartment,
+                        userImage = it.userImage
                     )
                 }
                 emit(ResultState.Success(registrationsMapped))

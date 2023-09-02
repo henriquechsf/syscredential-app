@@ -6,5 +6,6 @@ data class RegistrationUI(
     val eventId: String,
     val userId: String,
     val userName: String,
-    val userDepartment: String
+    val userDepartment: String,
+    val userImage: String,
 )

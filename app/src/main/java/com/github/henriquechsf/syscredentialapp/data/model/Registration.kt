@@ -8,5 +8,8 @@ data class Registration(
     val id: String = "",
     val eventId: String = "",
     val userId: String = "",
+    val userName: String = "",
+    val userDepartment: String = "",
+    val userImage: String = "",
     val createdAt: String = "",
 ) : Parcelable

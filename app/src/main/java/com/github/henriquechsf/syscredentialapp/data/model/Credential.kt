@@ -9,5 +9,8 @@ data class Credential(
     var createdAt: String = "",
     var eventId: String = "",
     var userId: String = "",
+    var userName: String = "",
+    var userDepartment: String = "",
+    var userImage: String = "",
     var isRegistered: Boolean = false
 ) : Parcelable

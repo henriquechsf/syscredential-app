@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Credential
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.data.model.User
 import com.github.henriquechsf.syscredentialapp.databinding.BottomSheetCredentialBinding
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventDetailBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
@@ -37,6 +38,8 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
     private val eventDetailViewModel: EventDetailViewModel by viewModels()
 
+    private lateinit var user: User
+
     private var credential: Credential? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +56,7 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
         event = args.event
 
+        initObservers()
         getCredential()
         initListeners()
         configData()
@@ -69,11 +73,20 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
                 val credential = Credential(
                     id = FirebaseHelper.getUserId(),
                     eventId = eventId,
-                    userId = FirebaseHelper.getUserId(),
+                    userId = user.id,
+                    userName = user.name,
+                    userDepartment = user.department,
+                    userImage = user.image,
                     createdAt = LocalDateTime.now().toString()
                 )
                 saveCredential(credential)
             }
+        }
+    }
+
+    private fun initObservers() {
+        eventDetailViewModel.userLogged.observe(viewLifecycleOwner) {
+            user = it
         }
     }
 
