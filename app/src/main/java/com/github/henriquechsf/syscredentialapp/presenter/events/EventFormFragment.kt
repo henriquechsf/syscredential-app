@@ -67,7 +67,7 @@ import java.util.*
 class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
 
     private val args: EventFormFragmentArgs by navArgs()
-    private var event: Event? = null
+    private lateinit var event: Event
 
     private var imageEvent: String? = null
     private var currentPhotoPath: String? = null
@@ -87,6 +87,11 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
             event = it
             eventDateTime = LocalDateTime.parse(it.datetime)
             bindUpdateFormData(it)
+        } ?: run {
+            event = Event(
+                id = FirebaseHelper.getUUID(),
+                createdAt = LocalDateTime.now().toString()
+            )
         }
 
         initDatePickerDialog()
@@ -103,11 +108,7 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remove -> {
-                alertRemove {
-                    event?.let {
-                        safeRemoveEvent(it)
-                    }
-                }
+                alertRemove { safeRemoveEvent(event) }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -188,13 +189,12 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         ).all { it }
 
         if (isValid) {
-            val eventToSave = Event(
-                id = event?.id ?: FirebaseHelper.getUUID(),
+            val eventToSave = event.copy(
                 title = edtTitle.text.toString().trim(),
                 local = edtLocal.text.toString().trim(),
                 datetime = eventDateTime.toString().trim(),
-                createdAt = event?.createdAt ?: LocalDateTime.now().toString(),
-                image = event?.image ?: ""
+                createdAt = event.createdAt,
+                image = event.image
             )
             saveEvent(eventToSave)
         }
