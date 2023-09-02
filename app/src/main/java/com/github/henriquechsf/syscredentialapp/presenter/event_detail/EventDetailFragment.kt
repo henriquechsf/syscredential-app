@@ -1,5 +1,6 @@
 package com.github.henriquechsf.syscredentialapp.presenter.event_detail
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -65,8 +66,8 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
 
     private fun initListeners() {
         binding.btnShowCredential.setOnClickListener {
-            credential?.id?.let {
-                showBottomSheetCredential(credentialId = it)
+            credential?.let {
+                showBottomSheetCredential(it)
             }
         }
         binding.btnConfirmPresence.setOnClickListener {
@@ -180,13 +181,44 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
         }
     }
 
-    private fun showBottomSheetCredential(credentialId: String) {
+    private fun showBottomSheetCredential(credential: Credential) {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
         val bottomSheetBinding: BottomSheetCredentialBinding =
             BottomSheetCredentialBinding.inflate(layoutInflater, null, false)
 
-        val credentialCodeBitmap = QRCode.from(credentialId).bitmap()
-        bottomSheetBinding.imgCredential.setImageBitmap(credentialCodeBitmap)
+        val credentialCodeBitmap = QRCode.from(credential.id).bitmap()
+        with(bottomSheetBinding) {
+            imgCredential.setImageBitmap(credentialCodeBitmap)
+            tvEventTitle.text = event.title
+            tvUserName.text = credential.userName
+            tvUserDepartment.text = credential.userDepartment
+
+            if (credential.userImage.isNotEmpty()) {
+                loadImage(imgUser, credential.userImage)
+            } else {
+                imgUser.setImageResource(R.drawable.ic_image_profile)
+            }
+
+            if (credential.createdAt.isNotEmpty()) {
+                tvSubscribeDate.text =
+                    getString(
+                        R.string.subscribe_date_event_details_fragment,
+                        formatDateString(credential.createdAt)
+                    )
+                tvSubscribeDate.show()
+                tvRegistrationDate.show()
+                if (credential.registeredAt.isNotEmpty()) {
+                    tvRegistrationDate.text =
+                        getString(
+                            R.string.registered_date_event_details_fragment,
+                            formatDateString(credential.registeredAt)
+                        )
+
+                } else {
+                    tvRegistrationDate.text = "Nao consta credenciamento"
+                }
+            }
+        }
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()

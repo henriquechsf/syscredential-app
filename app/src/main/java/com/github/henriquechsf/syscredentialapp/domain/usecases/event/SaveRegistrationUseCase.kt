@@ -22,7 +22,7 @@ class SaveRegistrationUseCase @Inject constructor(
             userName = credential.userName,
             userDepartment = credential.userDepartment,
             userImage = credential.userImage,
-            createdAt = LocalDateTime.now().toString()
+            createdAt = credential.registeredAt
         )
 
         return eventRepository.saveRegistration(registration)

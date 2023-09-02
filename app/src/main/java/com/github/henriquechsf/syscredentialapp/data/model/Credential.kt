@@ -12,5 +12,6 @@ data class Credential(
     var userName: String = "",
     var userDepartment: String = "",
     var userImage: String = "",
-    var isRegistered: Boolean = false
+    var isRegistered: Boolean = false,
+    var registeredAt: String = "",
 ) : Parcelable

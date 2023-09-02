@@ -82,6 +82,8 @@
     <string name="show_credential_event_details_fragment">Show Credential</string>
     <string name="menu_registration_event_details_fragment">Registration</string>
     <string name="menu_edit_event_details_fragment">Edit</string>
+    <string name="subscribe_date_event_details_fragment">Subscribed at: %s</string>
+    <string name="registered_date_event_details_fragment">Registered at: %s</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Title</string>

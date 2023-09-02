@@ -83,6 +83,8 @@
     <string name="confirm_subscribe_event_details_fragment">Confirmar Inscrição</string>
     <string name="show_credential_event_details_fragment">Abrir Credencial</string>
     <string name="menu_edit_event_details_fragment">Editar</string>
+    <string name="subscribe_date_event_details_fragment">Confirmado inscrição em: %s</string>
+    <string name="registered_date_event_details_fragment">Credenciado em: %s</string>
 
     <!--    Event Form Fragment -->
     <string name="label_title">Título</string>

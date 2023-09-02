@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +36,7 @@ class RegistrationListViewModel @Inject constructor(
 
             val foundCredential = getCredentialUseCase(eventId, credential)
 
+            foundCredential.registeredAt = LocalDateTime.now().toString()
             saveRegistrationUseCase(foundCredential)
 
             foundCredential.isRegistered = true
