@@ -55,8 +55,8 @@
     <string name="btn_logout_profile_fragment">Logout</string>
     <string name="text_message_camera_denied_profile_fragment">Para que você capture imagens utilizando a câmera precisamos desta permissão. Acesse as configurações e habilite esta opção.</string>
     <string name="text_message_gallery_denied_profile_fragment">Para que você carregue imagens utilizando a galeria precisamos desta permissão. Acesse as configurações e habilite esta opção.</string>
-    <string name="text_title_bottom_sheet_profile">Adicionar imagem de perfil</string>
-    <string name="text_message_bottom_sheet_profile">Escolha uma das opcoes abaixo para adicionar \numa imagem de perfil</string>
+    <string name="text_title_bottom_sheet_profile">Adicionar imagem</string>
+    <string name="text_message_bottom_sheet_profile">Escolha uma das opcoes abaixo para adicionar \numa imagem</string>
     <string name="text_button_camera_bottom_sheet_profile">Camera</string>
     <string name="text_button_gallery_bottom_sheet_profile">Galeria</string>
 

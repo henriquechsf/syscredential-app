@@ -19,4 +19,6 @@ interface EventRepository {
     suspend fun saveRegistration(registration: Registration)
 
     suspend fun getRegistrationList(eventId: String): List<Registration>
+
+    suspend fun saveImageEvent(eventId: String, image: String): String
 }

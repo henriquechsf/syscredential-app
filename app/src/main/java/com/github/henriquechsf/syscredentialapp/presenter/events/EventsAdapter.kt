@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.data.model.EventStatus
 import com.github.henriquechsf.syscredentialapp.databinding.ItemEventListBinding
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
+import com.github.henriquechsf.syscredentialapp.util.loadImage
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -51,6 +53,11 @@ class EventsAdapter : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = events[position]
         holder.binding.apply {
+            if (event.image.isNotEmpty()) {
+                loadImage(imgEvent, event.image)
+            } else {
+                imgEvent.setImageResource(R.drawable.image_placeholder)
+            }
             tvEventTitle.text = event.title
             tvEventLocation.text = event.local
             tvEventDate.text = formatDateString(date = event.datetime)

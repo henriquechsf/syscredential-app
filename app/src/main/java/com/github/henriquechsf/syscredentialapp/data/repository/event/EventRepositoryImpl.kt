@@ -1,6 +1,7 @@
 package com.github.henriquechsf.syscredentialapp.data.repository.event
 
 import android.content.res.Resources.NotFoundException
+import android.net.Uri
 import com.github.henriquechsf.syscredentialapp.data.model.Credential
 import com.github.henriquechsf.syscredentialapp.data.model.Event
 import com.github.henriquechsf.syscredentialapp.data.model.Registration
@@ -8,15 +9,21 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
 class EventRepositoryImpl @Inject constructor(
-    private val database: FirebaseDatabase
+    private val database: FirebaseDatabase,
+    private val storage: FirebaseStorage
 ) : EventRepository {
 
     private val eventDatabaseRef = database.reference
         .child("event")
+
+    private val eventStorageRef = storage.reference
+        .child("images")
+        .child("events")
 
     override suspend fun saveEvent(event: Event) {
         return suspendCoroutine { continuation ->
@@ -166,6 +173,25 @@ class EventRepositoryImpl @Inject constructor(
                         continuation.resumeWith(Result.failure(error.toException()))
                     }
                 })
+        }
+    }
+
+    override suspend fun saveImageEvent(eventId: String, image: String): String {
+        return suspendCoroutine { continuation ->
+            val uploadTask = eventStorageRef
+                .child("$eventId.jpeg")
+                .putFile(Uri.parse(image))
+
+            uploadTask.addOnSuccessListener {
+                eventStorageRef
+                    .child("$eventId.jpeg")
+                    .downloadUrl
+                    .addOnCompleteListener { task ->
+                    continuation.resumeWith(Result.success(task.result.toString()))
+                }
+            }.addOnFailureListener {
+                continuation.resumeWith(Result.failure(it))
+            }
         }
     }
 }

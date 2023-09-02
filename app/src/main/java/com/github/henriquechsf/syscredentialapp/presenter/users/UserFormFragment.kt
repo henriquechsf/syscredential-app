@@ -20,6 +20,7 @@ import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.loadImage
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.github.henriquechsf.syscredentialapp.util.toast
@@ -71,6 +72,11 @@ class UserFormFragment : BaseFragment<FragmentUserFormBinding>() {
     }
 
     private fun bindUserFormData(user: User) = with(binding) {
+        if (user.image.isNotEmpty()) {
+            loadImage(imgUser, user.image)
+        } else {
+            imgUser.setImageResource(R.drawable.ic_image_profile)
+        }
         edtName.setText(user.name)
         edtEmail.setText(user.email)
         edtDepartment.setText(user.department)

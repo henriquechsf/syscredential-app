@@ -22,6 +22,7 @@ import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.loadImage
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.github.henriquechsf.syscredentialapp.util.toast
@@ -91,6 +92,11 @@ class EventDetailFragment : BaseFragment<FragmentEventDetailBinding>() {
     }
 
     private fun configData() = with(binding) {
+        if (event.image.isNotEmpty()) {
+            loadImage(imgEvent, event.image)
+        } else {
+            imgEvent.setImageResource(R.drawable.image_placeholder)
+        }
         tvEventTitle.text = event.title
         tvLocation.text = event.local
         tvDatetime.text = formatDateString(date = event.datetime)

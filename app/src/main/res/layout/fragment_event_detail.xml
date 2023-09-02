@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:background="@color/white"
+        android:scaleType="centerCrop"
         android:src="@drawable/image_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
