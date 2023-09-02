@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
-import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
+import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentRegistrationListBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
@@ -23,7 +23,6 @@ import com.github.henriquechsf.syscredentialapp.util.CsvGenerator
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
 import com.github.henriquechsf.syscredentialapp.util.show
-import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.github.henriquechsf.syscredentialapp.util.toast
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -43,7 +42,7 @@ class RegistrationListFragment : BaseFragment<FragmentRegistrationListBinding>()
     private val registrationAdapter by lazy { RegistrationAdapter() }
     private val csvGenerator by lazy { CsvGenerator(requireActivity(), event) }
 
-    private var registrationList = listOf<RegistrationUI>()
+    private var registrationList = listOf<Registration>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

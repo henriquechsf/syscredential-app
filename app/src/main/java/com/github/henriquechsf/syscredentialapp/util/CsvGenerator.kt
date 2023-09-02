@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import com.github.henriquechsf.syscredentialapp.data.model.Event
-import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
+import com.github.henriquechsf.syscredentialapp.data.model.Registration
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
@@ -18,7 +18,7 @@ class CsvGenerator(
 ) {
 
     fun createCsvDataIntent(
-        registrations: List<RegistrationUI>,
+        registrations: List<Registration>,
         header: String,
         filename: String
     ): Intent {

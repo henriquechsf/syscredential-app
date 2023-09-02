@@ -2,7 +2,6 @@ package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
 import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetCredentialUseCase
 import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetRegistrationListUseCase
 import com.github.henriquechsf.syscredentialapp.domain.usecases.event.SaveCredentialUseCase
@@ -60,18 +59,7 @@ class RegistrationListViewModel @Inject constructor(
             if (registrationList.isEmpty()) {
                 emit(ResultState.Empty())
             } else {
-                val registrationsMapped = registrationList.map {
-                    RegistrationUI(
-                        id = it.id,
-                        createdAt = it.createdAt,
-                        eventId = it.eventId,
-                        userId = it.userId,
-                        userName = it.userName,
-                        userDepartment = it.userDepartment,
-                        userImage = it.userImage
-                    )
-                }
-                emit(ResultState.Success(registrationsMapped))
+                emit(ResultState.Success(registrationList))
             }
         } catch (e: Exception) {
             emit(ResultState.Error(e.message))
