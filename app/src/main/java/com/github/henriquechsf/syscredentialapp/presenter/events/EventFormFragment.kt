@@ -1,6 +1,15 @@
 package com.github.henriquechsf.syscredentialapp.presenter.events
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,24 +17,32 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.henriquechsf.syscredentialapp.R
 import com.github.henriquechsf.syscredentialapp.data.model.Event
+import com.github.henriquechsf.syscredentialapp.databinding.BottomSheetImageBinding
 import com.github.henriquechsf.syscredentialapp.databinding.FragmentEventFormBinding
 import com.github.henriquechsf.syscredentialapp.presenter.base.BaseFragment
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
+import com.github.henriquechsf.syscredentialapp.util.Constants
 import com.github.henriquechsf.syscredentialapp.util.FirebaseHelper
 import com.github.henriquechsf.syscredentialapp.util.alertRemove
 import com.github.henriquechsf.syscredentialapp.util.formatDateString
 import com.github.henriquechsf.syscredentialapp.util.formatTime
 import com.github.henriquechsf.syscredentialapp.util.hide
 import com.github.henriquechsf.syscredentialapp.util.initToolbar
+import com.github.henriquechsf.syscredentialapp.util.loadImage
 import com.github.henriquechsf.syscredentialapp.util.show
 import com.github.henriquechsf.syscredentialapp.util.snackBar
 import com.github.henriquechsf.syscredentialapp.util.toast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -33,18 +50,27 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @AndroidEntryPoint
 class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
 
     private val args: EventFormFragmentArgs by navArgs()
-    private var event: Event? = null
+    private lateinit var event: Event
+
+    private var imageEvent: String? = null
+    private var currentPhotoPath: String? = null
 
     private val viewModel: EventsListViewModel by viewModels()
     private lateinit var eventDateTime: LocalDateTime
@@ -61,11 +87,16 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
             event = it
             eventDateTime = LocalDateTime.parse(it.datetime)
             bindUpdateFormData(it)
+        } ?: run {
+            event = Event(
+                id = FirebaseHelper.getUUID(),
+                createdAt = LocalDateTime.now().toString()
+            )
         }
 
         initDatePickerDialog()
         initTimePickerDialog()
-        initClicks()
+        initListeners()
         initFieldListeners()
     }
 
@@ -77,17 +108,18 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remove -> {
-                alertRemove {
-                    event?.let {
-                        safeRemoveEvent(it)
-                    }
-                }
+                alertRemove { safeRemoveEvent(event) }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun bindUpdateFormData(event: Event) = with(binding) {
+        if (event.image.isNotEmpty()) {
+            loadImage(imgEvent, event.image)
+        } else {
+            imgEvent.setImageResource(R.drawable.image_placeholder)
+        }
         edtTitle.setText(event.title)
         edtLocal.setText(event.local)
         edtDate.setText(formatDateString(event.datetime, withTime = false))
@@ -95,10 +127,15 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
     }
 
 
-    private fun initClicks() = with(binding) {
+    private fun initListeners() = with(binding) {
+        imgEvent.setOnClickListener { showBottomSheetPickImage() }
 
         btnSave.setOnClickListener {
-            submit()
+            imageEvent?.let {
+                saveEventWithImage(it)
+            } ?: run {
+                submit()
+            }
         }
 
         btnCancel.setOnClickListener {
@@ -152,15 +189,34 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
         ).all { it }
 
         if (isValid) {
-            val eventToSave = Event(
-                id = event?.id ?: FirebaseHelper.getUUID(),
+            val eventToSave = event.copy(
                 title = edtTitle.text.toString().trim(),
                 local = edtLocal.text.toString().trim(),
                 datetime = eventDateTime.toString().trim(),
-                createdAt = event?.createdAt ?: LocalDateTime.now().toString()
+                createdAt = event.createdAt,
+                image = event.image
             )
-
             saveEvent(eventToSave)
+        }
+    }
+
+    private fun saveEventWithImage(image: String) {
+        event?.id?.let { eventId ->
+            viewModel.saveImageEvent(eventId, image).observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.isVisible = true
+                    }
+                    is ResultState.Success -> {
+                        stateView.data?.let { event?.image = it }
+                        submit()
+                    }
+                    is ResultState.Error -> {
+                        binding.progressBar.isVisible = false
+                        toast(message = stateView.message ?: "")
+                    }
+                }
+            }
         }
     }
 
@@ -285,5 +341,139 @@ class EventFormFragment : BaseFragment<FragmentEventFormBinding>() {
             layout.isErrorEnabled = false
         }
         layout.error = errorMessage
+    }
+
+    // IMAGE PICKER
+    // TODO: refactor implementation to own file
+
+    private fun showBottomSheetPickImage() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetBinding: BottomSheetImageBinding =
+            BottomSheetImageBinding.inflate(layoutInflater, null, false)
+
+        bottomSheetBinding.btnCamera.setOnClickListener {
+            checkPermissionCamera()
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetBinding.btnGallery.setOnClickListener {
+            openGallery()
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun checkPermissionCamera() {
+        val permissionlistener: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                openCamera()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: List<String>) {
+                toast(message = "Permissao Negada")
+            }
+        }
+        showDialogPermissionDenied(
+            permissionlistener = permissionlistener,
+            permission = Manifest.permission.CAMERA,
+            message = R.string.text_message_camera_denied_profile_fragment
+        )
+    }
+
+    private fun showDialogPermissionDenied(
+        permissionlistener: PermissionListener,
+        permission: String,
+        message: Int
+    ) {
+        TedPermission.create()
+            .setPermissionListener(permissionlistener)
+            .setDeniedTitle("Permissao negada")
+            .setDeniedMessage(message)
+            .setDeniedCloseButtonText("Nao")
+            .setGotoSettingButtonText("Sim")
+            .setPermissions(permission)
+            .check();
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryLauncher.launch(intent)
+    }
+
+    private val galleryLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val imageSelected = result.data!!.data
+            imageEvent = imageSelected.toString()
+
+            if (imageSelected != null) {
+                binding.imgEvent.setImageBitmap(getBitmap(imageSelected))
+            }
+        }
+    }
+
+    private fun getBitmap(pathUri: Uri): Bitmap? {
+        var bitmap: Bitmap? = null
+        try {
+            bitmap = if (Build.VERSION.SDK_INT < 28) {
+                MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, pathUri)
+            } else {
+                val source =
+                    ImageDecoder.createSource(requireActivity().contentResolver, pathUri)
+                ImageDecoder.decodeBitmap(source)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return bitmap
+    }
+
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        var photoFile: File? = null
+        try {
+            photoFile = createImageFile()
+        } catch (ex: IOException) {
+            toast(message = "Não foi possível abrir a câmera do dispositivo")
+        }
+
+        if (photoFile != null) {
+            val photoURI = FileProvider.getUriForFile(
+                requireContext(),
+                Constants.APP_FILE_PROVIDER,
+                photoFile
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            cameraLauncher.launch(takePictureIntent)
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale("pt", "BR")).format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",  /* suffix */
+            storageDir /* directory */
+        )
+
+        currentPhotoPath = image.absolutePath
+        return image
+    }
+
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val file = File(currentPhotoPath!!)
+            binding.imgEvent.setImageURI(Uri.fromFile(file))
+
+            imageEvent = file.toURI().toString()
+        }
     }
 }

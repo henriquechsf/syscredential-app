@@ -24,10 +24,10 @@ class ProfileRepositoryImpl @Inject constructor(
         .child("profiles")
         .child("${FirebaseHelper.getUserId()}.jpeg")
 
-    override suspend fun getProfile(): User {
+    override suspend fun getProfile(userId: String): User {
         return suspendCoroutine { continuation ->
             profileDatabaseRef
-                .child(FirebaseHelper.getUserId())
+                .child(userId)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val user = snapshot.getValue(User::class.java)

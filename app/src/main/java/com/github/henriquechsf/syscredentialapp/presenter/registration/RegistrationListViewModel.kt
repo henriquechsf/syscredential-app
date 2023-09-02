@@ -1,25 +1,28 @@
 package com.github.henriquechsf.syscredentialapp.presenter.registration
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.henriquechsf.syscredentialapp.data.model.RegistrationUI
-import com.github.henriquechsf.syscredentialapp.data.repository.RegistrationRepository
+import androidx.lifecycle.liveData
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetCredentialUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.GetRegistrationListUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.SaveCredentialUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.event.SaveRegistrationUseCase
+import com.github.henriquechsf.syscredentialapp.domain.usecases.profile.GetProfileUseCase
 import com.github.henriquechsf.syscredentialapp.presenter.base.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationListViewModel @Inject constructor(
-    private val registrationRepository: RegistrationRepository,
-    //private val personRepository: PersonRepository
+    private val saveRegistrationUseCase: SaveRegistrationUseCase,
+    private val getCredentialUseCase: GetCredentialUseCase,
+    private val saveCredentialUseCase: SaveCredentialUseCase,
+    private val getRegistrationListUseCase: GetRegistrationListUseCase,
+    private val getProfileUseCase: GetProfileUseCase
 ) : ViewModel() {
-
-    private val _registrationsList =
-        MutableStateFlow<ResultState<List<RegistrationUI>>>(ResultState.Empty())
-    val registrationsList = _registrationsList.asStateFlow()
 
     private val _scanResult = MutableStateFlow<ResultState<String>>(ResultState.Empty())
     val scanResult = _scanResult.asStateFlow()
@@ -27,53 +30,41 @@ class RegistrationListViewModel @Inject constructor(
     private val _countRegistrations = MutableStateFlow<Int>(0)
     val countRegistrations = _countRegistrations.asStateFlow()
 
-    fun insertRegistration(credential: String, eventId: Int) =
-        viewModelScope.launch {
-            try {
-                /*
-                val foundPerson = personRepository.getByRegistrationCode(credential.toLong())
+    fun saveRegistration(eventId: String, credential: String) = liveData(Dispatchers.IO) {
+        try {
+            emit(ResultState.Loading())
 
-                if (foundPerson != null) {
-                    val registration = Registration(
-                        createdAt = LocalDateTime.now().toString(),
-                        eventId = eventId,
-                        personId = foundPerson.id
-                    )
+            val foundCredential = getCredentialUseCase(eventId, credential)
 
-                    registrationRepository.insert(registration)
-                    _scanResult.value = ResultState.Success(foundPerson.name)
-                } else {
-                    _scanResult.value = ResultState.Error("Credencial não encontrada")
-                }
+            foundCredential.registeredAt = LocalDateTime.now().toString()
+            saveRegistrationUseCase(foundCredential)
 
-                 */
-            } catch (exception: Exception) {
-                _scanResult.value = ResultState.Error("Credencial inválida")
-            }
+            foundCredential.isRegistered = true
+            saveCredentialUseCase(foundCredential)
+
+            _scanResult.value = ResultState.Success(foundCredential.id)
+            emit(ResultState.Success(null))
+        } catch (e: Exception) {
+            _scanResult.value = ResultState.Error(e.message)
+            emit(ResultState.Error(e.message))
         }
+    }
 
-    fun fetchRegistrations(eventId: Int) = viewModelScope.launch {
-        /*
-        registrationRepository.getByEvent(eventId).collectLatest { registrations ->
-            _countRegistrations.value = registrations.size
-            if (registrations.isEmpty()) {
-                _registrationsList.value = ResultState.Empty()
+    // TODO: refactor to flow
+    fun getRegistrationList(eventId: String) = liveData(Dispatchers.IO) {
+        try {
+            emit(ResultState.Loading())
+
+            val registrationList = getRegistrationListUseCase(eventId)
+            _countRegistrations.value = registrationList.size
+
+            if (registrationList.isEmpty()) {
+                emit(ResultState.Empty())
             } else {
-                val registrationsMapped = registrations.map {
-                    val person = personRepository.getById(it.personId)
-                    RegistrationUI(
-                        id = it.id,
-                        createdAt = it.createdAt,
-                        eventId = it.eventId,
-                        personId = it.personId,
-                        personName = person?.name ?: "",
-                        personInfo1 = person?.info1
-                    )
-                }
-                _registrationsList.value = ResultState.Success(registrationsMapped)
+                emit(ResultState.Success(registrationList))
             }
+        } catch (e: Exception) {
+            emit(ResultState.Error(e.message))
         }
-
-         */
     }
 }

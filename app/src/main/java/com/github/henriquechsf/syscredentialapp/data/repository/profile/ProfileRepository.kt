@@ -4,7 +4,7 @@ import com.github.henriquechsf.syscredentialapp.data.model.User
 
 interface ProfileRepository {
 
-    suspend fun getProfile(): User
+    suspend fun getProfile(userId: String): User
 
     suspend fun saveProfile(user: User)
 
